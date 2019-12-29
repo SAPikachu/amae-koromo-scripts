@@ -1,0 +1,31 @@
+{
+  "name": "amae-koromo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@google-cloud/storage": "^3.2.0",
+    "@sentry/node": "^5.6.2",
+    "assert": "^2.0.0",
+    "deep-equal": "^1.1.0",
+    "fetch-cookie": "^0.7.3",
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0",
+    "oboe": "^2.1.5",
+    "pouchdb": "^7.1.1",
+    "protobufjs": "^6.8.8",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4",
+    "uuid": "^3.3.3",
+    "ws": "^7.1.2",
+    "xz": "^2.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.5.1"
+  }
+}
