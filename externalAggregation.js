@@ -44,6 +44,10 @@ const RANKINGS = {
   rank12: (x) => (x.accum[0] + x.accum[1]) / x.count,
   rank123: (x) => (x.accum[0] + x.accum[1] + x.accum[2]) / x.count,
   stable_level: estimateStableLevel2,
+  win: {valueFunc: (x) => x.extended.和 / x.extended.count, sort: "desc"},
+  lose: {valueFunc: (x) => x.extended.放铳 / x.extended.count, sort: "asc"},
+  里宝率: {valueFunc: (x) => x.extended.里宝 / x.extended.立直和了, sort: "desc"},
+  被炸率: {valueFunc: (x) => x.extended.被炸 / x.extended.被自摸, sort: "asc"},
   avg_rank: {valueFunc: (x) => x.accum.slice(0, 4).map((n, i) => n / x.count * (i + 1)).reduce((a, b) => a + b, 0), sort: "asc"},
 };
 
@@ -56,10 +60,11 @@ async function generateRateRanking () {
     "num_games",
     {startkey: 300, include_docs: true, _suffix: "_stats"},
     ({ doc }) => {
-      const basic = doc.basic;
-      basic.count = basic.accum.slice(0, 4).reduce((a, b) => a + b, 0);
-      assert(basic.count >= 300);
-      stats.push({ key: [doc.account_id, doc.mode_id], value: basic });
+      const val = doc.basic;
+      val.extended = doc.extended;
+      val.count = val.accum.slice(0, 4).reduce((a, b) => a + b, 0);
+      assert(val.count >= 300);
+      stats.push({ key: [doc.account_id, doc.mode_id], value: val });
     }
   );
   assert(stats.length);
