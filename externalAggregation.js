@@ -46,8 +46,14 @@ const RANKINGS = {
   stable_level: estimateStableLevel2,
   win: {valueFunc: (x) => x.extended.和 / x.extended.count, sort: "desc"},
   lose: {valueFunc: (x) => x.extended.放铳 / x.extended.count, sort: "asc"},
+  win_rev: {valueFunc: (x) => x.extended.和 / x.extended.count, sort: "asc"},
+  lose_rev: {valueFunc: (x) => x.extended.放铳 / x.extended.count, sort: "desc"},
   里宝率: {valueFunc: (x) => x.extended.里宝 / x.extended.立直和了, sort: "desc"},
+  一发率: {valueFunc: (x) => x.extended.一发 / x.extended.立直和了, sort: "desc"},
   被炸率: {valueFunc: (x) => x.extended.被炸 / x.extended.被自摸, sort: "asc"},
+  里宝率_rev: {valueFunc: (x) => x.extended.里宝 / x.extended.立直和了, sort: "asc"},
+  一发率_rev: {valueFunc: (x) => x.extended.一发 / x.extended.立直和了, sort: "asc"},
+  被炸率_rev: {valueFunc: (x) => x.extended.被炸 / x.extended.被自摸, sort: "desc"},
   avg_rank: {valueFunc: (x) => x.accum.slice(0, 4).map((n, i) => n / x.count * (i + 1)).reduce((a, b) => a + b, 0), sort: "asc"},
 };
 
