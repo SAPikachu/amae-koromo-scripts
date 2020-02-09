@@ -184,7 +184,7 @@ function buildRecordData ({ data, dataDefinition, game }) {
               if (numLosingPlayers === 1) {
                 assert(seat === lastDiscardSeat);
               } else {
-                assert(itemPayload.hules[0].yiman);
+                assert(itemPayload.hules.some(x => x.yiman));
               }
               curRound[seat][seat === lastDiscardSeat ? "放铳" : "包牌"] = Math.abs(score);
             }
@@ -318,8 +318,8 @@ async function loadLocalData () {
       for (const item of filteredItems) {
         console.log(`Saving ${item.id}`);
         const recordData = item.getRecordData();
-        await withRetry(() => itemStore.saveGame(item.data, ver));
-        await withRetry(() => processRecordDataForGameId(itemStore, item.id, recordData));
+        await itemStore.saveGame(item.data, ver);
+        await processRecordDataForGameId(itemStore, item.id, recordData);
       }
       await itemStore.triggerViewRefresh();
     }
