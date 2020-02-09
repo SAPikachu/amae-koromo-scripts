@@ -16,6 +16,7 @@
     "fetch-cookie": "^0.7.3",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
+    "node-version-compare": "^1.0.2",
     "oboe": "^2.1.5",
     "pouchdb": "^7.1.1",
     "protobufjs": "^6.8.8",

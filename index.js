@@ -4,10 +4,12 @@ const rp = require("request-promise");
 const assert = require("assert");
 const moment = require("moment");
 const _ = require("lodash");
+const compareVersion = require("node-version-compare");
 
 const { DataStorage } = require("./storage");
 const { createMajsoulConnection } = require("./majsoul");
 const { CouchStorage } = require("./couchStorage");
+const { iterateLocalData } = require("./localData");
 const { calcShanten } = require("./shanten");
 
 function convertGameInfo (raw) {
@@ -215,32 +217,6 @@ async function processRecordDataForGameId (store, uuid, recordData) {
   // console.log(rawRecordInfo.game.uuid);
   await store.saveRoundData(rawRecordInfo.game, rounds);
 }
-async function processRecordData () {
-  throw new Error("Not implemented");
-  /*
-  const store = new CouchStorage();
-  while (true) {
-    const lastRecord = await store._db.query(
-      "have_valid_round_data/have_valid_round_data",
-      {
-        limit: 1,
-        descending: true,
-      },
-    );
-    const docs = await store._db.allDocs({limit: 1000, endkey: "191104", startkey: (lastRecord.rows[0] || {}).key});
-    if (!docs.rows || !docs.rows.length) {
-      break;
-    }
-    for (const doc of docs.rows) {
-      if (!doc.id.startsWith("19")) {
-        continue;
-      }
-      await processRecordDataForGameId(store, doc.id);
-    }
-    await store.triggerViewRefresh();
-  }
- */
-}
 
 async function processGames (conn, ids, storageParams = {}) {
   const store = new CouchStorage(storageParams);
@@ -305,6 +281,71 @@ async function syncToCouchDb () {
   await store.triggerViewRefresh();
 }
 
+async function loadLocalData () {
+  const store = new CouchStorage();
+  const dataDefs = await store._db.allDocs({
+    include_docs: true,
+    startkey: "dataDefinition-",
+    endkey: "dataDefinition-\uffff",
+  });
+  const ver = dataDefs.rows.map(x => x.doc.version).sort(compareVersion).reverse()[0];
+  const groups = {
+    normal: {
+      store,
+      items: [],
+    },
+    gold: {
+      store: new CouchStorage({suffix: "_2_9"}),
+      items: [],
+    },
+  };
+  const processLoadedData = async function() {
+    for (const group of Object.values(groups)) {
+      let items = group.items;
+      group.items = [];
+      const itemStore = group.store;
+      const filteredItems = [];
+      while (items.length) {
+        const chunk = items.slice(0, 100);
+        items = items.slice(100);
+        const filteredIds = new Set(await itemStore.findNonExistentRecords(chunk.map(x => x.id)));
+        for (const item of chunk) {
+          if (filteredIds.has(item.id)) {
+            filteredItems.push(item);
+          }
+        }
+      }
+      for (const item of filteredItems) {
+        console.log(`Saving ${item.id}`);
+        const recordData = item.getRecordData();
+        await withRetry(() => itemStore.saveGame(item.data, ver));
+        await withRetry(() => processRecordDataForGameId(itemStore, item.id, recordData));
+      }
+      await itemStore.triggerViewRefresh();
+    }
+  };
+  await iterateLocalData(async function (item) {
+    try {
+      item.data = item.getData();
+    } catch (e) {
+      console.error(`Failed to parse ${item.id}:`, e);
+      return;
+    }
+    if (item.data.config.mode.mode !== 2) {
+      return;
+    }
+    if ([12, 16].includes(item.data.config.meta.mode_id)) {
+      groups.normal.items.push(item);
+    } else if ([9].includes(item.data.config.meta.mode_id)) {
+      groups.gold.items.push(item);
+    }
+    if (Object.values(groups).some(x => x.items.length > 1000)) {
+      await processLoadedData();
+    }
+  });
+  await processLoadedData();
+}
+
 async function syncContest (contestId, dbSuffix) {
   const conn = await createMajsoulConnection();
   if (!conn) {
@@ -344,11 +385,11 @@ async function main () {
   if (process.env.SYNC_COUCHDB) {
     return await syncToCouchDb();
   }
+  if (process.env.LOAD_LOCAL_DATA) {
+    return await loadLocalData();
+  }
   if (process.env.SYNC_CONTEST) {
     return await syncContest(511652, "_jinja");
-  }
-  if (process.env.PROCESS_RECORD_DATA) {
-    return await processRecordData();
   }
   if (process.env.UPDATE_AGV) {
     throw new Error("Moved to separate script");

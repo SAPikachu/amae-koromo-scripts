@@ -118,13 +118,14 @@ class MajsoulConnection {
         this._waiterResolve();
       }).catch((e) => {
         this._socket.terminate();
+        this._waiterResolve();
         return Promise.reject(e);
       });
     });
   }
   async waitForReady () {
     while (!this._ready) {
-      if (this._socket.readyState === WebSocket.CLOSED) {
+      if (this._socket.readyState === WebSocket.CLOSED || this._socket.readyState === WebSocket.CLOSING) {
         throw new Error("WebSocket closed before successful connection");
       }
       await this._wait();
