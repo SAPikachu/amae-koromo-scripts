@@ -157,6 +157,7 @@ async function main () {
       needUpdate.push(row);
     }
   );
+  needUpdate.sort((a, b) => a.value.id - b.value.id);
   const sourceStorage = new CouchStorage();
   for (const { value, doc } of needUpdate) {
     assert(value);
