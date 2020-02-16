@@ -104,7 +104,8 @@ function buildRecordData ({ data, dataDefinition, game }) {
     }
     const itemPayload = root.lookupType(item.name).decode(item.data);
     if (item.name === ".lq.RecordNewRound") {
-      rounds.push([0, 1, 2, 3].map(seat => ({
+      assert([3, 4].includes(itemPayload.scores.length));
+      rounds.push([0, 1, 2, 3].slice(0, itemPayload.scores.length).map(seat => ({
         ...(itemPayload[`tiles${seat}`].length === 14 ? {
           亲: true,
           牌山: itemPayload.paishan,
@@ -112,14 +113,17 @@ function buildRecordData ({ data, dataDefinition, game }) {
         手牌: itemPayload[`tiles${seat}`],
         起手向听: calcShanten(itemPayload[`tiles${seat}`]),
       })));
-      振听 = [false, false, false, false];
+      振听 = Array(rounds[rounds.length - 1].length).fill(false);
       numDiscarded = 0;
       lastDiscardSeat = null;
       assert(rounds[rounds.length - 1].filter(x => x.亲).length === 1);
+      assert([3, 4].includes(rounds[rounds.length - 1].length));
       continue;
     }
     const curRound = rounds[rounds.length - 1];
     assert(curRound);
+    const numPlayers = curRound.length;
+    assert([3, 4].includes(numPlayers));
     switch (item.name) {
     case ".lq.RecordChiPengGang":
       curRound[itemPayload.seat].副露 = (curRound[itemPayload.seat].副露 || 0) + 1;
@@ -129,7 +133,7 @@ function buildRecordData ({ data, dataDefinition, game }) {
       lastDiscardSeat = itemPayload.seat;
       振听 = itemPayload.zhenting;
       if ((!curRound[itemPayload.seat].立直) && (itemPayload.is_liqi || itemPayload.is_wliqi)) {
-        curRound[itemPayload.seat].立直 = numDiscarded / 4 + 1;
+        curRound[itemPayload.seat].立直 = numDiscarded / numPlayers + 1;
         if (振听[itemPayload.seat]) {
           curRound[itemPayload.seat].振听立直 = true;
         }
@@ -152,10 +156,11 @@ function buildRecordData ({ data, dataDefinition, game }) {
         curRound[x.seat].和 = [
           itemPayload.delta_scores[x.seat] - (x.liqi ? 1000 : 0),
           _.flatten(x.fans.map(x => Array(x.val).fill(x.id))),
-          numDiscarded / 4 + 1,
+          numDiscarded / numPlayers + 1,
         ];
-        if (curRound[x.seat].和[0] < Math.max(0, x.point_rong - 1500)) {
+        if (!x.zimo && curRound[x.seat].和[0] < Math.max(0, x.point_rong - 1500)) {
           // 一炮多响 + 包牌
+          console.log(itemPayload);
           assert(itemPayload.hules.length === 2);
           const info = itemPayload.hules.filter(other => other.yiman && other.seat !== x.seat)[0];
           assert(info);
@@ -165,7 +170,7 @@ function buildRecordData ({ data, dataDefinition, game }) {
         const numLosingPlayers = itemPayload.delta_scores.filter(x => x < 0).length;
         if (x.zimo) {
           assert(itemPayload.hules.length === 1);
-          assert(numLosingPlayers === 3 || itemPayload.hules[0].yiman);
+          assert(numLosingPlayers === (numPlayers - 1) || itemPayload.hules[0].yiman);
           curRound[x.seat].自摸 = true;
           if (振听[x.seat]) {
             curRound[x.seat].振听自摸 = true;
@@ -192,6 +197,7 @@ function buildRecordData ({ data, dataDefinition, game }) {
         }
       });
       break;
+    case ".lq.RecordBaBei":
     case ".lq.RecordAnGangAddGang":
       lastDiscardSeat = itemPayload.seat;
       break;
@@ -298,6 +304,10 @@ async function loadLocalData () {
       store: new CouchStorage({suffix: "_2_9"}),
       items: [],
     },
+    sanma: {
+      store: new CouchStorage({suffix: "_12"}),
+      items: [],
+    },
   };
   const processLoadedData = async function() {
     for (const group of Object.values(groups)) {
@@ -331,13 +341,15 @@ async function loadLocalData () {
       console.error(`Failed to parse ${item.id}:`, e);
       return;
     }
-    if (item.data.config.mode.mode !== 2) {
+    if (item.data.config.category !== 2) {
       return;
     }
     if ([12, 16].includes(item.data.config.meta.mode_id)) {
       groups.normal.items.push(item);
     } else if ([9].includes(item.data.config.meta.mode_id)) {
       groups.gold.items.push(item);
+    } else if ([22, 24, 26].includes(item.data.config.meta.mode_id)) {
+      groups.sanma.items.push(item);
     }
     if (Object.values(groups).some(x => x.items.length > 1000)) {
       await processLoadedData();
@@ -389,7 +401,8 @@ async function main () {
     return await loadLocalData();
   }
   if (process.env.SYNC_CONTEST) {
-    return await syncContest(511652, "_jinja");
+    // return await syncContest(511652, "_jinja");
+    return await syncContest(903356, "_jinja");
   }
   if (process.env.UPDATE_AGV) {
     throw new Error("Moved to separate script");
