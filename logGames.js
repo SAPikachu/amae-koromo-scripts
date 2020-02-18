@@ -54,12 +54,15 @@ async function main () {
         ], JSON.stringify(game));
       }
     }
+    if (process.env.LIST_ONLY) {
+      return;
+    }
     const pendingPromises = [];
     const recurseFillData = async function (dir) {
       if (dir !== OUTPUT_DIR && !/^\d+$/.test(path.basename(dir))) {
         return;
       }
-      for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
+      for (const ent of fs.readdirSync(dir, { withFileTypes: true }).reverse()) {
         if (ent.isDirectory()) {
           await recurseFillData(path.join(dir, ent.name));
           continue;
