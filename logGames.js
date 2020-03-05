@@ -16,7 +16,7 @@ function writeFile (fileNameParts, data) {
 }
 
 async function main () {
-  const deadline = (new Date()).getTime() + 1000 * 110; // 110 seconds
+  const deadline = (new Date()).getTime() + 1000 * 110;
   let timeoutToken = null;
   const resetWatchdog = function () {
     if (timeoutToken) {

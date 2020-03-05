@@ -4,7 +4,7 @@ const WebSocket = require("ws");
 const rp = require("request-promise");
 const uuidv4 = require("uuid/v4");
 
-const { URL_BASE, ACCESS_TOKEN } = require("./env");
+const { URL_BASE, ACCESS_TOKEN, PREFERRED_SERVER, OAUTH_TYPE } = require("./env");
 
 class MajsoulProtoCodec {
   constructor (pbDef, version) {
@@ -105,6 +105,7 @@ class MajsoulConnection {
       this._socket.terminate();
     }
     this._createWaiter();
+    console.log("Connecting to " + this._server);
     this._socket = new WebSocket(`wss://${this._server}`);
     this._socket.on("message", (data) => {
       this._pendingMessages.push(data);
@@ -117,6 +118,7 @@ class MajsoulConnection {
         this._ready = true;
         this._waiterResolve();
       }).catch((e) => {
+        console.error(e);
         this._socket.terminate();
         this._waiterResolve();
         return Promise.reject(e);
@@ -176,14 +178,14 @@ function getRes (path) {
   return rp({ uri: `${URL_BASE}${path}`, json: true });
 }
 
-async function createMajsoulConnection (accessToken = ACCESS_TOKEN, preferredServer = "hk") {
+async function createMajsoulConnection (accessToken = ACCESS_TOKEN, preferredServer = PREFERRED_SERVER) {
   const versionInfo = await getRes("version.json?randv=" + Math.random().toString().slice(2));
   const resInfo = await getRes(`resversion${versionInfo.version}.json`);
   const pbVersion = resInfo.res["res/proto/liqi.json"].prefix;
   const pbDef = await getRes(`${pbVersion}/res/proto/liqi.json`);
   const config = await getRes(`${resInfo.res["config.json"].prefix}/config.json`);
   const ipDef = config.ip.filter((x) => x.name === "player")[0];
-  const serverList = await rp({uri: (ipDef.region_urls[preferredServer] || ipDef.region_urls.mainland) + "?service=ws-gateway&protocol=ws&ssl=true", json: true});
+  const serverList = await rp({uri: (ipDef.region_urls[preferredServer] || ipDef.region_urls.mainland || ipDef.region_urls[Object.keys(ipDef.region_urls)[0]]) + "?service=ws-gateway&protocol=ws&ssl=true", json: true});
   if (serverList.maintenance) {
     console.log("Maintenance in progress");
     return;
@@ -191,11 +193,25 @@ async function createMajsoulConnection (accessToken = ACCESS_TOKEN, preferredSer
   const proto = new MajsoulProtoCodec(pbDef, pbVersion);
   // console.log(proto.decodeMessage(Buffer.from("021e000a192e6c712e4c6f6262792e666574636847616d655265636f7264122d0a2b3139303832332d36346632326534372d376133342d343732302d393737662d323736376561653335373030", "hex")));
   const serverIndex = Math.floor(Math.random() * serverList.servers.length);
+  const type = parseInt(OAUTH_TYPE) || 0;
   const conn = new MajsoulConnection(serverList.servers[serverIndex], proto, async (conn) => {
-    let resp = await conn.rpcCall(".lq.Lobby.oauth2Check", {type: 0, access_token: accessToken});
+    if (type === 7) {
+      const [code, uid] = accessToken.split("-");
+      const resp = await conn.rpcCall(".lq.Lobby.oauth2Auth", {
+        type,
+        code,
+        uid,
+      });
+      accessToken = resp.access_token;
+    }
+    let resp = await conn.rpcCall(".lq.Lobby.oauth2Check", {type, access_token: accessToken});
+    if (!resp.has_account) {
+      await new Promise((res) => setTimeout(res, 2000));
+      resp = await conn.rpcCall(".lq.Lobby.oauth2Check", {type, access_token: accessToken});
+    }
     assert(resp.has_account);
     resp = await conn.rpcCall(".lq.Lobby.oauth2Login", {
-      type: 0,
+      type,
       access_token: accessToken,
       reconnect: false,
       device: { device_type: "pc", browser: "safari" },
