@@ -37,6 +37,12 @@ function estimateStableLevel2 (metadata, mode) {
   const result = estimatedPoints / (metadata.rank_rates[3] * 15) - 10;
   return result;
 }
+function calculatePointEfficiency (metadata, mode) {
+  metadata = {...metadata};
+  mode = mode || (((metadata.level[0] % 1000) < 600 && metadata.level[1] + metadata.level[2] < 9000) ? 12 : 16);
+  const estimatedPoints = calculateExpectedGamePoint(metadata, mode);
+  return estimatedPoints;
+}
 const expectedGamePointByRank = (rank) => (metadata, mode) => {
   metadata = {...metadata};
   mode = mode || 12;
@@ -51,6 +57,7 @@ const RANKINGS = {
   rank12: (x) => (x.accum[0] + x.accum[1]) / x.count,
   rank123: (x) => (x.accum[0] + x.accum[1] + x.accum[2]) / x.count,
   stable_level: estimateStableLevel2,
+  point_efficiency: calculatePointEfficiency,
   expected_game_point_0: {valueFunc: expectedGamePointByRank(0), sort: "desc"},
   expected_game_point_1: {valueFunc: expectedGamePointByRank(1), sort: "desc"},
   expected_game_point_2: {valueFunc: expectedGamePointByRank(2), sort: "desc"},
