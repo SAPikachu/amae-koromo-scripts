@@ -106,7 +106,14 @@ class MajsoulConnection {
     }
     this._createWaiter();
     console.log("Connecting to " + this._server);
-    this._socket = new WebSocket(`wss://${this._server}`);
+    let agent = undefined;
+    if (process.env.http_proxy) {
+      console.log(`Using proxy ${process.env.http_proxy}`);
+      const url = require("url");
+      const HttpsProxyAgent = require("https-proxy-agent");
+      agent = new HttpsProxyAgent(url.parse(process.env.http_proxy));
+    }
+    this._socket = new WebSocket(this._server, { agent });
     this._socket.on("message", (data) => {
       this._pendingMessages.push(data);
       this._waiterResolve();
