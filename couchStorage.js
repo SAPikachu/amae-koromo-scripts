@@ -7,7 +7,7 @@ const { COUCHDB_USER, COUCHDB_PASSWORD, COUCHDB_URL } = require("./env");
 
 
 class CouchStorage {
-  constructor ({ uri = COUCHDB_URL, timeout = 30000, suffix = "" } = {}) {
+  constructor ({ uri = COUCHDB_URL, timeout = 60000, suffix = "" } = {}) {
     this._db = new PouchDB(uri + suffix, {
       fetch (url, opts) {
         opts.timeout = opts.timeout || timeout;
@@ -97,11 +97,18 @@ class CouchStorage {
   }
   async findNonExistentRecords (ids) {
     const idSet = new Set(ids);
-    const existingResp = await this._db.query("default/valid_ids", { keys: ids });
-    const existingResp2 = await this._db.query("have_valid_round_data/have_valid_round_data", { keys: ids });
-    const existingSetPart = new Set(existingResp.rows.map(x => x.key));
-    existingResp2.rows.map(x => x.key).filter(x => existingSetPart.has(x)).forEach(x => idSet.delete(x));
-    return Array.from(idSet);
+    while (true) {
+      try {
+        const existingResp = await this._db.query("default/valid_ids", { keys: ids });
+        const existingResp2 = await this._db.query("have_valid_round_data/have_valid_round_data", { keys: ids });
+        const existingSetPart = new Set(existingResp.rows.map(x => x.key));
+        existingResp2.rows.map(x => x.key).filter(x => existingSetPart.has(x)).forEach(x => idSet.delete(x));
+        return Array.from(idSet);
+      } catch (e) {
+        console.error("findNonExistentRecords:", e);
+        await new Promise((res) => setTimeout(res, 10000));
+      }
+    }
   }
   async getLatestRecord () {
     const resp = await this._db.query("default/by_time", {
@@ -138,6 +145,7 @@ class CouchStorage {
   async triggerViewRefresh () {
     for (const view of [
       "default/by_time",
+      "default/valid_ids",
       "have_valid_round_data/have_valid_round_data",
       "player_stats_2/player_stats",
       "nicknames/nicknames",

@@ -15,8 +15,23 @@ function writeFile (fileNameParts, data) {
   fs.writeFileSync(path.join(target), data);
 }
 
+/**
+ *  * Shuffles array in place.
+ *   * @param {Array} a items An array containing the items.
+ *    */
+function shuffle(a) {
+  var j, x, i;
+  for (i = a.length - 1; i > 0; i--) {
+    j = Math.floor(Math.random() * (i + 1));
+    x = a[i];
+    a[i] = a[j];
+    a[j] = x;
+  }
+  return a;
+}
+
 async function main () {
-  const deadline = (new Date()).getTime() + 1000 * 110;
+  const deadline = (new Date()).getTime() + 1000 * 170;
   let timeoutToken = null;
   const resetWatchdog = function () {
     if (timeoutToken) {
@@ -32,21 +47,31 @@ async function main () {
     }, 20000);
   };
   resetWatchdog();
-  const conn = await createMajsoulConnection();
+  const conn = await createMajsoulConnection().catch(e => {
+    clearTimeout(timeoutToken);
+    setTimeout(() => process.exit(1), 100);
+    return Promise.reject(e);
+  });
   if (!conn) {
     clearTimeout(timeoutToken);
     return;
   }
   const liveGames = {};
   try {
-    for (const mode of MODES) {
+    for (const mode of shuffle(MODES)) {
       resetWatchdog();
       const resp = await conn.rpcCall(".lq.Lobby.fetchGameLiveList", {
         filter_id: mode,
       });
       console.log(`Mode: ${mode}, Live: ${resp.live_list.length}`);
       for (const game of resp.live_list) {
-        liveGames[game.uuid] = true;
+        if (game.start_time < (new Date()).getTime() / 1000 - 60 * 60 * 5) {
+          // console.log(game.uuid, game.start_time, (new Date()).getTime() / 1000 - 60 * 60 * 5);
+          if (Math.random() > 0.05) {
+            continue;
+          }
+        }
+        liveGames[game.uuid] = game;
         writeFile([
           game.uuid.split("-")[0],
           mode.toString(),
@@ -62,7 +87,19 @@ async function main () {
       if (dir !== OUTPUT_DIR && !/^\d+$/.test(path.basename(dir))) {
         return;
       }
-      for (const ent of fs.readdirSync(dir, { withFileTypes: true }).reverse()) {
+      const entries = fs.readdirSync(dir, { withFileTypes: true });
+      const ts = (new Date()).getTime();
+      for (const ent of entries) {
+        ent.mtimeDelta = fs.statSync(path.join(dir, ent.name)).mtimeMs - ts;
+        if (ent.isDirectory()) {
+          ent.sortKey = Math.random();
+        } else {
+          // Favor older games up to 3h, then sort randomly
+          ent.sortKey = Math.max(ent.mtimeDelta, -1000 * 60 * 60 * 3) + Math.random() * 10000;
+        }
+      }
+      entries.sort((a, b) => a.sortKey - b.sortKey);
+      for (const ent of entries) {
         if (ent.isDirectory()) {
           await recurseFillData(path.join(dir, ent.name));
           continue;
@@ -72,14 +109,20 @@ async function main () {
           if (id in liveGames) {
             continue;
           }
+          if (ent.mtimeDelta > -50000) {
+            continue;
+          }
           resetWatchdog();
           const resp = await conn.rpcCall(".lq.Lobby.fetchGameRecord", { game_uuid: id });
           if (!resp.data && !resp.data_url) {
             continue;
           }
           pendingPromises.push((async function () {
-            const recordData = (resp.data_url && (!resp.data || !resp.data.length)) ? await rp({uri: resp.data_url, encoding: null, timeout: 5000}).catch((e) => console.warn(`Failed to download data for ${id}:`, e)): resp.data;
-            if (!resp.head || !recordData || !recordData.length) {
+            if (!resp.head) {
+              return;
+            }
+            const recordData = (resp.data_url && (!resp.data || !resp.data.length)) ? await rp({uri: resp.data_url, encoding: null, timeout: 5000}).catch((e) => console.warn(`Failed to download data for ${id}:`, resp)): resp.data;
+            if (!recordData || !recordData.length) {
               return;
             }
             console.log(resp.head.uuid);
@@ -98,7 +141,11 @@ async function main () {
               (game.config.meta.mode_id || game.config.meta.contest_uid || game.config.meta.room_id).toString(),
               game.uuid + ".recordData",
             ], recordData);
-            fs.unlinkSync(path.join(dir, ent.name));
+            try {
+              fs.unlinkSync(path.join(dir, ent.name));
+            } catch(e) {
+              console.warn("Error when deleting file: ", e);
+            }
           })());
         }
       }

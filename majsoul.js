@@ -121,6 +121,7 @@ class MajsoulConnection {
         console.error(e);
         this._socket.terminate();
         this._waiterResolve();
+        setTimeout(() => this._waiterResolve(), 100);
         return Promise.reject(e);
       });
     });

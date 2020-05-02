@@ -328,8 +328,8 @@ async function loadLocalData () {
       for (const item of filteredItems) {
         console.log(`Saving ${item.id}`);
         const recordData = item.getRecordData();
-        await itemStore.saveGame(item.data, ver);
-        await processRecordDataForGameId(itemStore, item.id, recordData);
+        await withRetry(() => itemStore.saveGame(item.data, ver));
+        await withRetry(() => processRecordDataForGameId(itemStore, item.id, recordData));
       }
       await itemStore.triggerViewRefresh();
     }

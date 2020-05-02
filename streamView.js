@@ -41,6 +41,10 @@ function stream (url, callback) {
 function streamView (docName, viewName, params, callback) {
   return stream(`${COUCHDB_URL}${params._suffix || ""}/_design/${docName}/_view/${viewName}?${Object.entries(params).map(([k, v]) => `${k}=${encodeURIComponent(typeof v === "object" ? JSON.stringify(v) : v)}`).join("&")}`, callback);
 }
+function streamAllDocs (params, callback) {
+  return stream(`${COUCHDB_URL}${params._suffix || ""}/_all_docs?${Object.entries(params).map(([k, v]) => `${k}=${encodeURIComponent(typeof v === "object" ? JSON.stringify(v) : v)}`).join("&")}`, callback);
+}
 
 module.exports.streamView = streamView;
+module.exports.streamAllDocs = streamAllDocs;
 // vim: sw=2:ts=2:expandtab:fdm=syntax
