@@ -36,12 +36,14 @@ function processDesignObject (obj, dir = process.env.OUTPUT_DIR) {
 }
 
 async function main () {
+  fs.mkdirSync(path.join(process.env.OUTPUT_DIR, "_raw/_design"), { recursive: true });
   const storage = new CouchStorage();
   for (const { doc } of (await storage.db.allDocs({
     include_docs: true,
     startkey: "_design/",
     endkey: "_design/\uffff",
   })).rows) {
+    fs.writeFileSync(path.join(process.env.OUTPUT_DIR, "_raw", doc._id), JSON.stringify(doc, undefined, 2));
     processDesignObject(doc, path.join(process.env.OUTPUT_DIR, doc._id));
   }
 }
