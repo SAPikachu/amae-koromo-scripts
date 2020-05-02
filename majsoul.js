@@ -187,13 +187,18 @@ function getRes (path) {
 }
 
 async function createMajsoulConnection (accessToken = ACCESS_TOKEN, preferredServer = PREFERRED_SERVER) {
+  let serverListUrl = process.env.SERVER_LIST_URL;
+  const wsScheme = process.env.WS_SCHEME || "wss";
   const versionInfo = await getRes("version.json?randv=" + Math.random().toString().slice(2));
   const resInfo = await getRes(`resversion${versionInfo.version}.json`);
   const pbVersion = resInfo.res["res/proto/liqi.json"].prefix;
   const pbDef = await getRes(`${pbVersion}/res/proto/liqi.json`);
   const config = await getRes(`${resInfo.res["config.json"].prefix}/config.json`);
   const ipDef = config.ip.filter((x) => x.name === "player")[0];
-  const serverList = await rp({uri: (ipDef.region_urls[preferredServer] || ipDef.region_urls.mainland || ipDef.region_urls[Object.keys(ipDef.region_urls)[0]]) + "?service=ws-gateway&protocol=ws&ssl=true", json: true});
+  if (!serverListUrl) {
+    serverListUrl = (ipDef.region_urls[preferredServer] || ipDef.region_urls.mainland || ipDef.region_urls[Object.keys(ipDef.region_urls)[0]]) + "?service=ws-gateway&protocol=ws&ssl=true";
+  }
+  const serverList = await rp({uri: serverListUrl, json: true});
   if (serverList.maintenance) {
     console.log("Maintenance in progress");
     return;
@@ -202,7 +207,7 @@ async function createMajsoulConnection (accessToken = ACCESS_TOKEN, preferredSer
   // console.log(proto.decodeMessage(Buffer.from("021e000a192e6c712e4c6f6262792e666574636847616d655265636f7264122d0a2b3139303832332d36346632326534372d376133342d343732302d393737662d323736376561653335373030", "hex")));
   const serverIndex = Math.floor(Math.random() * serverList.servers.length);
   const type = parseInt(OAUTH_TYPE) || 0;
-  const conn = new MajsoulConnection(serverList.servers[serverIndex], proto, async (conn) => {
+  const conn = new MajsoulConnection(`${wsScheme}://${serverList.servers[serverIndex]}`, proto, async (conn) => {
     if (type === 7) {
       const [code, uid] = accessToken.split("-");
       const resp = await conn.rpcCall(".lq.Lobby.oauth2Auth", {
@@ -236,3 +241,4 @@ async function createMajsoulConnection (accessToken = ACCESS_TOKEN, preferredSer
 exports.MajsoulProtoCodec = MajsoulProtoCodec;
 exports.MajsoulConnection = MajsoulConnection;
 exports.createMajsoulConnection = createMajsoulConnection;
+exports.getRes = getRes;
