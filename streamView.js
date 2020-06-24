@@ -29,7 +29,7 @@ function stream (url, callback) {
       if (finished) {
         return;
       }
-      if (new Date().getTime() - latestTs > 15000) {
+      if (new Date().getTime() - latestTs > 60000) {
         req.abort();
         return reject(new Error("timeout"));
       }

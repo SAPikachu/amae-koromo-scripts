@@ -67,7 +67,7 @@ async function main () {
       for (const game of resp.live_list) {
         if (game.start_time < (new Date()).getTime() / 1000 - 60 * 60 * 5) {
           // console.log(game.uuid, game.start_time, (new Date()).getTime() / 1000 - 60 * 60 * 5);
-          if (Math.random() > 0.05) {
+          if (Math.random() > /*0.05*/ 0) {
             continue;
           }
         }
@@ -90,7 +90,12 @@ async function main () {
       const entries = fs.readdirSync(dir, { withFileTypes: true });
       const ts = (new Date()).getTime();
       for (const ent of entries) {
-        ent.mtimeDelta = fs.statSync(path.join(dir, ent.name)).mtimeMs - ts;
+        try {
+          ent.mtimeDelta = fs.statSync(path.join(dir, ent.name)).mtimeMs - ts;
+        } catch (e) {
+          // Probably deleted by other process
+          ent.mtimeDelta = 0;
+        }
         if (ent.isDirectory()) {
           ent.sortKey = Math.random();
         } else {
@@ -98,7 +103,8 @@ async function main () {
           ent.sortKey = Math.max(ent.mtimeDelta, -1000 * 60 * 60 * 3) + Math.random() * 10000;
         }
       }
-      entries.sort((a, b) => a.sortKey - b.sortKey);
+      // entries.sort((a, b) => a.sortKey - b.sortKey);
+      shuffle(entries);
       for (const ent of entries) {
         if (ent.isDirectory()) {
           await recurseFillData(path.join(dir, ent.name));
@@ -113,6 +119,12 @@ async function main () {
             continue;
           }
           resetWatchdog();
+          try {
+            fs.statSync(path.join(dir, ent.name));
+          } catch (e) {
+            // Probably deleted by other process
+            continue;
+          }
           const resp = await conn.rpcCall(".lq.Lobby.fetchGameRecord", { game_uuid: id });
           if (!resp.data && !resp.data_url) {
             continue;
@@ -144,7 +156,7 @@ async function main () {
             try {
               fs.unlinkSync(path.join(dir, ent.name));
             } catch(e) {
-              console.warn("Error when deleting file: ", e);
+              // console.warn("Error when deleting file: ", e);
             }
           })());
         }
@@ -154,8 +166,8 @@ async function main () {
     resetWatchdog();
     await Promise.all(pendingPromises);
   } finally {
-    conn.close();
-    clearTimeout(timeoutToken);
+      conn.close();
+      clearTimeout(timeoutToken);
   }
   process.exit(0);
 }

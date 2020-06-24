@@ -3,13 +3,17 @@ const { wrappedRun } = require("./entryPoint");
 const moment = require("moment");
 const assert = require("assert");
 
-const { CouchStorage } = require("./couchStorage");
+const { CouchStorage, MODE_GAME } = require("./couchStorage");
 const { streamView } = require("./streamView");
 
 const VIEWS = {
   basic: "player_stats_2",
   extended: "player_extended_stats",
 };
+
+function getProperSuffix(suffix) {
+  return (process.env.DB_SUFFIX || "") + suffix;
+}
 
 async function saveStats ({storage, id, mode, stats, timestamp}) {
   assert(stats.basic || stats.extended);
@@ -32,13 +36,21 @@ async function saveStats ({storage, id, mode, stats, timestamp}) {
     updated: moment.utc().valueOf(),
     ...stats,
   });
-  await storage.db.put(doc);
+  while (true) {
+    try {
+      return await storage.db.put(doc);
+    } catch (e) {
+      if (e.type !== "request-timeout") {
+        throw e;
+      }
+    }
+  }
 }
 
 async function fullSyncType (type, timestamp) {
   assert(VIEWS[type]);
   console.log("Full sync: " + type);
-  const storage = new CouchStorage({suffix: "_stats"});
+  const storage = new CouchStorage({suffix: getProperSuffix("_stats")});
   const rowBuffer = [];
   const runSave = async function () {
     while (rowBuffer.length) {
@@ -53,7 +65,7 @@ async function fullSyncType (type, timestamp) {
     }
   };
   let savedError = null;
-  await streamView(VIEWS[type], "player_stats", {group_level: 2}, (row) => {
+  await streamView(VIEWS[type], "player_stats", {group_level: 2, _suffix: getProperSuffix("_" + type)}, (row) => {
     if (savedError) {
       throw savedError;
     }
@@ -76,7 +88,7 @@ async function fullSyncType (type, timestamp) {
 
 async function getPlayerStats (storage, id, mode, type) {
   assert(VIEWS[type]);
-  const resp = await storage.db.query(VIEWS[type] + "/player_stats", {
+  const resp = await storage[type === "basic" ? "_db" : "_dbExtended"].query(VIEWS[type] + "/player_stats", {
     group_level: 2,
     startkey: [id, mode],
     endkey: [id, mode, {}],
@@ -113,8 +125,27 @@ async function getLastTimestamp (targetStorage) {
 }
 
 async function fullSync () {
-  const targetStorage = new CouchStorage({suffix: "_stats"});
-  const timestamp = await getLastTimestamp(targetStorage);
+  const pendingStorage = new CouchStorage({suffix: getProperSuffix("_stats_pending")});
+  const pendingDelete = [];
+  await streamView(
+    "pending_sync", "pending_sync",
+    {_suffix: getProperSuffix("_stats_pending"), include_docs: true},
+    (row) => {
+      pendingDelete.push(row);
+    }
+  );
+  for (const { doc } of pendingDelete) {
+    try {
+      await pendingStorage.db.remove(doc);
+    } catch (e) {
+      if (!e.status || (e.status !== 404 && e.status !== 409)) {
+        throw e;
+      }
+    }
+  }
+  const targetStorage = new CouchStorage({suffix: getProperSuffix("_stats")});
+  // const timestamp = await getLastTimestamp(targetStorage);
+  const timestamp = moment.utc().valueOf();
   await fullSyncType("basic", timestamp);
   await fullSyncType("extended", timestamp);
 }
@@ -124,12 +155,13 @@ async function main () {
     await fullSync();
     return;
   }
-  const targetStorage = new CouchStorage({suffix: "_stats"});
+  const targetStorage = new CouchStorage({suffix: getProperSuffix("_stats")});
+  const pendingStorage = new CouchStorage({suffix: getProperSuffix("_stats_pending")});
   const lastTimestamp = await getLastTimestamp(targetStorage);
   const pendingDocs = [];
   await streamView(
     "updated_players", "updated_players",
-    {startkey: lastTimestamp + 1},
+    {startkey: lastTimestamp + 1, _suffix: getProperSuffix("_basic")},
     ({ key, value }) => {
       for (const accountId of value.accounts) {
         const pendingSyncKey = `${accountId}-${value.mode_id}`;
@@ -147,25 +179,25 @@ async function main () {
     }
   );
   for (const doc of pendingDocs) {
-    await targetStorage.saveDoc(doc);
+    await pendingStorage.saveDoc(doc);
   }
   const needUpdate = [];
   await streamView(
     "pending_sync", "pending_sync",
-    {_suffix: "_stats", include_docs: true},
+    {_suffix: getProperSuffix("_stats_pending"), include_docs: true},
     (row) => {
       needUpdate.push(row);
     }
   );
   needUpdate.sort((a, b) => a.value.id - b.value.id);
-  const sourceStorage = new CouchStorage();
+  const sourceStorage = new CouchStorage({mode: MODE_GAME, suffix: getProperSuffix("")});
   for (const { value, doc } of needUpdate) {
     assert(value);
     console.log(value);
     await syncPlayer({...value, sourceStorage, targetStorage});
     assert(doc);
     try {
-      await targetStorage.db.remove(doc);
+      await pendingStorage.db.remove(doc);
     } catch (e) {
       if (!e.status || (e.status !== 404 && e.status !== 409)) {
         throw e;

@@ -1,6 +1,3 @@
-// Core library is compiled from https://github.com/EndlessCheng/mahjong-helper/blob/master/util/shanten_base.go
-// Author: EndlessCheng (https://github.com/EndlessCheng)
-// License: MIT (https://github.com/EndlessCheng/mahjong-helper/blob/master/LICENSE)
 const { CalculateShanten } = require("./shanten-core");
 
 function handStrToArray (hand) {

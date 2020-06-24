@@ -3,7 +3,7 @@ const { wrappedRun } = require("./entryPoint");
 const fs = require("fs");
 const path = require("path");
 
-const { CouchStorage } = require("./couchStorage");
+const { CouchStorage, MODE_GAME } = require("./couchStorage");
 
 function fromEntries (iterable) {
   return [...iterable].reduce((obj, [key, val]) => {
@@ -36,14 +36,23 @@ function processDesignObject (obj, dir = process.env.OUTPUT_DIR) {
 }
 
 async function main () {
-  fs.mkdirSync(path.join(process.env.OUTPUT_DIR, "_raw/_design"), { recursive: true });
-  const storage = new CouchStorage();
+  fs.mkdirSync(path.join(process.env.OUTPUT_DIR, "_raw/basic/_design"), { recursive: true });
+  fs.mkdirSync(path.join(process.env.OUTPUT_DIR, "_raw/extended/_design"), { recursive: true });
+  const storage = new CouchStorage({mode: MODE_GAME});
   for (const { doc } of (await storage.db.allDocs({
     include_docs: true,
     startkey: "_design/",
     endkey: "_design/\uffff",
   })).rows) {
-    fs.writeFileSync(path.join(process.env.OUTPUT_DIR, "_raw", doc._id), JSON.stringify(doc, undefined, 2));
+    fs.writeFileSync(path.join(process.env.OUTPUT_DIR, "_raw/basic", doc._id), JSON.stringify(doc, undefined, 2));
+    processDesignObject(doc, path.join(process.env.OUTPUT_DIR, doc._id));
+  }
+  for (const { doc } of (await storage._dbExtended.allDocs({
+    include_docs: true,
+    startkey: "_design/",
+    endkey: "_design/\uffff",
+  })).rows) {
+    fs.writeFileSync(path.join(process.env.OUTPUT_DIR, "_raw/extended", doc._id), JSON.stringify(doc, undefined, 2));
     processDesignObject(doc, path.join(process.env.OUTPUT_DIR, doc._id));
   }
 }

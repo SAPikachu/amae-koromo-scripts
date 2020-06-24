@@ -186,6 +186,21 @@ function getRes (path) {
   return rp({ uri: `${URL_BASE}${path}`, json: true });
 }
 
+/**
+ *  * Shuffles array in place.
+ *   * @param {Array} a items An array containing the items.
+ *    */
+function shuffle(a) {
+  var j, x, i;
+  for (i = a.length - 1; i > 0; i--) {
+    j = Math.floor(Math.random() * (i + 1));
+    x = a[i];
+    a[i] = a[j];
+    a[j] = x;
+  }
+  return a;
+}
+
 async function createMajsoulConnection (accessToken = ACCESS_TOKEN, preferredServer = PREFERRED_SERVER) {
   let serverListUrl = process.env.SERVER_LIST_URL;
   const wsScheme = process.env.WS_SCHEME || "wss";
@@ -196,7 +211,12 @@ async function createMajsoulConnection (accessToken = ACCESS_TOKEN, preferredSer
   const config = await getRes(`${resInfo.res["config.json"].prefix}/config.json`);
   const ipDef = config.ip.filter((x) => x.name === "player")[0];
   if (!serverListUrl) {
-    serverListUrl = (ipDef.region_urls[preferredServer] || ipDef.region_urls.mainland || ipDef.region_urls[Object.keys(ipDef.region_urls)[0]]) + "?service=ws-gateway&protocol=ws&ssl=true";
+    preferredServer = shuffle((preferredServer || "").split(","))[0];
+    serverListUrl = ipDef.region_urls[preferredServer] || ipDef.region_urls.mainland;
+    if (!serverListUrl) {
+      serverListUrl = ipDef.region_urls.length ? shuffle(ipDef.region_urls)[0] : ipDef.region_urls[Object.keys(ipDef.region_urls)[0]];
+    }
+    serverListUrl += "?service=ws-gateway&protocol=ws&ssl=true";
   }
   const serverList = await rp({uri: serverListUrl, json: true});
   if (serverList.maintenance) {
@@ -207,7 +227,14 @@ async function createMajsoulConnection (accessToken = ACCESS_TOKEN, preferredSer
   // console.log(proto.decodeMessage(Buffer.from("021e000a192e6c712e4c6f6262792e666574636847616d655265636f7264122d0a2b3139303832332d36346632326534372d376133342d343732302d393737662d323736376561653335373030", "hex")));
   const serverIndex = Math.floor(Math.random() * serverList.servers.length);
   const type = parseInt(OAUTH_TYPE) || 0;
-  const conn = new MajsoulConnection(`${wsScheme}://${serverList.servers[serverIndex]}`, proto, async (conn) => {
+  let server = serverList.servers[serverIndex];
+  if (server.indexOf("maj-soul") > -1) {
+    server += "/gateway";
+  }
+  const conn = new MajsoulConnection(`${wsScheme}://${server}`, proto, async (conn) => {
+    console.log("Connection established, sending heartbeat");
+    await conn.rpcCall(".lq.Lobby.heatbeat", { no_operation_counter: 0 });
+    console.log("Authenticating");
     if (type === 7) {
       const [code, uid] = accessToken.split("-");
       const resp = await conn.rpcCall(".lq.Lobby.oauth2Auth", {

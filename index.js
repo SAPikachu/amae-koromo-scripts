@@ -8,9 +8,11 @@ const compareVersion = require("node-version-compare");
 
 const { DataStorage } = require("./storage");
 const { createMajsoulConnection } = require("./majsoul");
-const { CouchStorage } = require("./couchStorage");
-const { iterateLocalData } = require("./localData");
+const { CouchStorage, MODE_GAME } = require("./couchStorage");
+const { iterateLocalData, watchLiveData } = require("./localData");
 const { calcShanten } = require("./shanten");
+
+CouchStorage.DEFAULT_MODE = MODE_GAME;
 
 function convertGameInfo (raw) {
   return {
@@ -71,7 +73,7 @@ function groupBy (list, keyGetter) {
   return map;
 }
 
-async function withRetry (func, num = 20, retryInterval = 5000) {
+async function withRetry (func, num = 20, retryInterval = 30000) {
   // eslint-disable-next-line no-constant-condition
   while (true) {
     try {
@@ -80,8 +82,9 @@ async function withRetry (func, num = 20, retryInterval = 5000) {
       if (num <= 0 || e.status === 403) {
         throw e;
       }
+      console.log(e);
       console.log(`Retrying (${num})`);
-      await new Promise(r => setTimeout(r, retryInterval));
+      await new Promise(r => setTimeout(r, Math.random() * retryInterval));
     }
     num--;
   }
@@ -92,6 +95,9 @@ function buildRecordData ({ data, dataDefinition, game }) {
   const wrapper = root.nested.lq.Wrapper;
   const msg = wrapper.decode(data);
   const typeObj = root.lookupType(msg.name);
+  if (!typeObj || !typeObj.decode) {
+    console.log(game, msg, typeObj);
+  }
   const payload = typeObj.decode(msg.data);
   const rounds = [];
   let 振听 = null;
@@ -160,7 +166,7 @@ function buildRecordData ({ data, dataDefinition, game }) {
         ];
         if (!x.zimo && curRound[x.seat].和[0] < Math.max(0, x.point_rong - 1500)) {
           // 一炮多响 + 包牌
-          console.log(itemPayload);
+          // console.log(itemPayload);
           assert(itemPayload.hules.length === 2);
           const info = itemPayload.hules.filter(other => other.yiman && other.seat !== x.seat)[0];
           assert(info);
@@ -214,14 +220,14 @@ function buildRecordData ({ data, dataDefinition, game }) {
   }
   return rounds;
 }
-async function processRecordDataForGameId (store, uuid, recordData) {
+async function processRecordDataForGameId (store, uuid, recordData, gameData, batch) {
   const rawRecordInfo = {
-    ...(await store.getRecordData(uuid)),
+    ...(gameData || await store.getRecordData(uuid)),
     data: recordData,
   };
   const rounds = buildRecordData(rawRecordInfo);
   // console.log(rawRecordInfo.game.uuid);
-  await store.saveRoundData(rawRecordInfo.game, rounds);
+  await withRetry(() => store.saveRoundData(rawRecordInfo.game, rounds, batch));
 }
 
 async function processGames (conn, ids, storageParams = {}) {
@@ -260,7 +266,7 @@ async function processGames (conn, ids, storageParams = {}) {
     // await withRetry(() => dataStore.setRaw(`recordData/${id}.lzma2`, compressedRecordData));
     await withRetry(() => store.saveGame(resp.head, conn._codec.version));
     await withRetry(() => store.ensureDataDefinition(conn._codec.version, conn._codec.rawDefinition));
-    await withRetry(() => processRecordDataForGameId(store, id, recordData));
+    await withRetry(() => processRecordDataForGameId(store, id, recordData, {game: resp.head, dataDefinition: conn._codec.rawDefinition}));
     await new Promise(r => setTimeout(r, 1000));
   }
   await store.triggerViewRefresh();
@@ -295,17 +301,18 @@ async function loadLocalData () {
     endkey: "dataDefinition-\uffff",
   });
   const ver = dataDefs.rows.map(x => x.doc.version).sort(compareVersion).reverse()[0];
+  const dataDefinition = dataDefs.rows.filter(x => x.doc.version === ver)[0].doc.defintion;
   const groups = {
     normal: {
       store,
       items: [],
     },
     gold: {
-      store: new CouchStorage({suffix: "_2_9"}),
+      store: new CouchStorage({suffix: "_gold"}),
       items: [],
     },
     sanma: {
-      store: new CouchStorage({suffix: "_12"}),
+      store: new CouchStorage({suffix: "_sanma"}),
       items: [],
     },
   };
@@ -318,18 +325,21 @@ async function loadLocalData () {
       while (items.length) {
         const chunk = items.slice(0, 100);
         items = items.slice(100);
-        const filteredIds = new Set(await itemStore.findNonExistentRecords(chunk.map(x => x.id)));
+        const filteredIds = new Set((await itemStore.findNonExistentRecordsFast(chunk.map(x => x.data))).map(x => x.uuid));
         for (const item of chunk) {
-          if (filteredIds.has(item.id)) {
+          if (filteredIds.has(item.data.uuid)) {
             filteredItems.push(item);
           }
         }
       }
+      if (!filteredItems.length) {
+        continue;
+      }
       for (const item of filteredItems) {
         console.log(`Saving ${item.id}`);
         const recordData = item.getRecordData();
-        await withRetry(() => itemStore.saveGame(item.data, ver));
-        await withRetry(() => processRecordDataForGameId(itemStore, item.id, recordData));
+        await withRetry(() => itemStore.saveGame(item.data, ver, true));
+        await withRetry(() => processRecordDataForGameId(itemStore, item.id, recordData, {game: item.data, dataDefinition}, true));
       }
       await itemStore.triggerViewRefresh();
     }
@@ -356,6 +366,64 @@ async function loadLocalData () {
     }
   });
   await processLoadedData();
+  await groups.normal.store.triggerViewRefresh();
+  await groups.gold.store.triggerViewRefresh();
+  await groups.sanma.store.triggerViewRefresh();
+}
+
+async function loadLiveData () {
+  const store = new CouchStorage();
+  const dataDefs = await store._db.allDocs({
+    include_docs: true,
+    startkey: "dataDefinition-",
+    endkey: "dataDefinition-\uffff",
+  });
+  const ver = dataDefs.rows.map(x => x.doc.version).sort(compareVersion).reverse()[0];
+  const dataDefinition = dataDefs.rows.filter(x => x.doc.version === ver)[0].doc.defintion;
+  const groups = {
+    normal: {
+      store,
+    },
+    gold: {
+      store: new CouchStorage({suffix: "_gold"}),
+    },
+    sanma: {
+      store: new CouchStorage({suffix: "_sanma"}),
+    },
+  };
+  let i = 0;
+  await watchLiveData(async function (item) {
+    (async function() {
+      try {
+        item.data = item.getData();
+      } catch (e) {
+        console.error(`Failed to parse ${item.id}:`, e);
+        return;
+      }
+      if (item.data.config.category !== 2) {
+        return;
+      }
+      let itemStore;
+      if ([12, 16].includes(item.data.config.meta.mode_id)) {
+        itemStore = groups.normal.store;
+      } else if ([9].includes(item.data.config.meta.mode_id)) {
+        itemStore = groups.gold.store;
+      } else if ([22, 24, 26].includes(item.data.config.meta.mode_id)) {
+        itemStore = groups.sanma.store;
+      }
+      if (!itemStore) {
+        return;
+      }
+      console.log(`Saving ${item.data.config.meta.mode_id} ${item.id}`);
+      const recordData = item.getRecordData();
+      await withRetry(() => itemStore.saveGame(item.data, ver, true));
+      await withRetry(() => processRecordDataForGameId(itemStore, item.id, recordData, {game: item.data, dataDefinition}, true));
+      if (i > 100) {
+        i = 0;
+        if (global.gc) { global.gc(); }
+      }
+    })().catch(e => console.error(item.id, e));
+  });
 }
 
 async function syncContest (contestId, dbSuffix) {
@@ -369,6 +437,7 @@ async function syncContest (contestId, dbSuffix) {
     });
     const realId = resp.contest_info.unique_id;
     let nextIndex = undefined;
+    console.log(`${contestId} ${resp.contest_info.unique_id} ${resp.contest_info.contest_name}`);
     const idLog = {};
     while (true) {
       resp = await conn.rpcCall(".lq.Lobby.fetchCustomizedContestGameRecords", {
@@ -376,6 +445,9 @@ async function syncContest (contestId, dbSuffix) {
         last_index: nextIndex,
       });
       for (const game of resp.record_list) {
+        if (game.accounts.length < 4) {
+          continue;
+        }
         idLog[game.uuid] = true;
       }
 
@@ -400,9 +472,20 @@ async function main () {
   if (process.env.LOAD_LOCAL_DATA) {
     return await loadLocalData();
   }
+  if (process.env.LOAD_LIVE_DATA) {
+    return await loadLiveData();
+  }
   if (process.env.SYNC_CONTEST) {
     // return await syncContest(511652, "_jinja");
-    return await syncContest(903356, "_jinja");
+    /*
+    await syncContest(903356, "_jinja");
+    await syncContest(525988, "_dd");
+    await syncContest(525988, "_t1");
+    await syncContest(251710, "_dd");
+    await syncContest(251710, "_t2");
+    await syncContest(536020, "_dd");
+    await syncContest(536020, "_crt");*/
+    return;
   }
   if (process.env.UPDATE_AGV) {
     throw new Error("Moved to separate script");

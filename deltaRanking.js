@@ -1,6 +1,6 @@
 const { wrappedRun } = require("./entryPoint");
 
-const { CouchStorage } = require("./couchStorage");
+const { CouchStorage, MODE_GAME } = require("./couchStorage");
 const { streamView } = require("./streamView");
 
 const moment = require("moment");
@@ -65,6 +65,7 @@ async function generateDeltaRanking (docId, days) {
       startkey: [cutoff.unix()],
       endkey: [now.unix()],
       reduce: false,
+      _suffix: "_basic",
     },
     ({ key: [, playerId], value: { mode, delta }}) => {
       buckets[mode] = buckets[mode] || {};
@@ -74,7 +75,7 @@ async function generateDeltaRanking (docId, days) {
       buckets[0][playerId].delta += delta;
     }
   );
-  const storage = new CouchStorage();
+  const storage = new CouchStorage({mode: MODE_GAME});
   for (const [modeId, data] of Object.entries(buckets)) {
     buckets[modeId] = await enrichPlayers(
       storage,
