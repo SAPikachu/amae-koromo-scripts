@@ -44,7 +44,7 @@ async function main () {
     timeoutToken = setTimeout(() => {
       console.warn("Unexpected timeout");
       process.exit(1);
-    }, 20000);
+    }, 25000);
   };
   resetWatchdog();
   const conn = await createMajsoulConnection().catch(e => {
@@ -54,6 +54,7 @@ async function main () {
   });
   if (!conn) {
     clearTimeout(timeoutToken);
+    // process.exit(0);
     return;
   }
   const liveGames = {};
@@ -80,6 +81,7 @@ async function main () {
       }
     }
     if (process.env.LIST_ONLY) {
+      // process.exit(0);
       return;
     }
     const pendingPromises = [];
@@ -169,7 +171,7 @@ async function main () {
       conn.close();
       clearTimeout(timeoutToken);
   }
-  process.exit(0);
+  // process.exit(0);
 }
 
 if (require.main === module) {

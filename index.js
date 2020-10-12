@@ -230,7 +230,7 @@ async function processRecordDataForGameId (store, uuid, recordData, gameData, ba
   await withRetry(() => store.saveRoundData(rawRecordInfo.game, rounds, batch));
 }
 
-async function processGames (conn, ids, storageParams = {}) {
+async function processGames (conn, ids, storageParams = {}, gamePostprocess = (game) => game) {
   const store = new CouchStorage(storageParams);
   let filteredIds = [];
   while (ids.length) {
@@ -264,9 +264,11 @@ async function processGames (conn, ids, storageParams = {}) {
     console.log("Saving");
     // const compressedRecordData = await store.compressData(recordData);
     // await withRetry(() => dataStore.setRaw(`recordData/${id}.lzma2`, compressedRecordData));
-    await withRetry(() => store.saveGame(resp.head, conn._codec.version));
+    const game = gamePostprocess(resp.head);
+    assert(game);
+    await withRetry(() => store.saveGame(game, conn._codec.version));
     await withRetry(() => store.ensureDataDefinition(conn._codec.version, conn._codec.rawDefinition));
-    await withRetry(() => processRecordDataForGameId(store, id, recordData, {game: resp.head, dataDefinition: conn._codec.rawDefinition}));
+    await withRetry(() => processRecordDataForGameId(store, id, recordData, {game: game, dataDefinition: conn._codec.rawDefinition}));
     await new Promise(r => setTimeout(r, 1000));
   }
   await store.triggerViewRefresh();
@@ -445,7 +447,7 @@ async function syncContest (contestId, dbSuffix) {
         last_index: nextIndex,
       });
       for (const game of resp.record_list) {
-        if (game.accounts.length < 4) {
+        if (game.result.players.length < 4) {
           continue;
         }
         idLog[game.uuid] = true;
@@ -456,7 +458,27 @@ async function syncContest (contestId, dbSuffix) {
       }
       nextIndex = resp.next_index;
     }
-    await processGames(conn, Object.keys(idLog), {suffix: dbSuffix});
+    await processGames(conn, Object.keys(idLog), {suffix: dbSuffix}, (game) => {
+      for (let i = 0; i < 4; i++) {
+        if (!game.accounts.some(x => x.seat === i)) {
+          console.log(`${game.uuid} ${i} Computer`);
+          game.accounts.push({
+            seat: i,
+            nickname: "电脑",
+            account_id: 1,
+            level: {
+              id: 10301,
+              score: 1,
+            },
+            level3: {
+              id: 20301,
+              score: 1,
+            },
+          });
+        }
+      }
+      return game;
+    });
   } finally {
     conn.close();
   }
@@ -485,6 +507,10 @@ async function main () {
     await syncContest(251710, "_t2");
     await syncContest(536020, "_dd");
     await syncContest(536020, "_crt");*/
+    await syncContest(605833, "_jinja");
+    await syncContest(792848, "_oshoji");
+    await syncContest(364951, "_ein");
+    await syncContest(461591, "_s4");
     return;
   }
   if (process.env.UPDATE_AGV) {

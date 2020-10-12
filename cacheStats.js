@@ -18,6 +18,7 @@ function getProperSuffix(suffix) {
 async function saveStats ({storage, id, mode, stats, timestamp}) {
   assert(stats.basic || stats.extended);
   assert(timestamp);
+  const args = arguments;
   const key = `${id}-${mode}`;
   let doc = {};
   try {
@@ -40,6 +41,10 @@ async function saveStats ({storage, id, mode, stats, timestamp}) {
     try {
       return await storage.db.put(doc);
     } catch (e) {
+      if (e.error === "conflict") {
+        console.log(key, "conflict, retrying");
+        return saveStats.apply(this, args);
+      }
       if (e.type !== "request-timeout") {
         throw e;
       }

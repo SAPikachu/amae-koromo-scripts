@@ -127,15 +127,15 @@ class MajsoulConnection {
       }).catch((e) => {
         console.error(e);
         this._socket.terminate();
+	this._socket = null;
         this._waiterResolve();
         setTimeout(() => this._waiterResolve(), 100);
-        return Promise.reject(e);
       });
     });
   }
   async waitForReady () {
     while (!this._ready) {
-      if (this._socket.readyState === WebSocket.CLOSED || this._socket.readyState === WebSocket.CLOSING) {
+      if (!this._socket || this._socket.readyState === WebSocket.CLOSED || this._socket.readyState === WebSocket.CLOSING) {
         throw new Error("WebSocket closed before successful connection");
       }
       await this._wait();
@@ -159,7 +159,7 @@ class MajsoulConnection {
   }
   async readMessage () {
     while (!this._pendingMessages.length) {
-      if (this._socket.readyState === WebSocket.CLOSED) {
+      if (!this._socket || this._socket.readyState === WebSocket.CLOSED) {
         return undefined;
       }
       await this._wait();
@@ -168,6 +168,9 @@ class MajsoulConnection {
     return this._pendingMessages.shift();
   }
   async rpcCall (methodName, payload) {
+    if (!this._socket) {
+      throw new Error("Connection is broken");
+    }
     if (this._socket.readyState === WebSocket.CONNECTING) {
       await this._wait();
     }
@@ -210,18 +213,42 @@ async function createMajsoulConnection (accessToken = ACCESS_TOKEN, preferredSer
   const pbDef = await getRes(`${pbVersion}/res/proto/liqi.json`);
   const config = await getRes(`${resInfo.res["config.json"].prefix}/config.json`);
   const ipDef = config.ip.filter((x) => x.name === "player")[0];
-  if (!serverListUrl) {
-    preferredServer = shuffle((preferredServer || "").split(","))[0];
-    serverListUrl = ipDef.region_urls[preferredServer] || ipDef.region_urls.mainland;
-    if (!serverListUrl) {
-      serverListUrl = ipDef.region_urls.length ? shuffle(ipDef.region_urls)[0] : ipDef.region_urls[Object.keys(ipDef.region_urls)[0]];
+  const triedListUrl = [];
+  let serverList = null;
+  let numTries = 0;
+  let lastError = null;
+  while (true) {
+    try {
+      if (!serverListUrl) {
+        preferredServer = shuffle((preferredServer || "").split(","))[0];
+        serverListUrl = ipDef.region_urls[preferredServer] || ipDef.region_urls.mainland;
+        if (!serverListUrl) {
+          serverListUrl = ipDef.region_urls.length ? shuffle(ipDef.region_urls)[0] : ipDef.region_urls[shuffle(Object.keys(ipDef.region_urls))[0]];
+        }
+        serverListUrl += "?service=ws-gateway&protocol=ws&ssl=true";
+      }
+      if (triedListUrl.includes(serverListUrl)) {
+        numTries++;
+        if (numTries > 10) {
+          throw lastError;
+        }
+      }
+      serverList = await rp({uri: serverListUrl, json: true});
+      if (serverList.maintenance) {
+        console.log("Maintenance in progress");
+        return;
+      }
+      break;
+    } catch (e) {
+      if (process.env.SERVER_LIST_URL) {
+        throw e;
+      }
+      lastError = e;
+      triedListUrl.push(serverListUrl);
+      serverListUrl = null;
+      preferredServer = "";
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     }
-    serverListUrl += "?service=ws-gateway&protocol=ws&ssl=true";
-  }
-  const serverList = await rp({uri: serverListUrl, json: true});
-  if (serverList.maintenance) {
-    console.log("Maintenance in progress");
-    return;
   }
   const proto = new MajsoulProtoCodec(pbDef, pbVersion);
   // console.log(proto.decodeMessage(Buffer.from("021e000a192e6c712e4c6f6262792e666574636847616d655265636f7264122d0a2b3139303832332d36346632326534372d376133342d343732302d393737662d323736376561653335373030", "hex")));

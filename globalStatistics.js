@@ -5,6 +5,10 @@ const moment = require("moment");
 const { CouchStorage } = require("./couchStorage");
 const { streamView } = require("./streamView");
 
+function getProperSuffix(suffix) {
+    return (process.env.DB_SUFFIX || "") + suffix;
+}
+
 const LEVEL_MAX_POINTS = [20, 80, 200, 600, 800, 1000, 1200, 1400, 2000, 2800, 3200, 3600, 4000, 6000, 9000];
 const PLAYER_RANKS = "初士杰豪圣魂";
 
@@ -58,15 +62,17 @@ class Level {
 }
 
 function getAdjustedLevelId (rawLevel) {
-  return new Level(rawLevel[0]).getAdjustedLevelId(rawLevel[1] + rawLevel[2]) + 10000;
+  const base = Math.floor(rawLevel[0] / 10000) * 10000;
+  return new Level(rawLevel[0]).getAdjustedLevelId(rawLevel[1] + rawLevel[2]) + base;
 }
 
-function merge (result, next) {
+function merge (result, next, debugId) {
   Object.keys(next).forEach(function (key) {
     if (typeof next[key] === "object") {
       return;
     }
     if (!(key in result)) {
+      // console.log("New key:", key, debugId);
       result[key] = 0;
     }
     if (key.indexOf("最大") === 0) {
@@ -83,7 +89,7 @@ async function main () {
   await streamView(
     "all_stats",
     "all_stats",
-    {_suffix: "_stats", include_docs: true},
+    {_suffix: getProperSuffix("_stats"), include_docs: true},
     ({ doc }) => {
       const levelId = getAdjustedLevelId(doc.basic.level);
       const mode = doc.mode_id;
@@ -95,10 +101,10 @@ async function main () {
       }
       doc.basic.accum.forEach((x, i) => buckets[mode][levelId].accum[i] += x);
       buckets[mode][levelId].num_players++;
-      merge(buckets[mode][levelId], doc.extended);
+      merge(buckets[mode][levelId], doc.extended, doc._id);
     }
   );
-  const storage = new CouchStorage({suffix: "_aggregates"});
+  const storage = new CouchStorage({suffix: getProperSuffix("_aggregates")});
   await storage.saveDoc({
     _id: "global_statistics",
     type: "globalStatistics",

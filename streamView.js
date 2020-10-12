@@ -1,41 +1,50 @@
 const oboe = require("oboe");
+const axios = require("axios");
 
 const { COUCHDB_URL, COUCHDB_USER, COUCHDB_PASSWORD } = require("./couchStorage");
 
 function stream (url, callback) {
-  return new Promise((resolve, reject) => {
-    let timeoutToken;
-    let latestTs = new Date().getTime();
-    let finished = false;
-    const req = oboe({
-      url,
-      headers: {
-        Authorization: `Basic ${Buffer.from(`${COUCHDB_USER}:${COUCHDB_PASSWORD}`).toString("base64")}`
-      },
-    }).done((result) => {
-      finished = true;
-      clearTimeout(timeoutToken);
-      return resolve(result);
-    }).fail((e) => {
-      finished = true;
-      clearTimeout(timeoutToken);
-      return reject(e);
-    }).node("rows.*", (row) => {
-      latestTs = new Date().getTime();
-      callback(row);
-      return oboe.drop;
+  return axios({
+    url,
+    headers: {
+      Authorization: `Basic ${Buffer.from(`${COUCHDB_USER}:${COUCHDB_PASSWORD}`).toString("base64")}`
+    },
+    timeout: 60000,
+    responseType: "stream",
+    validateStatus: function (status) {
+      return status >= 200 && status < 300;
+    },
+  }).then(function(response) {
+    response.data.setEncoding("utf-8");
+    return new Promise((resolve, reject) => {
+      let timeoutToken;
+      let latestTs = new Date().getTime();
+      let finished = false;
+      const req = oboe(response.data).done((result) => {
+        finished = true;
+        clearTimeout(timeoutToken);
+        return resolve(result);
+      }).fail((e) => {
+        finished = true;
+        clearTimeout(timeoutToken);
+        return reject(e);
+      }).node("rows.*", (row) => {
+        latestTs = new Date().getTime();
+        callback(row);
+        return oboe.drop;
+      });
+      const timeoutTick = function () {
+        if (finished) {
+          return;
+        }
+        if (new Date().getTime() - latestTs > 60000) {
+          req.abort();
+          return reject(new Error("timeout"));
+        }
+        timeoutToken = setTimeout(timeoutTick, 5000);
+      };
+      timeoutTick();
     });
-    const timeoutTick = function () {
-      if (finished) {
-        return;
-      }
-      if (new Date().getTime() - latestTs > 60000) {
-        req.abort();
-        return reject(new Error("timeout"));
-      }
-      timeoutToken = setTimeout(timeoutTick, 5000);
-    };
-    timeoutTick();
   });
 }
 function streamView (docName, viewName, params, callback) {

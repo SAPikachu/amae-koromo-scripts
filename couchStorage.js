@@ -11,23 +11,23 @@ const { COUCHDB_USER, COUCHDB_PASSWORD, COUCHDB_URL } = require("./env");
 const MODE_GAME = "GAME";
 
 class CouchStorage {
-  constructor ({ uri = COUCHDB_URL, timeout = 60000, suffix = "", mode = CouchStorage.DEFAULT_MODE } = {}) {
+  constructor ({ uri = COUCHDB_URL, timeout = 60000, suffix = "", mode = CouchStorage.DEFAULT_MODE, skipSetup = true } = {}) {
     assert(!mode || mode === MODE_GAME);
     this._timeout = timeout;
     this._mode = mode
     if (mode === MODE_GAME) {
       this._db = new PouchDB(uri + suffix + "_basic", {
         fetch: this._fetch.bind(this),
-        skip_setup: true,
+        skip_setup: skipSetup,
       });
       this._dbExtended = new PouchDB(uri + suffix + "_extended", {
         fetch: this._fetch.bind(this),
-        skip_setup: true,
+        skip_setup: skipSetup,
       });
     } else {
       this._db = new PouchDB(uri + suffix, {
         fetch: this._fetch.bind(this),
-        skip_setup: true,
+        skip_setup: skipSetup,
       });
     }
     this._savedDefinitions = {};
@@ -236,7 +236,13 @@ class CouchStorage {
             stale: "update_after",
             group_level: level,
           }).catch(e => {
-            if (e.reason !== "Invalid use of grouping on a map view." && e.type !== "request-timeout" && e.reason !== "missing" && e.reason !== "deleted") {
+            if (
+              e.reason !== "Invalid use of grouping on a map view." &&
+              e.type !== "request-timeout" &&
+              e.reason !== "missing_named_view" &&
+              e.reason !== "missing" &&
+              e.reason !== "deleted"
+            ) {
               console.log("triggerViewRefresh:", e);
             }
           }));

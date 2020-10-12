@@ -1,6 +1,6 @@
 const { wrappedRun } = require("./entryPoint");
 
-const { CouchStorage, MODE_GAME } = require("./couchStorage");
+const { CouchStorage } = require("./couchStorage");
 const { streamView } = require("./streamView");
 
 const moment = require("moment");
@@ -26,8 +26,8 @@ const mapLevel = function (rawLevel) {
   };
 };
 
-async function enrichPlayers (storage, modeId, start, end, data) {
-  async function forEachPlayer (func, obj = data) {
+async function enrichPlayers(statsStorage, modeId, data) {
+  async function forEachPlayer(func, obj = data) {
     if (obj.id) {
       await func(obj);
       return;
@@ -39,18 +39,13 @@ async function enrichPlayers (storage, modeId, start, end, data) {
     }
   }
   await forEachPlayer(async (x) => {
-    const resp = await storage.db.query("player_stats_2/player_stats", {
-      group_level: 2,
-      startkey: [x.id, parseInt(modeId), start.unix()],
-      endkey: [x.id, parseInt(modeId), end.unix()],
-      limit: 1,
+    const statDoc = await statsStorage.db.get(`${x.id}-${modeId}`);
+    assert.equal(statDoc.account_id.toString(), x.id.toString());
+    assert.equal(statDoc.mode_id.toString(), modeId.toString());
+    Object.assign(x, {
+      nickname: statDoc.basic.nickname,
+      level: mapLevel(statDoc.basic.level),
     });
-    const row = resp.rows[0];
-    assert(row.key[0] === x.id);
-    assert(row.key[1] === parseInt(modeId));
-    Object.assign(x, row.value);
-    // eslint-disable-next-line require-atomic-updates
-    x.level = mapLevel(x.level);
   });
   return data;
 }
@@ -75,15 +70,10 @@ async function generateDeltaRanking (docId, days) {
       buckets[0][playerId].delta += delta;
     }
   );
-  const storage = new CouchStorage({mode: MODE_GAME});
+  // const storage = new CouchStorage({mode: MODE_GAME});
+  const statsStorage = new CouchStorage({ suffix: "_stats" });
   for (const [modeId, data] of Object.entries(buckets)) {
-    buckets[modeId] = await enrichPlayers(
-      storage,
-      parseInt(modeId),
-      cutoff,
-      now,
-      extractTopBottom(data),
-    );
+    buckets[modeId] = await enrichPlayers(statsStorage, parseInt(modeId), extractTopBottom(data));
   }
   const targetStorage = new CouchStorage({suffix: "_aggregates"});
   await targetStorage.saveDoc({
