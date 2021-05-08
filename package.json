@@ -12,7 +12,7 @@
     "@google-cloud/storage": "^3.2.0",
     "@sentry/node": "^5.25.0",
     "assert": "^2.0.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "base-x": "^3.0.8",
     "bee-queue": "^1.2.3",
     "chokidar": "^3.4.0",
