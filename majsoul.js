@@ -3,11 +3,14 @@ const assert = require("assert");
 const WebSocket = require("ws");
 const rp = require("request-promise");
 const uuidv4 = require("uuid/v4");
+const fs = require("fs");
+const p = require("path");
+const crypto = require("crypto");
 
 const { URL_BASE, ACCESS_TOKEN, PREFERRED_SERVER, OAUTH_TYPE } = require("./env");
 
 class MajsoulProtoCodec {
-  constructor (pbDef, version) {
+  constructor(pbDef, version) {
     this._pb = protobuf.Root.fromJSON(pbDef);
     this._index = 1;
     this._wrapper = this._pb.nested.lq.Wrapper;
@@ -15,7 +18,7 @@ class MajsoulProtoCodec {
     this.version = version;
     this.rawDefinition = pbDef;
   }
-  lookupMethod (path) {
+  lookupMethod(path) {
     if (typeof path === "string") {
       path = path.split(".");
     }
@@ -32,7 +35,7 @@ class MajsoulProtoCodec {
   /**
    * @param {Buffer} buf
    */
-  decodeMessage (buf) {
+  decodeMessage(buf) {
     const { REQUEST, RESPONSE } = MajsoulProtoCodec;
     const type = buf[0];
     assert([REQUEST, RESPONSE].includes(type));
@@ -58,7 +61,7 @@ class MajsoulProtoCodec {
       payload: typeObj.decode(msg.data),
     };
   }
-  decodeDataMessage (buf, typeName) {
+  decodeDataMessage(buf, typeName) {
     const msg = this._wrapper.decode(buf);
     const typeObj = this._pb.lookupType(typeName || msg.name);
     return {
@@ -66,23 +69,22 @@ class MajsoulProtoCodec {
       payload: typeObj.decode(msg.data),
     };
   }
-  encodeRequest ({ methodName, payload }) {
+  encodeRequest({ methodName, payload }) {
     const currentIndex = this._index++;
     const methodObj = this.lookupMethod(methodName);
     const requestType = methodObj.parent.parent.lookupType(methodObj.requestType);
     const responseType = methodObj.parent.parent.lookupType(methodObj.responseType);
-    const msg = this._wrapper.encode({
-      name: methodName,
-      data: requestType.encode(payload).finish(),
-    }).finish();
+    const msg = this._wrapper
+      .encode({
+        name: methodName,
+        data: requestType.encode(payload).finish(),
+      })
+      .finish();
     this._inflightRequests[currentIndex] = {
       methodName,
       typeObj: responseType,
     };
-    return Buffer.concat([
-      Buffer.from([MajsoulProtoCodec.REQUEST, currentIndex & 0xff, currentIndex >> 8]),
-      msg,
-    ]);
+    return Buffer.concat([Buffer.from([MajsoulProtoCodec.REQUEST, currentIndex & 0xff, currentIndex >> 8]), msg]);
   }
 }
 Object.assign(MajsoulProtoCodec, {
@@ -91,7 +93,7 @@ Object.assign(MajsoulProtoCodec, {
 });
 
 class MajsoulConnection {
-  constructor (server, codec, onConnect, timeout = 10000) {
+  constructor(server, codec, onConnect, timeout = 10000) {
     this._server = server;
     this._timeout = timeout;
     this._pendingMessages = [];
@@ -99,7 +101,7 @@ class MajsoulConnection {
     this._onConnect = onConnect;
     this.reconnect();
   }
-  reconnect () {
+  reconnect() {
     this._ready = false;
     if (this._socket) {
       this._socket.terminate();
@@ -121,43 +123,49 @@ class MajsoulConnection {
     this._socket.on("open", () => {
       this._waiterResolve();
       this._pendingMessages = [];
-      this._onConnect(this).then(() => {
-        this._ready = true;
-        this._waiterResolve();
-      }).catch((e) => {
-        console.error(e);
-        this._socket.terminate();
-	this._socket = null;
-        this._waiterResolve();
-        setTimeout(() => this._waiterResolve(), 100);
-      });
+      this._onConnect(this)
+        .then(() => {
+          this._ready = true;
+          this._waiterResolve();
+        })
+        .catch((e) => {
+          console.error(e);
+          this._socket.terminate();
+          this._socket = null;
+          this._waiterResolve();
+          setTimeout(() => this._waiterResolve(), 100);
+        });
     });
   }
-  async waitForReady () {
+  async waitForReady() {
     while (!this._ready) {
-      if (!this._socket || this._socket.readyState === WebSocket.CLOSED || this._socket.readyState === WebSocket.CLOSING) {
+      if (
+        !this._socket ||
+        this._socket.readyState === WebSocket.CLOSED ||
+        this._socket.readyState === WebSocket.CLOSING
+      ) {
         throw new Error("WebSocket closed before successful connection");
       }
       await this._wait();
     }
   }
-  _createWaiter () {
+  _createWaiter() {
     this._waiter = new Promise((resolve) => {
       this._waiterResolve = resolve;
     });
   }
-  async _wait () {
+  async _wait() {
     await Promise.race([
       this._waiter,
       new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), this._timeout)),
     ]);
   }
-  close () {
+  close() {
     this._socket.terminate();
     this._pendingMessages.push(undefined);
     this._waiterResolve();
   }
-  async readMessage () {
+  async readMessage() {
     while (!this._pendingMessages.length) {
       if (!this._socket || this._socket.readyState === WebSocket.CLOSED) {
         return undefined;
@@ -167,7 +175,7 @@ class MajsoulConnection {
     }
     return this._pendingMessages.shift();
   }
-  async rpcCall (methodName, payload) {
+  async rpcCall(methodName, payload) {
     if (!this._socket) {
       throw new Error("Connection is broken");
     }
@@ -185,8 +193,24 @@ class MajsoulConnection {
   }
 }
 
-function getRes (path) {
-  return rp({ uri: `${URL_BASE}${path}`, json: true });
+async function getRes(path, bustCache) {
+  let url = `${URL_BASE}${path}`;
+  const cacheHash = crypto.createHash("sha256").update(url).digest("hex");
+  if (bustCache) {
+    url += "?randv=" + Math.random().toString().slice(2);
+  }
+  const cacheDir = p.join(__dirname, ".cache");
+  const cacheFile = p.join(cacheDir, cacheHash);
+  const result = await rp({ uri: `${URL_BASE}${path}`, json: true, timeout: 2500 }).catch((e) => {
+    try {
+      console.log(`Using cache for ${path} (${cacheHash})`);
+      return JSON.parse(fs.readFileSync(cacheFile, { encoding: "utf8" }));
+    } catch (e) {}
+    return Promise.reject(e);
+  });
+  fs.mkdirSync(cacheDir, { recursive: true });
+  fs.writeFileSync(p.join(cacheDir, cacheHash), JSON.stringify(result));
+  return result;
 }
 
 /**
@@ -204,10 +228,10 @@ function shuffle(a) {
   return a;
 }
 
-async function createMajsoulConnection (accessToken = ACCESS_TOKEN, preferredServer = PREFERRED_SERVER) {
+async function createMajsoulConnection(accessToken = ACCESS_TOKEN, preferredServer = PREFERRED_SERVER) {
   let serverListUrl = process.env.SERVER_LIST_URL;
   const wsScheme = process.env.WS_SCHEME || "wss";
-  const versionInfo = await getRes("version.json?randv=" + Math.random().toString().slice(2));
+  const versionInfo = await getRes("version.json", true);
   const resInfo = await getRes(`resversion${versionInfo.version}.json`);
   const pbVersion = resInfo.res["res/proto/liqi.json"].prefix;
   const pbDef = await getRes(`${pbVersion}/res/proto/liqi.json`);
@@ -218,22 +242,35 @@ async function createMajsoulConnection (accessToken = ACCESS_TOKEN, preferredSer
   let numTries = 0;
   let lastError = null;
   while (true) {
+    numTries++;
+    if (numTries > 10) {
+      throw lastError;
+    }
     try {
       if (!serverListUrl) {
         preferredServer = shuffle((preferredServer || "").split(","))[0];
         serverListUrl = ipDef.region_urls[preferredServer] || ipDef.region_urls.mainland;
         if (!serverListUrl) {
-          serverListUrl = ipDef.region_urls.length ? shuffle(ipDef.region_urls)[0] : ipDef.region_urls[shuffle(Object.keys(ipDef.region_urls))[0]];
+          const allServerListUrls = shuffle(
+            ipDef.region_urls.length ? ipDef.region_urls : Object.values(ipDef.region_urls)
+          );
+          if (
+            allServerListUrls.length > 1 &&
+            (allServerListUrls[0].url || allServerListUrls[0]) == triedListUrl[triedListUrl.length - 1]
+          ) {
+            allServerListUrls.shift();
+          }
+          serverListUrl = allServerListUrls[0];
+          if (serverListUrl.url) {
+            serverListUrl = serverListUrl.url;
+          }
+          assert(typeof serverListUrl === "string");
+          triedListUrl.push(serverListUrl);
         }
         serverListUrl += "?service=ws-gateway&protocol=ws&ssl=true";
+        console.log(serverListUrl);
       }
-      if (triedListUrl.includes(serverListUrl)) {
-        numTries++;
-        if (numTries > 10) {
-          throw lastError;
-        }
-      }
-      serverList = await rp({uri: serverListUrl, json: true});
+      serverList = await rp({ uri: serverListUrl, json: true, timeout: 2500 });
       if (serverList.maintenance) {
         console.log("Maintenance in progress");
         return;
@@ -244,7 +281,6 @@ async function createMajsoulConnection (accessToken = ACCESS_TOKEN, preferredSer
         throw e;
       }
       lastError = e;
-      triedListUrl.push(serverListUrl);
       serverListUrl = null;
       preferredServer = "";
       await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -271,10 +307,10 @@ async function createMajsoulConnection (accessToken = ACCESS_TOKEN, preferredSer
       });
       accessToken = resp.access_token;
     }
-    let resp = await conn.rpcCall(".lq.Lobby.oauth2Check", {type, access_token: accessToken});
+    let resp = await conn.rpcCall(".lq.Lobby.oauth2Check", { type, access_token: accessToken });
     if (!resp.has_account) {
       await new Promise((res) => setTimeout(res, 2000));
-      resp = await conn.rpcCall(".lq.Lobby.oauth2Check", {type, access_token: accessToken});
+      resp = await conn.rpcCall(".lq.Lobby.oauth2Check", { type, access_token: accessToken });
     }
     assert(resp.has_account);
     resp = await conn.rpcCall(".lq.Lobby.oauth2Login", {

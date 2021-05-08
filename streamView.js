@@ -51,7 +51,7 @@ function streamView (docName, viewName, params, callback) {
   return stream(`${COUCHDB_URL}${params._suffix || ""}/_design/${docName}/_view/${viewName}?${Object.entries(params).map(([k, v]) => `${k}=${encodeURIComponent(typeof v === "object" ? JSON.stringify(v) : v)}`).join("&")}`, callback);
 }
 function streamAllDocs (params, callback) {
-  return stream(`${COUCHDB_URL}${params._suffix || ""}/_all_docs?${Object.entries(params).map(([k, v]) => `${k}=${encodeURIComponent(typeof v === "object" ? JSON.stringify(v) : v)}`).join("&")}`, callback);
+  return stream(`${params._url || COUCHDB_URL}${params._suffix || ""}/_all_docs?${Object.entries(params).map(([k, v]) => `${k}=${encodeURIComponent(typeof v === "object" ? JSON.stringify(v) : v)}`).join("&")}`, callback);
 }
 
 module.exports.streamView = streamView;

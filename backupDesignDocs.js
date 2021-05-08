@@ -38,7 +38,7 @@ function processDesignObject (obj, dir = process.env.OUTPUT_DIR) {
 async function main () {
   fs.mkdirSync(path.join(process.env.OUTPUT_DIR, "_raw/basic/_design"), { recursive: true });
   fs.mkdirSync(path.join(process.env.OUTPUT_DIR, "_raw/extended/_design"), { recursive: true });
-  const storage = new CouchStorage({mode: MODE_GAME});
+  const storage = new CouchStorage({mode: MODE_GAME, suffix: "_meta"});
   for (const { doc } of (await storage.db.allDocs({
     include_docs: true,
     startkey: "_design/",

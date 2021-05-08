@@ -6,22 +6,22 @@ const { CouchStorage } = require("./couchStorage");
 const { streamView } = require("./streamView");
 
 function getProperSuffix(suffix) {
-    return (process.env.DB_SUFFIX || "") + suffix;
+  return (process.env.DB_SUFFIX || "") + suffix;
 }
 
 const LEVEL_MAX_POINTS = [20, 80, 200, 600, 800, 1000, 1200, 1400, 2000, 2800, 3200, 3600, 4000, 6000, 9000];
 const PLAYER_RANKS = "初士杰豪圣魂";
 
 class Level {
-  constructor (levelId) {
+  constructor(levelId) {
     const realId = levelId % 10000;
     this._majorRank = Math.floor(realId / 100);
     this._minorRank = realId % 100;
   }
-  getMaxPoint () {
+  getMaxPoint() {
     return LEVEL_MAX_POINTS[(this._majorRank - 1) * 3 + this._minorRank - 1];
   }
-  getNextLevel () {
+  getNextLevel() {
     if (this._majorRank === PLAYER_RANKS.length) {
       return this;
     }
@@ -31,9 +31,9 @@ class Level {
       majorRank++;
       minorRank = 1;
     }
-    return (majorRank * 100 + minorRank);
+    return majorRank * 100 + minorRank;
   }
-  getPreviousLevel () {
+  getPreviousLevel() {
     if (this._majorRank === 1 && this._minorRank === 1) {
       return this;
     }
@@ -43,9 +43,9 @@ class Level {
       majorRank--;
       minorRank = 3;
     }
-    return (majorRank * 100 + minorRank);
+    return majorRank * 100 + minorRank;
   }
-  getAdjustedLevelId (score) {
+  getAdjustedLevelId(score) {
     const maxPoints = this.getMaxPoint();
     const level = this;
     if (maxPoints && score >= maxPoints) {
@@ -61,12 +61,12 @@ class Level {
   }
 }
 
-function getAdjustedLevelId (rawLevel) {
+function getAdjustedLevelId(rawLevel) {
   const base = Math.floor(rawLevel[0] / 10000) * 10000;
   return new Level(rawLevel[0]).getAdjustedLevelId(rawLevel[1] + rawLevel[2]) + base;
 }
 
-function merge (result, next, debugId) {
+function merge(result, next, debugId) {
   Object.keys(next).forEach(function (key) {
     if (typeof next[key] === "object") {
       return;
@@ -84,34 +84,35 @@ function merge (result, next, debugId) {
   return result;
 }
 
-async function main () {
+async function main() {
   const buckets = {};
-  await streamView(
-    "all_stats",
-    "all_stats",
-    {_suffix: getProperSuffix("_stats"), include_docs: true},
-    ({ doc }) => {
-      const levelId = getAdjustedLevelId(doc.basic.level);
-      const mode = doc.mode_id;
-      if (!buckets[mode]) {
-        buckets[mode] = {};
-      }
-      if (!buckets[mode][levelId]) {
-        buckets[mode][levelId] = { accum: [0, 0, 0, 0, 0], num_players: 0 };
-      }
-      doc.basic.accum.forEach((x, i) => buckets[mode][levelId].accum[i] += x);
-      buckets[mode][levelId].num_players++;
-      merge(buckets[mode][levelId], doc.extended, doc._id);
+  await streamView("all_stats", "all_stats", { _suffix: getProperSuffix("_stats"), include_docs: true }, ({ doc }) => {
+    const levelId = getAdjustedLevelId(doc.basic.level);
+    const mode = doc.mode_id;
+    if (!buckets[mode]) {
+      buckets[mode] = {};
     }
-  );
-  const storage = new CouchStorage({suffix: getProperSuffix("_aggregates")});
+    if (!buckets[mode][levelId]) {
+      buckets[mode][levelId] = { accum: [0, 0, 0, 0, 0], num_players: 0 };
+    }
+    doc.basic.accum.forEach((x, i) => (buckets[mode][levelId].accum[i] += x));
+    buckets[mode][levelId].num_players++;
+    merge(buckets[mode][levelId], doc.extended, doc._id);
+  });
+  await new Promise((res) => setTimeout(res, 10000));
+  const storage = new CouchStorage({ suffix: getProperSuffix("_aggregates") });
   await storage.saveDoc({
     _id: "global_statistics",
     type: "globalStatistics",
     updated: moment.utc().valueOf(),
     data: buckets,
   });
-
+  await storage.saveDoc({
+    _id: `global_statistics-${new Date().toISOString().slice(0, 10)}`,
+    type: "globalStatistics",
+    updated: moment.utc().valueOf(),
+    data: buckets,
+  });
 }
 
 if (require.main === module) {

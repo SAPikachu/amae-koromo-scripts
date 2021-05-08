@@ -1,8 +1,14 @@
+const { promisify } = require("util");
+
+const redis = require("redis");
+const assert = require("assert");
+const axios = require("axios").default;
+
 const { wrappedRun } = require("./entryPoint");
 const { CouchStorage, MODE_GAME } = require("./couchStorage");
 const { createMapper, createLiveDocGetter } = require("./dbExtension");
-const { COUCHDB_USER, COUCHDB_PASSWORD, COUCHDB_PROTO, PLAYER_SERVERS } = require("./env");
-const STATE_SERVER = process.env.STATE_SERVER || "couchdb-jt:5985";
+const { Throttler, DummyThrottler } = require("./throttler");
+const { COUCHDB_USER, COUCHDB_PASSWORD, COUCHDB_PROTO, PLAYER_SERVERS, REDIS_HOST, REDIS_PASSWORD } = require("./env");
 
 function fromEntries(iterable) {
   return [...iterable].reduce((obj, [key, val]) => {
@@ -83,7 +89,14 @@ async function withRetry(func, num = 5, retryInterval = 5000) {
 
 let designDocIsLatest = {};
 
-async function uploadPlayer(playerId, data, basic, extended, designDocs) {
+async function uploadPlayer({ playerId, data, basic, extended, designDocs, logTag, redisClient }) {
+  assert(playerId);
+  assert(data);
+  assert(basic);
+  assert(extended);
+  assert(designDocs);
+  assert(logTag);
+  assert(redisClient);
   const dbName = `p${data.mode}_${playerId.toString().padStart(10, "0")}`;
   const storage = new CouchStorage({
     uri: `${COUCHDB_PROTO}://${COUCHDB_USER}:${COUCHDB_PASSWORD}@${PLAYER_SERVERS[data.mode]}/${dbName}`,
@@ -107,26 +120,64 @@ async function uploadPlayer(playerId, data, basic, extended, designDocs) {
       const existingDoc = await storage.getDocWithDefault(docName);
       const docNeedUpdate = !existingDoc || needUpdate(existingDoc, doc);
       if (docNeedUpdate) {
-        console.log(`Updating design doc ${key} for:`, dbName);
+        console.log(logTag, `Updating design doc ${key} for:`, dbName);
         await withRetry(() => storage.saveDoc({ _id: docName, ...doc }));
       }
     }
+    await axios.put(
+      `${COUCHDB_PROTO}://${COUCHDB_USER}:${COUCHDB_PASSWORD}@${PLAYER_SERVERS[data.mode]}/${dbName}/_revs_limit`,
+      "1"
+    );
     storage._db.viewCleanup(() => {});
     designDocIsLatest[dbName] = true;
   }
   await storage._db.close();
+  if (!process.env.SINGLE_SOURCE) {
+    await redisClient.zincrby("compactQueue", 1 + Math.random() * 0.01, dbName);
+    await redisClient.zadd("cacheStats3", new Date().getTime(), dbName);
+  }
 }
 
-async function main() {
-  const mapper = await DocMapper.create();
-  const sourceStorage = new CouchStorage({ suffix: process.env.DB_SUFFIX, mode: MODE_GAME });
+async function updateNickname({ playerId, nicknameStorage, basic, data, dbSuffix }) {
+  assert(playerId);
+  assert(nicknameStorage);
+  assert(basic);
+  assert(data);
+  assert(dbSuffix || dbSuffix === "");
+  const paddedId = playerId.toString().padStart(10, "0");
+  const nicknameDoc = await withRetry(() => nicknameStorage.getDocWithDefault(paddedId, { _id: paddedId }));
+  const modeKey = dbSuffix || "_";
+  nicknameDoc.modes = nicknameDoc.modes || {};
+  if (nicknameDoc.modes[modeKey] && nicknameDoc.modes[modeKey].timestamp > basic.start_time) {
+    return;
+  }
+  if (!nicknameDoc.timestamp || basic.start_time > nicknameDoc.timestamp) {
+    nicknameDoc.normalized_name = data.basic.nickname.toLowerCase().replace(/(^\s+|\s+$)/g, "");
+    nicknameDoc.nickname = data.basic.nickname;
+    nicknameDoc.timestamp = basic.start_time;
+  }
+  nicknameDoc.modes[modeKey] = {
+    level: data.basic.level,
+    timestamp: basic.start_time,
+  };
+  await withRetry(() => nicknameStorage.saveDoc(nicknameDoc));
+}
+
+async function run({ mapper, dbSuffix, stateServer, logTag, throttler, nicknameStorage, redisClient, getDesignDocs }) {
+  assert(mapper);
+  assert(stateServer);
+  assert(logTag);
+  assert(nicknameStorage);
+  assert(redisClient);
+  assert(throttler);
+  assert(getDesignDocs);
+  const sourceStorage = new CouchStorage({ suffix: dbSuffix, mode: MODE_GAME });
   const stateStorage = new CouchStorage({
-    uri: `${COUCHDB_PROTO}://${COUCHDB_USER}:${COUCHDB_PASSWORD}@${STATE_SERVER}/state`,
+    uri: `${COUCHDB_PROTO}://${COUCHDB_USER}:${COUCHDB_PASSWORD}@${stateServer}/state`,
     skipSetup: false,
   });
   const stateDoc = await stateStorage.getDocWithDefault("seq");
   let seq = stateDoc ? stateDoc.value : "";
-  const getDesignDocs = await createLiveDocGetter("_meta_ext", "player_docs");
   let designDocs = getDesignDocs();
   for (;;) {
     const batch = await sourceStorage._dbExtended.changes({
@@ -148,17 +199,19 @@ async function main() {
     const extendedDocs = batch.results.map((x) => x.doc).filter((x) => x.type === "roundData");
     if (extendedDocs.length) {
       const keys = extendedDocs.map((x) => x._id.replace(/^r-/, ""));
+      const throttlerId = await throttler.waitNext();
       const basicResp = await sourceStorage._db.allDocs({
         include_docs: true,
         keys,
       });
+      throttler.complete(throttlerId);
       const basicDocs = fromEntries(basicResp.rows.map((x) => [x.doc._id, x.doc]));
       for (const extended of extendedDocs) {
         const basic = basicDocs[extended._id.replace(/^r-/, "")];
         if (!basic) {
-          throw new Error(`No basic doc for ${extended._id}`);
+          throw new Error(`[${logTag}] No basic doc for ${extended._id}`);
         }
-        console.log(basic.uuid, basic._id);
+        console.log(logTag, basic.uuid, basic._id);
         const processedData = mapper.process(basic, extended);
         const newDesignDocs = getDesignDocs();
         if (newDesignDocs._rev !== designDocs._rev) {
@@ -167,13 +220,79 @@ async function main() {
         }
         designDocs = newDesignDocs;
         for (const [playerId, data] of Object.entries(processedData)) {
-          await uploadPlayer(playerId, data, basic, extended, newDesignDocs.docs);
+          const throttlerId = await throttler.waitNext();
+          await uploadPlayer({ playerId, data, basic, extended, designDocs: newDesignDocs.docs, logTag, redisClient });
+          await updateNickname({ playerId, nicknameStorage, basic, data, dbSuffix });
+          throttler.complete(throttlerId);
         }
       }
     }
     seq = batch.last_seq;
     await stateStorage.saveDoc({ _id: "seq", value: seq, timestamp: new Date().getTime() });
   }
+}
+async function main() {
+  const mapper = await DocMapper.create();
+  const getDesignDocs = await createLiveDocGetter("_meta_ext", "player_docs");
+  const nicknameStorage = new CouchStorage({ suffix: "_nicknames" });
+  const redisClientRaw = redis.createClient({
+    host: REDIS_HOST,
+    password: REDIS_PASSWORD,
+    retry_unfulfilled_commands: true,
+  });
+  const redisClient = {
+    zincrby: promisify(redisClientRaw.zincrby.bind(redisClientRaw)),
+    zadd: promisify(redisClientRaw.zadd.bind(redisClientRaw)),
+  };
+  const promises = [];
+  const settings = {
+    jt: {
+      dbSuffix: "",
+      stateServer: PLAYER_SERVERS[12],
+      logTag: "[JT]",
+    },
+    gold: {
+      dbSuffix: "_gold",
+      stateServer: PLAYER_SERVERS[9],
+      logTag: "[G ]",
+    },
+    sanma: {
+      dbSuffix: "_sanma",
+      stateServer: PLAYER_SERVERS[24],
+      logTag: "[S ]",
+    },
+    e4: {
+      dbSuffix: "_e4",
+      stateServer: PLAYER_SERVERS[15],
+      logTag: "[E4]",
+    },
+    e3: {
+      dbSuffix: "_e3",
+      stateServer: PLAYER_SERVERS[25],
+      logTag: "[E3]",
+    },
+  };
+  if (process.env.SINGLE_SOURCE) {
+    assert(settings[process.env.SINGLE_SOURCE]);
+    promises.push(
+      run({
+        ...settings[process.env.SINGLE_SOURCE],
+        mapper,
+        getDesignDocs,
+        nicknameStorage,
+        redisClient,
+        throttler: new DummyThrottler(),
+      })
+    );
+  } else {
+    const throttler = new Throttler();
+    Object.keys(settings)
+      .filter((key) => !settings[key]._disabled)
+      .forEach((key) =>
+        promises.push(run({ ...settings[key], mapper, getDesignDocs, nicknameStorage, redisClient, throttler }))
+      );
+  }
+  await Promise.all(promises);
 }
 
 if (require.main === module) {
