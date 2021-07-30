@@ -9,6 +9,21 @@ const crypto = require("crypto");
 
 const { URL_BASE, ACCESS_TOKEN, PREFERRED_SERVER, OAUTH_TYPE } = require("./env");
 
+/**
+ *  * Shuffles array in place.
+ *   * @param {Array} a items An array containing the items.
+ *    */
+function shuffle(a) {
+  var j, x, i;
+  for (i = a.length - 1; i > 0; i--) {
+    j = Math.floor(Math.random() * (i + 1));
+    x = a[i];
+    a[i] = a[j];
+    a[j] = x;
+  }
+  return a;
+}
+
 class MajsoulProtoCodec {
   constructor(pbDef, version) {
     this._pb = protobuf.Root.fromJSON(pbDef);
@@ -94,7 +109,10 @@ Object.assign(MajsoulProtoCodec, {
 
 class MajsoulConnection {
   constructor(server, codec, onConnect, timeout = 10000) {
-    this._server = server;
+    if (!Array.isArray(server)) {
+      server = [server];
+    }
+    this._servers = server;
     this._timeout = timeout;
     this._pendingMessages = [];
     this._codec = codec;
@@ -107,7 +125,9 @@ class MajsoulConnection {
       this._socket.terminate();
     }
     this._createWaiter();
-    console.log("Connecting to " + this._server);
+    shuffle(this._servers);
+    const server = this._servers[0];
+    console.log("Connecting to " + server);
     let agent = undefined;
     if (process.env.http_proxy) {
       console.log(`Using proxy ${process.env.http_proxy}`);
@@ -115,10 +135,20 @@ class MajsoulConnection {
       const HttpsProxyAgent = require("https-proxy-agent");
       agent = new HttpsProxyAgent(url.parse(process.env.http_proxy));
     }
-    this._socket = new WebSocket(this._server, { agent });
+    this._socket = new WebSocket(server, { agent });
     this._socket.on("message", (data) => {
       this._pendingMessages.push(data);
       this._waiterResolve();
+    });
+    this._socket.on("unexpected-response", (_, res) => {
+      console.log("MajsoulConnection: Unexpected response:", res.statusCode);
+      try {
+        this._socket.terminate();
+      } catch (e) {}
+      this._waiterResolve();
+      if (res.statusCode >= 500) {
+        this.reconnect();
+      }
     });
     this._socket.on("open", () => {
       this._waiterResolve();
@@ -129,7 +159,7 @@ class MajsoulConnection {
           this._waiterResolve();
         })
         .catch((e) => {
-          console.error(e);
+          console.error("Error in onOpen:", e);
           this._socket.terminate();
           this._socket = null;
           this._waiterResolve();
@@ -144,6 +174,7 @@ class MajsoulConnection {
         this._socket.readyState === WebSocket.CLOSED ||
         this._socket.readyState === WebSocket.CLOSING
       ) {
+        console.log("WebSocket closed before successful connection");
         throw new Error("WebSocket closed before successful connection");
       }
       await this._wait();
@@ -213,19 +244,15 @@ async function getRes(path, bustCache) {
   return result;
 }
 
-/**
- *  * Shuffles array in place.
- *   * @param {Array} a items An array containing the items.
- *    */
-function shuffle(a) {
-  var j, x, i;
-  for (i = a.length - 1; i > 0; i--) {
-    j = Math.floor(Math.random() * (i + 1));
-    x = a[i];
-    a[i] = a[j];
-    a[j] = x;
-  }
-  return a;
+async function fetchLatestDataDefinition() {
+  const versionInfo = await getRes("version.json", true);
+  const resInfo = await getRes(`resversion${versionInfo.version}.json`);
+  const pbVersion = resInfo.res["res/proto/liqi.json"].prefix;
+  const pbDef = await getRes(`${pbVersion}/res/proto/liqi.json`);
+  return {
+    version: pbVersion,
+    dataDefinition: pbDef,
+  };
 }
 
 async function createMajsoulConnection(accessToken = ACCESS_TOKEN, preferredServer = PREFERRED_SERVER) {
@@ -271,6 +298,7 @@ async function createMajsoulConnection(accessToken = ACCESS_TOKEN, preferredServ
         console.log(serverListUrl);
       }
       serverList = await rp({ uri: serverListUrl, json: true, timeout: 2500 });
+      // console.log(serverList);
       if (serverList.maintenance) {
         console.log("Maintenance in progress");
         return;
@@ -287,48 +315,74 @@ async function createMajsoulConnection(accessToken = ACCESS_TOKEN, preferredServ
     }
   }
   const proto = new MajsoulProtoCodec(pbDef, pbVersion);
-  // console.log(proto.decodeMessage(Buffer.from("021e000a192e6c712e4c6f6262792e666574636847616d655265636f7264122d0a2b3139303832332d36346632326534372d376133342d343732302d393737662d323736376561653335373030", "hex")));
   const serverIndex = Math.floor(Math.random() * serverList.servers.length);
   const type = parseInt(OAUTH_TYPE) || 0;
   let server = serverList.servers[serverIndex];
   if (server.indexOf("maj-soul") > -1) {
     server += "/gateway";
   }
-  const conn = new MajsoulConnection(`${wsScheme}://${server}`, proto, async (conn) => {
-    console.log("Connection established, sending heartbeat");
-    await conn.rpcCall(".lq.Lobby.heatbeat", { no_operation_counter: 0 });
-    console.log("Authenticating");
-    if (type === 7) {
-      const [code, uid] = accessToken.split("-");
-      const resp = await conn.rpcCall(".lq.Lobby.oauth2Auth", {
+  let shouldRetry = true;
+  try {
+    const conn = new MajsoulConnection(`${wsScheme}://${server}`, proto, async (conn) => {
+      console.log("Connection established, sending heartbeat");
+      await conn.rpcCall(".lq.Lobby.heatbeat", { no_operation_counter: 0 });
+      shouldRetry = false;
+      console.log("Authenticating");
+      conn.clientVersionString = "web-" + versionInfo.version.replace(/\.[a-z]+$/i, "");
+      if (type === 7) {
+        const [code, uid] = accessToken.split("-");
+        const resp = await conn.rpcCall(".lq.Lobby.oauth2Auth", {
+          type,
+          code,
+          uid,
+          client_version_string: conn.clientVersionString,
+        });
+        accessToken = resp.access_token;
+      }
+      // console.log(accessToken);
+      let resp = await conn.rpcCall(".lq.Lobby.oauth2Check", { type, access_token: accessToken });
+      // console.log(resp);
+      if (!resp.has_account) {
+        await new Promise((res) => setTimeout(res, 2000));
+        resp = await conn.rpcCall(".lq.Lobby.oauth2Check", { type, access_token: accessToken });
+      }
+      assert(resp.has_account);
+      resp = await conn.rpcCall(".lq.Lobby.oauth2Login", {
         type,
-        code,
-        uid,
+        access_token: accessToken,
+        reconnect: false,
+        device: {
+          platform: "pc",
+          hardware: "pc",
+          os: "windows",
+          os_version: "win10",
+          is_browser: true,
+          software: "Chrome",
+          sale_platform: "web",
+        },
+        random_key: uuidv4(),
+        client_version: { resource: versionInfo.version },
+        currency_platforms: [],
+        client_version_string: conn.clientVersionString,
       });
-      accessToken = resp.access_token;
-    }
-    let resp = await conn.rpcCall(".lq.Lobby.oauth2Check", { type, access_token: accessToken });
-    if (!resp.has_account) {
-      await new Promise((res) => setTimeout(res, 2000));
-      resp = await conn.rpcCall(".lq.Lobby.oauth2Check", { type, access_token: accessToken });
-    }
-    assert(resp.has_account);
-    resp = await conn.rpcCall(".lq.Lobby.oauth2Login", {
-      type,
-      access_token: accessToken,
-      reconnect: false,
-      device: { device_type: "pc", browser: "safari" },
-      random_key: uuidv4(),
-      client_version: versionInfo.version,
+      // console.log(resp);
+      assert(resp.account_id);
+      console.log("Connection ready");
     });
-    assert(resp.account_id);
-    console.log("Connection ready");
-  });
-  await conn.waitForReady();
-  return conn;
+    await conn.waitForReady();
+    return conn;
+  } catch (e) {
+    console.error(e);
+    if (!shouldRetry) {
+      console.error("Not retrying");
+      return Promise.reject(e);
+    }
+    return createMajsoulConnection(accessToken);
+  }
 }
 
 exports.MajsoulProtoCodec = MajsoulProtoCodec;
 exports.MajsoulConnection = MajsoulConnection;
 exports.createMajsoulConnection = createMajsoulConnection;
+exports.fetchLatestDataDefinition = fetchLatestDataDefinition;
 exports.getRes = getRes;

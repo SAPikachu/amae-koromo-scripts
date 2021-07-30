@@ -9,7 +9,7 @@ const _ = require("lodash");
 const compareVersion = require("node-version-compare");
 
 const { DataStorage } = require("./storage");
-const { createMajsoulConnection } = require("./majsoul");
+const { createMajsoulConnection, fetchLatestDataDefinition } = require("./majsoul");
 const { CouchStorage, MODE_GAME } = require("./couchStorage");
 const { iterateLocalData, watchLiveData, DEFAULT_BASE } = require("./localData");
 const { calcShanten } = require("./shanten");
@@ -109,11 +109,21 @@ function buildRecordData({ data, dataDefinition, game }) {
     console.error(e);
     return null;
   }
+  const records = payload.version >= 210715 ? [] : payload.records;
+  if (payload.version >= 210715) {
+    for (const action of payload.actions) {
+      if (!action.result || !action.result.length) {
+        continue;
+      }
+      records.push(action.result);
+    }
+  }
+  assert(records.length);
   const rounds = [];
   let 振听 = null;
   let numDiscarded = null;
   let lastDiscardSeat = null;
-  for (const itemBuf of payload.records) {
+  for (const itemBuf of records) {
     const item = wrapper.decode(itemBuf);
     if ([".lq.RecordDealTile"].includes(item.name)) {
       continue;
@@ -365,9 +375,9 @@ async function loadLocalData() {
       while (items.length) {
         const chunk = items.slice(0, 100);
         items = items.slice(100);
-        const filteredIds = new Set(
-          (await itemStore.findNonExistentRecordsFast(chunk.map((x) => x.data))).map((x) => x.uuid)
-        );
+        const filteredIds = process.env.FORCE_LOAD
+          ? new Set(chunk.map((x) => x.data.uuid))
+          : new Set((await itemStore.findNonExistentRecordsFast(chunk.map((x) => x.data))).map((x) => x.uuid));
         for (const item of chunk) {
           if (filteredIds.has(item.data.uuid)) {
             filteredItems.push(item);
@@ -432,7 +442,15 @@ async function loadLiveData() {
     .map((x) => x.doc.version)
     .sort(compareVersion)
     .reverse()[0];
-  const dataDefinition = dataDefs.rows.filter((x) => x.doc.version === ver)[0].doc.defintion;
+  let dataDefinition = dataDefs.rows.filter((x) => x.doc.version === ver)[0].doc.defintion;
+  let dataDefinitionVersion = ver;
+  async function updateDataDefintion() {
+    const result = await fetchLatestDataDefinition();
+    dataDefinition = result.dataDefinition;
+    dataDefinitionVersion = result.version;
+  }
+  updateDataDefintion().catch((e) => console.error(e));
+  setInterval(() => updateDataDefintion().catch((e) => console.error(e)), 1000 * 60 * 60);
   const groups = {
     normal: {
       store,
@@ -479,6 +497,7 @@ async function loadLiveData() {
       }
       console.log(`Saving ${item.data.config.meta.mode_id} ${item.id}`);
       const recordData = item.getRecordData();
+      await withRetry(() => itemStore.ensureDataDefinition(dataDefinitionVersion, dataDefinition));
       await withRetry(() => itemStore.saveGame(item.data, ver, true));
       await withRetry(() =>
         processRecordDataForGameId(itemStore, item.id, recordData, { game: item.data, dataDefinition }, true)
@@ -574,15 +593,18 @@ async function main() {
     await syncContest(536020, "_dd");
     await syncContest(536020, "_crt");*/
     await syncContest(605833, "_jinja");
+    await syncContest(941168, "_s5");
+    await syncContest(601462, "_s5sec");
     // await syncContest(792848, "_oshoji");
     // await syncContest(364951, "_ein");
-    await syncContest(461591, "_s4");
+    // await syncContest(461591, "_s4");
     // await syncContest(960829, "_s4sec");
     // await syncContest(525988, "_s3");
     // await syncContest(222713, "_s3sec");
-    await syncContest(689169, "_u");
+    // await syncContest(689169, "_u");
     await syncContest(831675, "_xjtu");
     await syncContest(483861, "_xjtu");
+    await syncContest(570924, "_throne");
     return;
   }
   if (process.env.UPDATE_AGV) {
