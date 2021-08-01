@@ -279,7 +279,10 @@ async function processGames(conn, ids, storageParams = {}, gamePostprocess = (ga
     console.log(id);
     let resp;
     try {
-      resp = await conn.rpcCall(".lq.Lobby.fetchGameRecord", { game_uuid: id });
+      resp = await conn.rpcCall(".lq.Lobby.fetchGameRecord", {
+        game_uuid: id,
+        client_version_string: conn.clientVersionString,
+      });
     } catch (e) {
       console.log(e);
       console.log("Reconnecting");
@@ -287,7 +290,10 @@ async function processGames(conn, ids, storageParams = {}, gamePostprocess = (ga
       // eslint-disable-next-line require-atomic-updates
       conn.reconnect();
       await conn.waitForReady();
-      resp = await conn.rpcCall(".lq.Lobby.fetchGameRecord", { game_uuid: id });
+      resp = await conn.rpcCall(".lq.Lobby.fetchGameRecord", {
+        game_uuid: id,
+        client_version_string: conn.clientVersionString,
+      });
     }
     if (!resp.data_url && !(resp.data && resp.data.length)) {
       console.log(`No data in response: ${id}`);
