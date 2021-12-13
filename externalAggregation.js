@@ -13,52 +13,41 @@ const { streamView } = require("./streamView");
 
 const assert = require("assert");
 
-const RANK_DELTA = [15, 5, -5, -15];
-const MODE_DELTA = {
-  12: [110, 55, 0, 0],
-  16: [120, 60, 0, 0],
-};
-
 const webMetadata = require("./web/src/data/types/metadata.ts");
+const webLevel = require("./web/src/data/types/level.ts");
 
-function calculateDeltaPoint(score, rank, mode, skipTrimming) {
-  const result =
-    (skipTrimming ? (x) => x : Math.ceil)((score - 25000) / 1000 + RANK_DELTA[rank]) +
-    MODE_DELTA[mode.toString()][rank];
-  return result;
-}
 function calculateExpectedGamePoint(metadata, mode) {
-  const ranks = metadata.accum.slice(0, 4);
-  metadata.rank_rates = ranks.map(function (x) {
-    return x / metadata.count;
-  });
-  metadata.rank_avg_score = metadata.score_accum.map(function (x, i) {
-    return Math.round((x / ranks[i]) * 100);
-  });
-  const rankDeltaPoints = metadata.rank_avg_score.map((score, rank) => calculateDeltaPoint(score, rank, mode));
-  const rankWeightedPoints = rankDeltaPoints.map((point, rank) => point * metadata.rank_rates[rank]);
-  metadata.rank_weighted_points = rankWeightedPoints;
-  const expectedGamePoint = rankWeightedPoints.reduce((a, b) => a + b, 0);
-  return expectedGamePoint;
-}
-function estimateStableLevel2(metadata, mode) {
-  metadata = { ...metadata };
-  mode = mode || (metadata.level[0] % 1000 < 600 && metadata.level[1] + metadata.level[2] < 9000 ? 12 : 16);
-  const estimatedPoints = calculateExpectedGamePoint(metadata, mode);
-  const result = estimatedPoints / (metadata.rank_rates[3] * 15) - 10;
-  return result;
+  if (mode.toString() === "0") {
+    return 0;
+  }
+  const convertedMetadata = convertMetadata(metadata);
+  return webMetadata.PlayerMetadata.calculateExpectedGamePoint(convertedMetadata, mode, undefined, false);
 }
 function calculatePointEfficiency(metadata, mode) {
+  if (mode.toString() === "0") {
+    return 0;
+  }
   metadata = { ...metadata };
-  mode = mode || (metadata.level[0] % 1000 < 600 && metadata.level[1] + metadata.level[2] < 9000 ? 12 : 16);
   const estimatedPoints = calculateExpectedGamePoint(metadata, mode);
   return estimatedPoints;
 }
 const expectedGamePointByRank = (rank) => (metadata, mode) => {
-  metadata = { ...metadata };
-  mode = mode || 12;
-  calculateExpectedGamePoint(metadata, mode);
-  return calculateDeltaPoint(metadata.rank_avg_score[rank], rank, mode, true);
+  if (mode.toString() === "0") {
+    return 0;
+  }
+  const convertedMetadata = convertMetadata(metadata);
+  const level = webLevel.LevelWithDelta.getAdjustedLevel(convertedMetadata.level);
+  if (level.isKonten() && level.isAllowedMode(parseInt(mode.toString(), 10))) {
+    return undefined;
+  }
+  const rankDeltaPoints = webMetadata.PlayerMetadata.calculateRankDeltaPoints(
+    convertedMetadata,
+    mode,
+    undefined,
+    false,
+    false
+  );
+  return rankDeltaPoints[rank];
 };
 const sum = (x) => x.reduce((a, b) => a + b, 0);
 const convertMetadata = function (value) {
@@ -104,7 +93,28 @@ const SETTINGS = {
     extraRankings: {
       rank4: { valueFunc: (x) => x.accum[3] / x.count, sort: "asc" },
       rank123: (x) => (x.accum[0] + x.accum[1] + x.accum[2]) / x.count,
-      stable_level: estimateStableLevel2,
+      stable_level: {
+        valueFunc: (metadata, mode) => {
+          if (mode.toString() === "0") {
+            return 0;
+          }
+          const converted = convertMetadata(metadata);
+          const estimatedLevel = webMetadata.PlayerMetadata.estimateStableLevel2(
+            converted,
+            parseInt(mode.toString(), 10)
+          );
+          const m = /^(.)([0-9.]+)?(\+|-)? ?\(?(-?[0-9.]+)\)?$/.exec(estimatedLevel);
+          if (!m) {
+            console.log(estimatedLevel);
+          }
+          let key = "初士杰豪圣魂".indexOf(m[1]) * 100000000;
+          key += parseFloat(m[2] || "0") * 1000000;
+          key += { "+": 60000, "-": 0 }[m[3]] || 3000;
+          key += parseFloat(m[4]);
+          return key;
+        },
+        sort: "desc",
+      },
       point_efficiency: calculatePointEfficiency,
       expected_game_point_0: { valueFunc: expectedGamePointByRank(0), sort: "desc" },
       expected_game_point_1: { valueFunc: expectedGamePointByRank(1), sort: "desc" },
@@ -127,10 +137,10 @@ const SETTINGS = {
             converted,
             parseInt(mode.toString(), 10)
           );
-          const m = /^(.)(\d)?(\+|-)? ?\((-?[0-9.]+)\)$/.exec(estimatedLevel);
-          let key = "初士杰豪圣魂".indexOf(m[1]) * 100000;
-          key += parseInt(m[2] || "0", 10) * 10000;
-          key += { "+": 6000, "-": 0 }[m[3]] || 3000;
+          const m = /^(.)([0-9.]+)?(\+|-)? ?\(?(-?[0-9.]+)\)?$/.exec(estimatedLevel);
+          let key = "初士杰豪圣魂".indexOf(m[1]) * 100000000;
+          key += parseFloat(m[2] || "0") * 1000000;
+          key += { "+": 60000, "-": 0 }[m[3]] || 3000;
           key += parseFloat(m[4]);
           return key;
         },
@@ -154,6 +164,23 @@ const RANKINGS = {
   lose: { valueFunc: (x) => x.extended.放铳 / x.extended.count, sort: "asc" },
   win_rev: { valueFunc: (x) => x.extended.和 / x.extended.count, sort: "asc" },
   lose_rev: { valueFunc: (x) => x.extended.放铳 / x.extended.count, sort: "desc" },
+  平均打点: { valueFunc: (x) => (x.extended.和了点数 / x.extended.和) * 100, sort: "desc" },
+  平均铳点: { valueFunc: (x) => (x.extended.放铳点数 / x.extended.放铳) * 100, sort: "asc" },
+  打点效率: {
+    valueFunc: (x) => (x.extended.和了点数 / x.extended.和) * (x.extended.和 / x.extended.count) * 100,
+    sort: "desc",
+  },
+  铳点损失: {
+    valueFunc: (x) => (x.extended.放铳点数 / x.extended.放铳) * (x.extended.放铳 / x.extended.count) * 100,
+    sort: "asc",
+  },
+  净打点效率: {
+    valueFunc: (x) =>
+      ((x.extended.和了点数 / x.extended.和) * (x.extended.和 / x.extended.count) -
+        (x.extended.放铳点数 / x.extended.放铳) * (x.extended.放铳 / x.extended.count)) *
+      100,
+    sort: "desc",
+  },
   里宝率: { valueFunc: (x) => x.extended.里宝 / x.extended.立直和了, sort: "desc" },
   一发率: { valueFunc: (x) => x.extended.一发 / x.extended.立直和了, sort: "desc" },
   被炸率: { valueFunc: (x) => x.extended.被炸 / x.extended.被自摸, sort: "asc" },
@@ -168,7 +195,15 @@ const RANKINGS = {
         .reduce((a, b) => a + b, 0),
     sort: "asc",
   },
-  max_level: (x) => (x.max_level[0] % 10000) * 1000000 + x.max_level[1] + x.max_level[2],
+  max_level: (x) => {
+    const level = new webLevel.Level(x.max_level[0]);
+    const score = x.max_level[1] + x.max_level[2];
+    const adjustedLevel = level.getAdjustedLevel(score);
+    const adjustedScore = adjustedLevel.isSame(level)
+      ? level.getVersionAdjustedScore(score)
+      : adjustedLevel.getStartingPoint();
+    return (adjustedLevel._majorRank * 100 + adjustedLevel._minorRank) * 1000000 + adjustedScore;
+  },
 };
 
 async function generateRateRanking() {
@@ -183,6 +218,14 @@ async function generateRateRanking() {
     "num_games",
     { startkey: 300, include_docs: true, _suffix: setting.stats },
     ({ doc }) => {
+      if (!doc) {
+        console.error("Streaming view failed");
+        process.exit(1);
+      }
+      if (!doc.basic || !doc.extended) {
+        console.log(`Invalid doc: ${doc._id}`, doc);
+        return;
+      }
       const val = doc.basic;
       val.extended = doc.extended;
       val.count = val.accum.slice(0, 4).reduce((a, b) => a + b, 0);
@@ -193,52 +236,59 @@ async function generateRateRanking() {
   assert(stats.length);
 
   for (const key of Object.keys(RANKINGS)) {
-    const settings = typeof RANKINGS[key] === "function" ? { valueFunc: RANKINGS[key], sort: "desc" } : RANKINGS[key];
-    const items = stats.map((x) => ({
-      key: x.key,
-      value: {
-        ...x.value,
-        rank_key: settings.valueFunc(x.value, x.key[1]),
-        id: x.key[0],
-      },
-    }));
-    if (settings.sort === "asc") {
-      items.sort((a, b) => a.value.rank_key - b.value.rank_key);
-    } else {
-      items.sort((a, b) => b.value.rank_key - a.value.rank_key);
-    }
-    const groups = {};
-    for (const item of items) {
-      const modeKey = item.key[1].toString();
-      groups[modeKey] = groups[modeKey] || [];
-      groups[modeKey].push(item.value);
-    }
-    for (const x of Object.keys(groups)) {
-      groups[x] = groups[x].slice(0, 100);
-      for (const item of groups[x]) {
-        const nicknameDoc = await nicknameStorage.db.get(item.id.toString().padStart(10, "0"));
-        let level = item.level;
-        let timestamp = 0;
-        for (const mode of Object.values(nicknameDoc.modes)) {
-          if (mode.timestamp < timestamp) {
-            continue;
-          }
-          if (Math.floor(mode.level[0] / 10000) !== Math.floor(level[0] / 10000)) {
-            continue;
-          }
-          level = mode.level;
-          timestamp = mode.timestamp;
-        }
-        item.level = level;
+    for (const minGames of [undefined, 600, 1000, 2500, 5000, 10000]) {
+      const suffix = minGames ? `_${minGames}` : "";
+      const settings = typeof RANKINGS[key] === "function" ? { valueFunc: RANKINGS[key], sort: "desc" } : RANKINGS[key];
+      const items = stats
+        .filter((x) => !minGames || x.value.count >= minGames)
+        .map((x) => ({
+          key: x.key,
+          value: {
+            ...x.value,
+            rank_key: settings.valueFunc(x.value, x.key[1]),
+            id: x.key[0],
+          },
+        }))
+        .filter((x) => x.value.rank_key !== undefined);
+      if (settings.sort === "asc") {
+        items.sort((a, b) => a.value.rank_key - b.value.rank_key);
+      } else {
+        items.sort((a, b) => b.value.rank_key - a.value.rank_key);
       }
+      const groups = {};
+      for (const item of items) {
+        const modeKey = item.key[1].toString();
+        groups[modeKey] = groups[modeKey] || [];
+        groups[modeKey].push(item.value);
+      }
+      for (const x of Object.keys(groups)) {
+        groups[x] = groups[x].slice(0, 100);
+        for (const item of groups[x]) {
+          const nicknameDoc = await nicknameStorage.db.get(item.id.toString().padStart(10, "0"));
+          item.ranking_level = item.level;
+          let level = item.level;
+          let timestamp = 0;
+          for (const mode of Object.values(nicknameDoc.modes)) {
+            if (mode.timestamp < timestamp) {
+              continue;
+            }
+            if (Math.floor(mode.level[0] / 10000) !== Math.floor(level[0] / 10000)) {
+              continue;
+            }
+            level = mode.level;
+            timestamp = mode.timestamp;
+          }
+          item.level = level;
+        }
+      }
+      await storage.saveDoc({
+        _id: `career_ranking_${key}${suffix}`,
+        type: "careerRanking",
+        version: 1,
+        data: groups,
+        updated: timestamp,
+      });
     }
-    await storage.saveDoc({
-      _id: `career_ranking_${key}`,
-      type: "careerRanking",
-      version: 1,
-      data: groups,
-      updated: timestamp,
-    });
   }
 }
 

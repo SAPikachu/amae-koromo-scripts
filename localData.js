@@ -10,7 +10,8 @@ const DEFAULT_BASE = process.env.LOCAL_DATA_BASE || path.join(process.env.HOME, 
 async function iterateLocalData(
   callback,
   baseDir = DEFAULT_BASE,
-  cutoffSeconds = parseInt(process.env.LOCAL_DATA_CUTOFF)
+  cutoffSeconds = parseInt(process.env.LOCAL_DATA_CUTOFF),
+  reverse = !!process.env.LOCAL_DATA_REVERSE
 ) {
   const unfinishedIds = {};
   (function fillUnfinishedIds(dir) {
@@ -29,7 +30,11 @@ async function iterateLocalData(
   })(baseDir);
   const cutoff = cutoffSeconds ? new Date().getTime() - cutoffSeconds * 1000 : 0;
   await (async function loadData(dir) {
-    for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    if (reverse) {
+      entries.reverse();
+    }
+    for (const ent of entries) {
       const id = path.parse(ent.name).name;
       if (ent.isDirectory()) {
         if (/^\d+$/.test(id)) {

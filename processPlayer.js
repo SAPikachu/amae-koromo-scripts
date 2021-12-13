@@ -133,7 +133,9 @@ async function uploadPlayer({ playerId, data, basic, extended, designDocs, logTa
   }
   await storage._db.close();
   if (!process.env.SINGLE_SOURCE) {
-    await redisClient.zincrby("compactQueue", 1 + Math.random() * 0.01, dbName);
+    const ignore = await redisClient.sismember("compactIgnore", dbName);
+    await redisClient.zincrby(!ignore ? "compactQueue" : "compactQueueAlt", 1 + Math.random() * 0.01, dbName);
+
     await redisClient.zadd("cacheStats3", new Date().getTime(), dbName);
   }
 }
@@ -197,8 +199,22 @@ async function run({ mapper, dbSuffix, stateServer, logTag, throttler, nicknameS
       continue;
     }
     const extendedDocs = batch.results.map((x) => x.doc).filter((x) => x.type === "roundData");
+    const lowPriorityKeys = extendedDocs
+      .filter(function (x) {
+        assert(x.start_time);
+        return x.start_time * 1000 < new Date().getTime() - 48 * 60 * 60 * 1000;
+      })
+      .map((x) => x._id.replace(/^r-/, ""));
     if (extendedDocs.length) {
-      const keys = extendedDocs.map((x) => x._id.replace(/^r-/, ""));
+      const keys = extendedDocs
+        .map((x) => x._id.replace(/^r-/, ""))
+        .filter((x) => {
+          if (lowPriorityKeys.includes(x)) {
+            console.log(`[${logTag}] Low priority:`, x);
+            // return false;
+          }
+          return true;
+        });
       const throttlerId = await throttler.waitNext();
       const basicResp = await sourceStorage._db.allDocs({
         include_docs: true,
@@ -243,6 +259,7 @@ async function main() {
   const redisClient = {
     zincrby: promisify(redisClientRaw.zincrby.bind(redisClientRaw)),
     zadd: promisify(redisClientRaw.zadd.bind(redisClientRaw)),
+    sismember: promisify(redisClientRaw.sismember.bind(redisClientRaw)),
   };
   const promises = [];
   const settings = {
@@ -285,7 +302,7 @@ async function main() {
       })
     );
   } else {
-    const throttler = new Throttler();
+    const throttler = new Throttler(0);
     Object.keys(settings)
       .filter((key) => !settings[key]._disabled)
       .forEach((key) =>

@@ -13,6 +13,7 @@ const { createMajsoulConnection, fetchLatestDataDefinition } = require("./majsou
 const { CouchStorage, MODE_GAME } = require("./couchStorage");
 const { iterateLocalData, watchLiveData, DEFAULT_BASE } = require("./localData");
 const { calcShanten } = require("./shanten");
+const { MajsoulGameAnalyzer } = require("./gameAnalyzer");
 
 CouchStorage.DEFAULT_MODE = MODE_GAME;
 
@@ -123,13 +124,27 @@ function buildRecordData({ data, dataDefinition, game }) {
   let 振听 = null;
   let numDiscarded = null;
   let lastDiscardSeat = null;
+  let analyzer = null;
   for (const itemBuf of records) {
     const item = wrapper.decode(itemBuf);
+    const itemType = root.lookupType(item.name);
+    let itemPayload;
+    try {
+      itemPayload = itemType.decode(item.data);
+    } catch (e) {
+      console.log(game, item, itemType);
+      console.error(e);
+      return null;
+    }
+    if (item.name !== ".lq.RecordNewRound") {
+      assert(analyzer);
+      analyzer.processRecord(item.name, itemPayload);
+    }
     if ([".lq.RecordDealTile"].includes(item.name)) {
       continue;
     }
-    const itemPayload = root.lookupType(item.name).decode(item.data);
     if (item.name === ".lq.RecordNewRound") {
+      analyzer = new MajsoulGameAnalyzer(itemPayload);
       assert([3, 4].includes(itemPayload.scores.length));
       rounds.push(
         [0, 1, 2, 3].slice(0, itemPayload.scores.length).map((seat) => ({
@@ -161,11 +176,18 @@ function buildRecordData({ data, dataDefinition, game }) {
       case ".lq.RecordDiscardTile":
         // console.log(itemPayload);
         lastDiscardSeat = itemPayload.seat;
-        振听 = itemPayload.zhenting;
+        振听 = itemPayload.zhenting; // Array of all players' status
         if (!curRound[itemPayload.seat].立直 && (itemPayload.is_liqi || itemPayload.is_wliqi)) {
           curRound[itemPayload.seat].立直 = numDiscarded / numPlayers + 1;
           if (振听[itemPayload.seat]) {
             curRound[itemPayload.seat].振听立直 = true;
+          }
+          if (itemPayload.tingpais && itemPayload.tingpais.length) {
+            curRound[itemPayload.seat].立直听牌 = itemPayload.tingpais.map((x) => x.tile);
+            curRound[itemPayload.seat].立直听牌残枚 = analyzer.getRemainingNumTiles(
+              itemPayload.seat,
+              itemPayload.tingpais.map((x) => x.tile)
+            );
           }
         }
         if (itemPayload.is_wliqi) {
@@ -575,6 +597,42 @@ async function syncContest(contestId, dbSuffix) {
   }
 }
 
+async function syncContest2() {
+  const dbSuffix = "_kanraku";
+  const conn = await createMajsoulConnection();
+  if (!conn) {
+    return;
+  }
+  try {
+    const ids = [
+    ];
+    await processGames(conn, ids, { suffix: dbSuffix }, (game) => {
+      for (let i = 0; i < 4; i++) {
+        if (!game.accounts.some((x) => x.seat === i)) {
+          console.log(`${game.uuid} ${i} Computer`);
+          game.accounts.push({
+            seat: i,
+            nickname: "电脑",
+            account_id: 1,
+            level: {
+              id: 10301,
+              score: 1,
+            },
+            level3: {
+              id: 20301,
+              score: 1,
+            },
+          });
+        }
+        game.accounts.sort((a, b) => a.seat - b.seat);
+      }
+      return game;
+    });
+  } finally {
+    conn.close();
+  }
+}
+
 async function main() {
   if (process.env.EXTERNAL_AGGREGATION) {
     throw new Error("Moved to separate script");
@@ -608,9 +666,10 @@ async function main() {
     // await syncContest(525988, "_s3");
     // await syncContest(222713, "_s3sec");
     // await syncContest(689169, "_u");
-    await syncContest(831675, "_xjtu");
-    await syncContest(483861, "_xjtu");
-    await syncContest(570924, "_throne");
+    // await syncContest(831675, "_xjtu");
+    // await syncContest(483861, "_xjtu");
+    // await syncContest(570924, "_throne");
+    // await syncContest2();
     return;
   }
   if (process.env.UPDATE_AGV) {

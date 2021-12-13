@@ -71,7 +71,7 @@ async function main() {
         if (game.start_time < new Date().getTime() / 1000 - 60 * 60 * 5) {
           // console.log(game.uuid, game.start_time, (new Date()).getTime() / 1000 - 60 * 60 * 5);
           if (Math.random() > /*0.05*/ 0) {
-            // continue;
+            continue;
           }
         }
         liveGames[game.uuid] = game;

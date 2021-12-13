@@ -232,13 +232,16 @@ async function getRes(path, bustCache) {
   }
   const cacheDir = p.join(__dirname, ".cache");
   const cacheFile = p.join(cacheDir, cacheHash);
-  const result = await rp({ uri: `${URL_BASE}${path}`, json: true, timeout: 2500 }).catch((e) => {
+  const result = await rp({ uri: url, json: true, timeout: 2500 }).catch((e) => {
     try {
       console.log(`Using cache for ${path} (${cacheHash})`);
       return JSON.parse(fs.readFileSync(cacheFile, { encoding: "utf8" }));
     } catch (e) {}
     return Promise.reject(e);
   });
+  if (result === undefined) {
+    throw new Error("Failed to get resource " + path);
+  }
   fs.mkdirSync(cacheDir, { recursive: true });
   fs.writeFileSync(p.join(cacheDir, cacheHash), JSON.stringify(result));
   return result;
