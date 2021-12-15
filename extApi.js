@@ -16,6 +16,8 @@ const { COUCHDB_USER, COUCHDB_PASSWORD, COUCHDB_PROTO, COUCHDB_SERVER, PLAYER_SE
 
 Sentry.init({ dsn: process.env.SENTRY_DSN });
 
+const DEBUG = !!process.env.EXTAPI_DEBUG;
+
 if (!Array.prototype.flat) {
   Object.defineProperty(Array.prototype, "flat", {
     configurable: true,
@@ -347,20 +349,21 @@ async function main() {
       limit = 500;
     }
     const params = {
+      use_index: "mode_games",
       selector: {
         $and: [
           {
-            _id: { $gte: JSON.parse(generateKey(startDate)) },
-          },
-          {
-            _id: { $lt: JSON.parse(generateKey(endDate)) + "\ufff0" },
-          },
-          {
             "config.meta.mode_id": parseInt(req.query.mode, 10),
+          },
+          {
+            start_time: { $gte: Math.floor(startDate / 1000) },
+          },
+          {
+            start_time: { $lt: Math.ceil(endDate / 1000) },
           },
         ],
       },
-      sort: [{ _id: req.query.descending ? "desc" : "asc" }],
+      sort: [{ start_time: req.query.descending ? "desc" : "asc" }],
       limit,
       update: false,
       stable: false,
@@ -1047,6 +1050,9 @@ async function main() {
     return res.json({ count: resp.data.offset - offsetStart });
   });
   router.get("/:type/games/:startDate/:endDate?", async function (req, res) {
+    return res.status(400).json({
+      error: "v1_endpoint_is_no_longer_supported",
+    });
     if (!TYPES[req.params.type]) {
       return res.status(404).json({
         error: "type_not_found",
@@ -1126,6 +1132,9 @@ async function main() {
     return res.send(rendered.body).end();
   });
   router.get("/:type/:view/:id/:startDate?/:endDate?", async function (req, res) {
+    return res.status(400).json({
+      error: "v1_endpoint_is_no_longer_supported",
+    });
     if (!TYPES[req.params.type]) {
       return res.status(404).json({
         error: "type_not_found",
