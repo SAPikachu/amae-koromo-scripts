@@ -36,7 +36,7 @@
     "oboe": "^2.1.5",
     "pouchdb": "^7.2.1",
     "protobufjs": "^6.8.8",
-    "redis": "^3.0.2",
+    "redis": "^3.1.1",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
     "streaming-percentiles": "^3.1.0",
