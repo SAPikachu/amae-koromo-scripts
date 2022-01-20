@@ -16,7 +16,7 @@
     "agari": "^1.1.0",
     "agent-base": "^6.0.2",
     "assert": "^2.0.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.2",
     "base-x": "^3.0.8",
     "bee-queue": "^1.2.3",
     "chokidar": "^3.4.0",
