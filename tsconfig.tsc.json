@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig",
+  "exclude": ["node_modules", "./.*", "web"],
+  "include": ["*.ts"],
+  "compilerOptions": {
+    "noEmit": false,
+    "sourceMap": true
+  }
+}

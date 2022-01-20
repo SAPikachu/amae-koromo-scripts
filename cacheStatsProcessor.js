@@ -32,7 +32,7 @@ const MODE_GROUPS = {};
   [12, 16],
   [22, 24, 26],
   [21, 23, 25],
-  [11, 15]
+  [11, 15],
 ].forEach((group) => group.forEach((id) => (MODE_GROUPS[id] = group)));
 
 async function withRetry(func, num = 5, retryInterval = 5000) {
@@ -89,9 +89,9 @@ async function getPlayerStats(id, mode, type) {
   assert(["basic", "extended"].includes(type));
   try {
     const resp = await axios.get(
-      `${COUCHDB_PROTO}://${COUCHDB_USER}:${COUCHDB_PASSWORD}@${
-        PLAYER_SERVERS[mode.toString()]
-      }/p${mode}_${id.toString().padStart(10, "0")}/_design/${type}/_view/${type}?reduce=true`
+      `${COUCHDB_PROTO}://${COUCHDB_USER}:${COUCHDB_PASSWORD}@${PLAYER_SERVERS[mode.toString()]}/p${mode}_${id
+        .toString()
+        .padStart(10, "0")}/_design/${type}/_view/${type}?reduce=true`
     );
     return resp.data.rows[0].value;
   } catch (e) {
@@ -103,9 +103,11 @@ async function getPlayerStats(id, mode, type) {
 }
 
 async function run() {
+  console.log("Starting");
   const basicReduce = await createFinalReducer("_meta_basic", "_design/player_stats_2", "player_stats");
   const extendedReduce = await createFinalReducer("_meta_extended", "_design/player_extended_stats", "player_stats");
   const stateDocName = "cacheStats3";
+  console.log("Connecting to Redis");
   const redisClient = redis.createClient({
     host: REDIS_HOST,
     password: REDIS_PASSWORD,

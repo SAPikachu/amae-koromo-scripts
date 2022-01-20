@@ -10,8 +10,8 @@ const _ = require("lodash");
 const AsyncRouter = require("express-async-router").AsyncRouter;
 const axios = require("axios").default;
 
-const { createLiveExecutor, createFinalReducer } = require("./dbExtension");
-const { CouchStorage, generateCompressedId } = require("./couchStorage");
+const { createFinalReducer, createRenderer } = require("./dbExtension");
+const { generateCompressedId } = require("./couchStorage");
 const { COUCHDB_USER, COUCHDB_PASSWORD, COUCHDB_PROTO, COUCHDB_SERVER, PLAYER_SERVERS } = require("./env");
 
 Sentry.init({ dsn: process.env.SENTRY_DSN });
@@ -42,87 +42,6 @@ if (!Array.prototype.flat) {
     },
     writable: true,
   });
-}
-
-async function createRenderer() {
-  const storage = new CouchStorage({ suffix: "_meta_basic" });
-  const render = await createLiveExecutor(storage, "_design/renderers", function (doc) {
-    const wrapLib = function () {
-      const exports = {};
-      const module = { exports };
-
-      __CODE__;
-
-      return module.exports;
-    };
-    const wrapList = function (rows, req) {
-      let ret = {
-        code: 200,
-        headers: {},
-        body: "",
-      };
-      const start = function (params) {
-        Object.assign(ret, {
-          ...params,
-          headers: {
-            ...ret.headers,
-            ...(params.headers || {}),
-          },
-        });
-        if (ret.json) {
-          ret.body = ret.json;
-          delete ret.json;
-        }
-      };
-      global.start = start;
-      const getRow = function () {
-        if (!rows.length) {
-          return null;
-        }
-        return rows.shift();
-      };
-      global.getRow = getRow;
-      const send = function (data) {
-        ret.body += data;
-      };
-      global.send = send;
-      const retBody = __CODE__(null, req);
-      ret.body += retBody;
-      return ret;
-    };
-    const require = function (name) {
-      return __lib[name.replace(/^views\/lib\//, "")]();
-    };
-    const entryPoint = function () {
-      const sum = function (arr) {
-        return arr.reduce((acc, cur) => acc + cur, 0);
-      };
-      __CODE__;
-      return function (type, name, data, query) {
-        if (!["show", "list"].includes(type)) {
-          throw new Error("Invalid type: " + type);
-        }
-        return (type === "show" ? __show : __list)[name](data, {
-          query: { maxage: 300, ...(query || {}) },
-          method: "GET",
-          headers: {},
-        });
-      };
-    };
-
-    const lib = `const __lib = {${Object.entries(doc.views.lib)
-      .map(([k, v]) => k + ": " + wrapLib.toString().replace("__CODE__", v))
-      .join(", ")}};`;
-    const show = `const __show = {${Object.entries(doc.shows)
-      .map(([k, v]) => k + ": " + v)
-      .join(", ")}};`;
-    const list = `const __list = {${Object.entries(doc.lists)
-      .map(([k, v]) => k + ": " + wrapList.toString().replace("__CODE__", v))
-      .join(", ")}};`;
-    const code = [`const require = ${require.toString()}`, lib, show, list].join(";\n");
-    return `(${entryPoint.toString().replace("__CODE__;", code)})()`;
-  });
-  return render;
 }
 
 async function withRetry(func, num = 5, retryInterval = 5000) {
@@ -196,6 +115,7 @@ async function main() {
 
   const app = express();
   app.set("trust proxy", true);
+  app.set("etag", "strong");
   app.use(Sentry.Handlers.requestHandler());
   app.use(cors());
   app.use(morgan("dev"));
@@ -299,6 +219,14 @@ async function main() {
         pl3: "majsoul_sanma_aggregates",
       },
       path: (subView) => `player_delta_ranking_${subView}`,
+      renderer: "generic_data",
+    },
+    global_histogram: {
+      db: {
+        pl4: "majsoul_aggregates",
+        pl3: "majsoul_sanma_aggregates",
+      },
+      path: "global_histogram",
       renderer: "generic_data",
     },
     career_ranking: {
@@ -454,7 +382,7 @@ async function main() {
     return res.send(rendered.body).end();
   });
   router.get(
-    "/v2/:type/:view(global_statistics|global_statistics_2|player_delta_ranking|career_ranking)/:subView?",
+    "/v2/:type/:view(global_statistics|global_statistics_2|global_histogram|player_delta_ranking|career_ranking)/:subView?",
     async function (req, res) {
       if (!V2_TYPES[req.params.type]) {
         return res.status(404).json({
@@ -495,13 +423,13 @@ async function main() {
         )
       );
       if (dbs.some((x) => !x)) {
-        return res.status(400).json({
+        return res.status(404).json({
           error: "invalid_mode_id",
         });
       }
       if (modes.length > 1 && req.params.view !== "global_statistics_2") {
         if (modes.some((x) => !x || x.toString() === "0")) {
-          return res.status(400).json({
+          return res.status(404).json({
             error: "invalid_mode_all",
           });
         }
@@ -520,7 +448,7 @@ async function main() {
       let rendered;
       if (req.params.view === "global_statistics_2") {
         if (!modes.length || modes.some((x) => !x || x.toString() === "0")) {
-          return res.status(400).json({
+          return res.status(404).json({
             error: "invalid_mode",
           });
         }
@@ -587,6 +515,10 @@ async function main() {
           { ...resp[0].data, data: { [req.query.mode]: result } },
           { mode: "" }
         );
+        const updated = resp[0].data && resp[0].data.updated;
+        if (updated) {
+          rendered.headers["Last-Modified"] = new Date(updated).toUTCString();
+        }
       } else {
         const resp = await withRetry(
           () =>
@@ -600,83 +532,11 @@ async function main() {
           500
         );
         rendered = render("show", view.renderer, resp.data, { mode: modes.length > 1 ? "" : modes[0] });
-      }
-      rendered.headers["Cache-Control"] = "public, max-age=3600, stale-while-revalidate=600, stale-if-error=600";
-      res
-        .type("json")
-        .status(rendered.code || 200)
-        .set(rendered.headers || {});
-      return res.send(rendered.body).end();
-    }
-  );
-  router.get(
-    "/v2/:type/:view(global_statistics|player_delta_ranking|career_ranking)/:subView?",
-    async function (req, res) {
-      if (!V2_TYPES[req.params.type]) {
-        return res.status(404).json({
-          error: "type_not_found",
-        });
-      }
-      const view = GLOBAL_DOC_VIEWS[req.params.view];
-      if (!view) {
-        return res.status(404).json({
-          error: "view_not_found",
-        });
-      }
-      let path = view.path;
-      if (typeof path === "function") {
-        path = path(req.params.subView);
-      }
-      const modes = (req.query.mode || "").split(".");
-      const dbs = modes.map((mode) => {
-        if (!req.query.mode || req.query.mode.toString() === "0") {
-          return view.db[req.params.type];
-        }
-        const mainDb = MODE_DBS[mode];
-        if (!mainDb) {
-          return null;
-        }
-        return mainDb;
-      });
-      if (dbs.some((x) => !x)) {
-        return res.status(400).json({
-          error: "invalid_mode",
-        });
-      }
-      if (modes.length > 1) {
-        if (modes.some((x) => !x || x.toString() === "0")) {
-          return res.status(400).json({
-            error: "invalid_mode",
-          });
-        }
-        if (new Set(modes).size !== modes.length) {
-          return res.status(400).json({
-            error: "duplicated_mode",
-          });
-        }
-        if (new Set(dbs).size !== 1) {
-          return res.status(400).json({
-            error: "invalid_mode_combination",
-          });
-        }
-        if (Object.values(MODE_DBS).filter((x) => x === dbs[0]).length !== modes.length) {
-          return res.status(400).json({
-            error: "invalid_mode_combination",
-          });
+        const updated = resp.data && resp.data.updated;
+        if (updated) {
+          rendered.headers["Last-Modified"] = new Date(updated).toUTCString();
         }
       }
-      const resp = await withRetry(
-        () =>
-          axios.get(
-            `${COUCHDB_PROTO}://${COUCHDB_USER}:${COUCHDB_PASSWORD}@${COUCHDB_SERVER}/${dbs[0].replace(
-              /_basic$/,
-              "_aggregates"
-            )}/${path}`
-          ),
-        5,
-        500
-      );
-      const rendered = render("show", view.renderer, resp.data, { mode: modes.length > 1 ? "" : modes[0] });
       rendered.headers["Cache-Control"] = "public, max-age=3600, stale-while-revalidate=600, stale-if-error=600";
       res
         .type("json")
@@ -789,7 +649,7 @@ async function main() {
     }
     for (const m of modes) {
       if (!V2_TYPES[req.params.type].modes.includes(m)) {
-        return res.status(400).json({
+        return res.status(404).json({
           error: "invalid_mode",
         });
       }

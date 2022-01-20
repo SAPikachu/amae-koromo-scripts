@@ -122,6 +122,88 @@ async function createLiveDocGetter(dbSuffix, docName) {
   ret.cancel = () => handle.cancel();
   return ret;
 }
+
+async function createRenderer() {
+  const storage = new CouchStorage({ suffix: "_meta_basic" });
+  const render = await createLiveExecutor(storage, "_design/renderers", function (doc) {
+    const wrapLib = function () {
+      const exports = {};
+      const module = { exports };
+
+      __CODE__;
+
+      return module.exports;
+    };
+    const wrapList = function (rows, req) {
+      let ret = {
+        code: 200,
+        headers: {},
+        body: "",
+      };
+      const start = function (params) {
+        Object.assign(ret, {
+          ...params,
+          headers: {
+            ...ret.headers,
+            ...(params.headers || {}),
+          },
+        });
+        if (ret.json) {
+          ret.body = ret.json;
+          delete ret.json;
+        }
+      };
+      global.start = start;
+      const getRow = function () {
+        if (!rows.length) {
+          return null;
+        }
+        return rows.shift();
+      };
+      global.getRow = getRow;
+      const send = function (data) {
+        ret.body += data;
+      };
+      global.send = send;
+      const retBody = __CODE__(null, req);
+      ret.body += retBody;
+      return ret;
+    };
+    const require = function (name) {
+      return __lib[name.replace(/^views\/lib\//, "")]();
+    };
+    const entryPoint = function () {
+      const sum = function (arr) {
+        return arr.reduce((acc, cur) => acc + cur, 0);
+      };
+      __CODE__;
+      return function (type, name, data, query) {
+        if (!["show", "list"].includes(type)) {
+          throw new Error("Invalid type: " + type);
+        }
+        return (type === "show" ? __show : __list)[name](data, {
+          query: { maxage: 300, ...(query || {}) },
+          method: "GET",
+          headers: {},
+        });
+      };
+    };
+
+    const lib = `const __lib = {${Object.entries(doc.views.lib)
+      .map(([k, v]) => k + ": " + wrapLib.toString().replace("__CODE__", v))
+      .join(", ")}};`;
+    const show = `const __show = {${Object.entries(doc.shows)
+      .map(([k, v]) => k + ": " + v)
+      .join(", ")}};`;
+    const list = `const __list = {${Object.entries(doc.lists)
+      .map(([k, v]) => k + ": " + wrapList.toString().replace("__CODE__", v))
+      .join(", ")}};`;
+    const code = [`const require = ${require.toString()}`, lib, show, list].join(";\n");
+    return `(${entryPoint.toString().replace("__CODE__;", code)})()`;
+  });
+  return render;
+}
+
 /*
 async function main() {
   const basicReduce = await createFinalReducer("_meta_basic", "_design/player_stats_2", "player_stats");
@@ -152,6 +234,7 @@ if (require.main === module) {
     createFinalReducer,
     createMapper,
     createLiveDocGetter,
+    createRenderer,
   };
 }
 // vim: sw=2:ts=2:expandtab:fdm=syntax

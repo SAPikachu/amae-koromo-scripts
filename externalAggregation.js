@@ -99,14 +99,19 @@ const SETTINGS = {
             return 0;
           }
           const converted = convertMetadata(metadata);
-          const estimatedLevel = webMetadata.PlayerMetadata.estimateStableLevel2(
+          let estimatedLevel = webMetadata.PlayerMetadata.estimateStableLevel2(
             converted,
             parseInt(mode.toString(), 10)
           );
+          if (estimatedLevel === "魂") {
+            estimatedLevel += " (0)";
+          }
           const m = /^(.)([0-9.]+)?(\+|-)? ?\(?(-?[0-9.]+)\)?$/.exec(estimatedLevel);
           if (!m) {
             console.log(estimatedLevel);
           }
+          assert(m);
+          assert("初士杰豪圣魂".indexOf(m[1]) >= 0);
           let key = "初士杰豪圣魂".indexOf(m[1]) * 100000000;
           key += parseFloat(m[2] || "0") * 1000000;
           key += { "+": 60000, "-": 0 }[m[3]] || 3000;

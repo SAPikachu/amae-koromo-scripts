@@ -604,8 +604,7 @@ async function syncContest2() {
     return;
   }
   try {
-    const ids = [
-    ];
+    const ids = [];
     await processGames(conn, ids, { suffix: dbSuffix }, (game) => {
       for (let i = 0; i < 4; i++) {
         if (!game.accounts.some((x) => x.seat === i)) {
@@ -659,6 +658,8 @@ async function main() {
     await syncContest(605833, "_jinja");
     await syncContest(941168, "_s5");
     await syncContest(601462, "_s5sec");
+    // await syncContest(550658, "_sisousen");
+    await syncContest(943107, "_tenten");
     // await syncContest(792848, "_oshoji");
     // await syncContest(364951, "_ein");
     // await syncContest(461591, "_s4");
@@ -668,6 +669,7 @@ async function main() {
     // await syncContest(689169, "_u");
     // await syncContest(831675, "_xjtu");
     // await syncContest(483861, "_xjtu");
+    await syncContest(672376, "_xjtu");
     // await syncContest(570924, "_throne");
     // await syncContest2();
     return;
