@@ -136,7 +136,7 @@ async function uploadPlayer({ playerId, data, basic, extended, designDocs, logTa
     const ignore = await redisClient.sismember("compactIgnore", dbName);
     await redisClient.zincrby(!ignore ? "compactQueue" : "compactQueueAlt", 1 + Math.random() * 0.01, dbName);
 
-    await redisClient.zadd("cacheStats3", new Date().getTime(), dbName);
+    await redisClient.zadd("cacheStats3", new Date().getTime() + Math.random() * 1000 * 60 * 60, dbName);
   }
 }
 

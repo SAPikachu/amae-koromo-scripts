@@ -267,6 +267,16 @@ async function main() {
         error: "invalid_end_date",
       });
     }
+    if (startDate && endDate && Math.abs(startDate - endDate) < 10000) {
+      return res.status(400).json({
+        error: "invalid_date_range",
+      });
+    }
+    if (startDate > endDate) {
+      return res.status(400).json({
+        error: "invalid_date_range",
+      });
+    }
     let limit = parseInt(req.query.limit || "100", 10);
     if (!limit || limit < 0) {
       return res.status(400).json({
@@ -537,7 +547,8 @@ async function main() {
           rendered.headers["Last-Modified"] = new Date(updated).toUTCString();
         }
       }
-      rendered.headers["Cache-Control"] = "public, max-age=3600, stale-while-revalidate=600, stale-if-error=600";
+      rendered.headers["Cache-Control"] =
+        rendered.headers["Cache-Control"] || "public, max-age=3600, stale-while-revalidate=7200, stale-if-error=7200";
       res
         .type("json")
         .status(rendered.code || 200)
@@ -545,6 +556,29 @@ async function main() {
       return res.send(rendered.body).end();
     }
   );
+  router.get("/v2/:type/level_statistics", async function (req, res) {
+    const base = req.params.type === "pl3" ? 2 : 1;
+    const resp = await withRetry(
+      () =>
+        axios.get(
+          `${COUCHDB_PROTO}://${COUCHDB_USER}:${COUCHDB_PASSWORD}@${COUCHDB_SERVER}/majsoul_nicknames/_design/levels/_view/levels`,
+          {
+            params: {
+              group_level: "2",
+              stable: "false",
+              update: "lazy",
+            },
+          }
+        ),
+      5,
+      500
+    );
+    const data = resp.data.rows.map((x) => x.key.concat([x.value])).filter((x) => Math.floor(x[1] / 10000) === base);
+    res.type("json").set({
+      "Cache-Control": "public, max-age=86400, stale-while-revalidate=86400, stale-if-error=86400",
+    });
+    return res.json(data).end();
+  });
   router.get("/v2/:type/recent_highlight_games", async function (req, res) {
     if (!MODE_DBS[req.query.mode]) {
       return res.status(404).json({

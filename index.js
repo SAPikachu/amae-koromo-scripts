@@ -126,10 +126,12 @@ function buildRecordData({ data, dataDefinition, game }) {
   let lastDiscardSeat = null;
   let analyzer = null;
   for (const itemBuf of records) {
-    const item = wrapper.decode(itemBuf);
-    const itemType = root.lookupType(item.name);
+    let item;
+    let itemType;
     let itemPayload;
     try {
+      item = wrapper.decode(itemBuf);
+      itemType = root.lookupType(item.name);
       itemPayload = itemType.decode(item.data);
     } catch (e) {
       console.log(game, item, itemType);
@@ -212,8 +214,8 @@ function buildRecordData({ data, dataDefinition, game }) {
           ];
           if (!x.zimo && curRound[x.seat].和[0] < Math.max(0, x.point_rong - 1500)) {
             // 一炮多响 + 包牌
-            console.log(itemPayload);
-            assert(itemPayload.hules.length === 2);
+            console.log(itemPayload, game.uuid);
+            assert(itemPayload.hules.length >= 2);
             const info = itemPayload.hules.filter((other) => other.yiman && other.seat !== x.seat)[0];
             assert(info);
             curRound[x.seat].和[0] += info.point_rong / 2;
@@ -450,7 +452,10 @@ async function loadLocalData() {
       groups.e4.items.push(item);
     } else if ([25, 23, 21].includes(item.data.config.meta.mode_id)) {
       groups.e3.items.push(item);
+    } else {
+      console.log(`Unknown mode ${item.data.config.meta.mode_id}, skipping ${item.id}`);
     }
+
     if (Object.values(groups).some((x) => x.items.length > 1000)) {
       await processLoadedData();
     }
@@ -521,6 +526,7 @@ async function loadLiveData() {
         itemStore = groups.e3.store;
       }
       if (!itemStore) {
+        console.log(`Unknown mode ${item.data.config.meta.mode_id}, skipping ${item.id}`);
         return;
       }
       console.log(`Saving ${item.data.config.meta.mode_id} ${item.id}`);
@@ -659,7 +665,9 @@ async function main() {
     await syncContest(941168, "_s5");
     await syncContest(601462, "_s5sec");
     // await syncContest(550658, "_sisousen");
-    await syncContest(943107, "_tenten");
+    // await syncContest(609440, "_sisousen");
+    // await syncContest(251630, "_souseisen");
+    // await syncContest(943107, "_tenten");
     // await syncContest(792848, "_oshoji");
     // await syncContest(364951, "_ein");
     // await syncContest(461591, "_s4");
@@ -667,10 +675,12 @@ async function main() {
     // await syncContest(525988, "_s3");
     // await syncContest(222713, "_s3sec");
     // await syncContest(689169, "_u");
+    await syncContest(205542, "_u");
     // await syncContest(831675, "_xjtu");
     // await syncContest(483861, "_xjtu");
     await syncContest(672376, "_xjtu");
     // await syncContest(570924, "_throne");
+    // await syncContest(575549, "_kanraku");
     // await syncContest2();
     return;
   }

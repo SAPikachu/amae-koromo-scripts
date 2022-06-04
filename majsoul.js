@@ -9,6 +9,16 @@ const crypto = require("crypto");
 
 const { URL_BASE, ACCESS_TOKEN, PREFERRED_SERVER, OAUTH_TYPE } = require("./env");
 
+const USER_AGENT =
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36";
+const HEADERS = {
+  "User-Agent": USER_AGENT,
+  "If-Modified-Since": "0",
+  Referer: URL_BASE,
+  "sec-ch-ua": '"Chromium";v="100", "Google Chrome";v="100"',
+  "sec-ch-ua-platform": "Windows",
+};
+
 /**
  *  * Shuffles array in place.
  *   * @param {Array} a items An array containing the items.
@@ -108,7 +118,7 @@ Object.assign(MajsoulProtoCodec, {
 });
 
 class MajsoulConnection {
-  constructor(server, codec, onConnect, timeout = 10000) {
+  constructor(server, codec, onConnect, timeout = 15000) {
     if (!Array.isArray(server)) {
       server = [server];
     }
@@ -135,7 +145,11 @@ class MajsoulConnection {
       const HttpsProxyAgent = require("https-proxy-agent");
       agent = new HttpsProxyAgent(url.parse(process.env.http_proxy));
     }
-    this._socket = new WebSocket(server, { agent });
+    this._socket = new WebSocket(server, {
+      agent,
+      headers: HEADERS,
+      insecureHTTPParser: true,
+    });
     this._socket.on("message", (data) => {
       this._pendingMessages.push(data);
       this._waiterResolve();
@@ -177,19 +191,34 @@ class MajsoulConnection {
         console.log("WebSocket closed before successful connection");
         throw new Error("WebSocket closed before successful connection");
       }
+      this._createWaiter();
       await this._wait();
     }
   }
   _createWaiter() {
+    if (this._waiter && !this._waiter._resolved) {
+      return;
+    }
     this._waiter = new Promise((resolve) => {
-      this._waiterResolve = resolve;
+      var self = this;
+      this._waiterResolve = function () {
+        resolve();
+        self._waiter._resolved = true;
+      };
     });
   }
   async _wait() {
-    await Promise.race([
-      this._waiter,
-      new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), this._timeout)),
-    ]);
+    try {
+      await Promise.race([
+        this._waiter,
+        new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), this._timeout)),
+      ]);
+    } catch (e) {
+      if (e.message !== "timeout") {
+        throw e;
+      }
+      throw new Error("timeout");
+    }
   }
   close() {
     this._socket.terminate();
@@ -224,6 +253,7 @@ class MajsoulConnection {
   }
 }
 
+const cookiejar = rp.jar();
 async function getRes(path, bustCache) {
   let url = `${URL_BASE}${path}`;
   const cacheHash = crypto.createHash("sha256").update(url).digest("hex");
@@ -232,7 +262,13 @@ async function getRes(path, bustCache) {
   }
   const cacheDir = p.join(__dirname, ".cache");
   const cacheFile = p.join(cacheDir, cacheHash);
-  const result = await rp({ uri: url, json: true, timeout: 2500 }).catch((e) => {
+  const result = await rp({
+    uri: url,
+    json: true,
+    timeout: 2500,
+    jar: cookiejar,
+    headers: HEADERS,
+  }).catch((e) => {
     try {
       console.log(`Using cache for ${path} (${cacheHash})`);
       return JSON.parse(fs.readFileSync(cacheFile, { encoding: "utf8" }));
@@ -297,13 +333,20 @@ async function createMajsoulConnection(accessToken = ACCESS_TOKEN, preferredServ
           assert(typeof serverListUrl === "string");
           triedListUrl.push(serverListUrl);
         }
-        serverListUrl += "?service=ws-gateway&protocol=ws&ssl=true";
+        serverListUrl += "?service=ws-gateway&protocol=ws&ssl=true&rv=" + Math.random().toString().slice(2);
         console.log(serverListUrl);
       }
-      serverList = await rp({ uri: serverListUrl, json: true, timeout: 2500 });
+      serverList = await rp({
+        uri: serverListUrl,
+        json: true,
+        timeout: 2500,
+        jar: cookiejar,
+        headers: HEADERS,
+      });
       // console.log(serverList);
       if (serverList.maintenance) {
         console.log("Maintenance in progress");
+        await new Promise((resolve) => setTimeout(resolve, 30000));
         return;
       }
       break;
@@ -311,10 +354,11 @@ async function createMajsoulConnection(accessToken = ACCESS_TOKEN, preferredServ
       if (process.env.SERVER_LIST_URL) {
         throw e;
       }
+      // console.log(e);
       lastError = e;
       serverListUrl = null;
       preferredServer = "";
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000 + numTries * 1000));
     }
   }
   const proto = new MajsoulProtoCodec(pbDef, pbVersion);
@@ -324,13 +368,14 @@ async function createMajsoulConnection(accessToken = ACCESS_TOKEN, preferredServ
   if (server.indexOf("maj-soul") > -1) {
     server += "/gateway";
   }
-  let shouldRetry = true;
+  let shouldRetry = false;
   try {
     const conn = new MajsoulConnection(`${wsScheme}://${server}`, proto, async (conn) => {
       console.log("Connection established, sending heartbeat");
       await conn.rpcCall(".lq.Lobby.heatbeat", { no_operation_counter: 0 });
+      await new Promise((resolve) => setTimeout(resolve, 100));
       shouldRetry = false;
-      console.log("Authenticating");
+      console.log(`Authenticating (${versionInfo.version})`);
       conn.clientVersionString = "web-" + versionInfo.version.replace(/\.[a-z]+$/i, "");
       if (type === 7) {
         const [code, uid] = accessToken.split("-");

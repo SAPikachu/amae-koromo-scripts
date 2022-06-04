@@ -32,7 +32,7 @@ function shuffle(a) {
 
 const DEFAULT_MTIME_CUTOFF = 130000;
 async function main() {
-  const deadline = new Date().getTime() + 1000 * 170;
+  let deadline = new Date().getTime() + 1000 * 230;
   let timeoutToken = null;
   const resetWatchdog = function () {
     if (timeoutToken) {
@@ -61,26 +61,43 @@ async function main() {
   }
   const liveGames = {};
   try {
-    for (const mode of shuffle(MODES)) {
-      resetWatchdog();
-      const resp = await conn.rpcCall(".lq.Lobby.fetchGameLiveList", {
-        filter_id: mode,
-      });
-      console.log(`Mode: ${mode}, Live: ${resp.live_list.length}`);
-      for (const game of resp.live_list) {
-        if (game.start_time < new Date().getTime() / 1000 - 60 * 60 * 5) {
-          // console.log(game.uuid, game.start_time, (new Date()).getTime() / 1000 - 60 * 60 * 5);
-          if (Math.random() > /*0.05*/ 0) {
-            continue;
+    if (process.env.LIST_ONLY) {
+      while (true) {
+        const startTime = Date.now();
+        for (const mode of shuffle(MODES)) {
+          resetWatchdog();
+          const resp = await conn.rpcCall(".lq.Lobby.fetchGameLiveList", {
+            filter_id: mode,
+          });
+          console.log(`Mode: ${mode}, Live: ${resp.live_list.length}`);
+          for (const game of resp.live_list) {
+            if (game.start_time < new Date().getTime() / 1000 - 60 * 60 * 5) {
+              // console.log(game.uuid, game.start_time, (new Date()).getTime() / 1000 - 60 * 60 * 5);
+              if (Math.random() > /*0.05*/ 0) {
+                continue;
+              }
+            }
+            liveGames[game.uuid] = game;
+            writeFile([game.uuid.split("-")[0], mode.toString(), game.uuid + ".json"], JSON.stringify(game));
           }
         }
-        liveGames[game.uuid] = game;
-        writeFile([game.uuid.split("-")[0], mode.toString(), game.uuid + ".json"], JSON.stringify(game));
+        if (!process.env.LIST_ONLY) {
+          break;
+        } else {
+          deadline += 60000;
+        }
+        const elapsed = Date.now() - startTime;
+        if (elapsed < 15000) {
+          const sleepTime = 15000 - elapsed;
+          console.log(`Sleeping for ${sleepTime}ms`);
+          await new Promise((resolve) => setTimeout(resolve, sleepTime));
+        }
+        /*
+      if (process.env.LIST_ONLY) {
+        // process.exit(0);
+        return;
+      }*/
       }
-    }
-    if (process.env.LIST_ONLY) {
-      // process.exit(0);
-      return;
     }
     const pendingPromises = [];
     const recurseFillData = async function (dir) {
@@ -150,71 +167,108 @@ async function main() {
             // Probably deleted by other process
             continue;
           }
+          const startTime = Date.now();
+          async function throttle() {
+            if (Date.now() - startTime < 1000) {
+              await new Promise((resolve) => setTimeout(resolve, 1000 - (Date.now() - startTime)));
+            }
+          }
           const resp = await conn.rpcCall(".lq.Lobby.fetchGameRecord", {
             game_uuid: id,
             client_version_string: conn.clientVersionString,
           });
           if ((!resp.data && !resp.data_url) || !resp.head) {
-            const resp = await conn.rpcCall(".lq.Lobby.fetchGameLiveInfo", { game_uuid: id });
+            let resp = await conn.rpcCall(".lq.Lobby.fetchOBToken", { uuid: id });
+            if (resp.token && resp.create_time && resp.create_time > Date.now() / 1000 - 60 * 60 * 6) {
+              console.log("OB:", id);
+              fs.utimesSync(path.join(dir, ent.name), new Date(), new Date(Date.now() + 1000 * 60 * 30));
+              await throttle();
+              continue;
+            }
+            resp = await conn.rpcCall(".lq.Lobby.fetchGameLiveInfo", { game_uuid: id });
             if (resp.live_head) {
-              // console.log("Still running:", id);
+              console.log("Still running:", id);
               fs.writeFileSync(path.join(dir, ent.name), JSON.stringify(resp.live_head));
+              fs.utimesSync(path.join(dir, ent.name), new Date(), new Date(Date.now() + 1000 * 60 * 30));
             } else {
-              console.log(resp.live_head, resp.error, ent.mtimeDelta, id);
-              if (resp.error && resp.error.code === 1801 && ent.mtimeDelta < -1000 * 60 * 60 * 24) {
+              let mtimeDeltaAdjusted = ent.mtimeDelta;
+              try {
+                const liveInfo = JSON.parse(fs.readFileSync(path.join(dir, ent.name), { encoding: "utf8" }));
+                if (liveInfo.start_time) {
+                  mtimeDeltaAdjusted = liveInfo.start_time * 1000 - ts;
+                  fs.utimesSync(
+                    path.join(dir, ent.name),
+                    new Date(),
+                    new Date(
+                      Date.now() + Math.min(Math.max(Math.abs(mtimeDeltaAdjusted), 1000 * 60 * 15), 1000 * 60 * 60)
+                    )
+                  );
+                }
+              } catch (e) {
+                // Ignore
+              }
+              console.log(resp.live_head, resp.error.code || resp.error, Math.round(mtimeDeltaAdjusted / 1000), id);
+              if (resp.error && resp.error.code === 1801 && mtimeDeltaAdjusted < -1000 * 60 * 60 * 24 * 3) {
                 console.log("Deleting...");
                 fs.unlink(path.join(dir, ent.name), () => {});
               }
             }
+            await throttle();
             continue;
           }
-          pendingPromises.push(
-            (async function ({ id, ent, resp, dir }) {
-              const recordData =
-                resp.data_url && (!resp.data || !resp.data.length)
-                  ? await rp({ uri: resp.data_url, encoding: null, timeout: 5000 }).catch(() =>
-                      console.warn(`Failed to download data for ${id}:`, resp)
-                    )
-                  : resp.data;
-              if (!recordData || !recordData.length) {
-                console.log("No data:", id);
-                return;
-              }
-              console.log(resp.head.uuid);
-              const game = resp.head;
-              writeFile(
-                [
-                  "records",
-                  game.uuid.split("-")[0],
-                  game.config.mode.mode.toString(),
-                  (game.config.meta.mode_id || game.config.meta.contest_uid || game.config.meta.room_id).toString(),
-                  game.uuid + ".json",
-                ],
-                JSON.stringify(resp.head)
-              );
-              writeFile(
-                [
-                  "records",
-                  game.uuid.split("-")[0],
-                  game.config.mode.mode.toString(),
-                  (game.config.meta.mode_id || game.config.meta.contest_uid || game.config.meta.room_id).toString(),
-                  game.uuid + ".recordData",
-                ],
-                recordData
-              );
-              try {
-                fs.unlinkSync(path.join(dir, ent.name));
-              } catch (e) {
-                // console.warn("Error when deleting file: ", e);
-              }
-            })({ id, ent, resp, dir })
-          );
+          // pendingPromises.push(
+          await (async function ({ id, ent, resp, dir }) {
+            const recordData =
+              resp.data_url && (!resp.data || !resp.data.length)
+                ? await rp({ uri: resp.data_url, encoding: null, timeout: 5000 }).catch(() =>
+                    console.warn(`Failed to download data for ${id}:`, resp)
+                  )
+                : resp.data;
+            if (!recordData || !recordData.length) {
+              console.log("No data:", id);
+              return;
+            }
+            console.log(resp.head.uuid);
+            const game = resp.head;
+            writeFile(
+              [
+                "records",
+                game.uuid.split("-")[0],
+                game.config.mode.mode.toString(),
+                (game.config.meta.mode_id || game.config.meta.contest_uid || game.config.meta.room_id).toString(),
+                game.uuid + ".json",
+              ],
+              JSON.stringify(resp.head)
+            );
+            writeFile(
+              [
+                "records",
+                game.uuid.split("-")[0],
+                game.config.mode.mode.toString(),
+                (game.config.meta.mode_id || game.config.meta.contest_uid || game.config.meta.room_id).toString(),
+                game.uuid + ".recordData",
+              ],
+              recordData
+            );
+            try {
+              fs.unlinkSync(path.join(dir, ent.name));
+            } catch (e) {
+              // console.warn("Error when deleting file: ", e);
+            }
+          })({ id, ent, resp, dir });
+          await throttle();
         }
       }
     };
     await recurseFillData(OUTPUT_DIR);
     resetWatchdog();
-    await Promise.all(pendingPromises);
+    if (pendingPromises.length > 0) {
+      await Promise.all(pendingPromises);
+    }
+    resetWatchdog();
+    deadline += 60000;
+    console.log("Sleeping...");
+    await new Promise((resolve) => setTimeout(resolve, 19000));
   } finally {
     conn.close();
     clearTimeout(timeoutToken);

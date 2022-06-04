@@ -157,8 +157,13 @@ const SETTINGS = {
     aggregates: "_e3_aggregates",
     stats: "_e3_stats",
   },
+  e4: {
+    aggregates: "_e4_aggregates",
+    stats: "_e4_stats",
+  },
 };
 SETTINGS.e3.extraRankings = SETTINGS.sanma.extraRankings;
+SETTINGS.e4.extraRankings = SETTINGS.default.extraRankings;
 
 const RANKINGS = {
   num_games: (x) => x.count,
@@ -201,6 +206,7 @@ const RANKINGS = {
     sort: "asc",
   },
   max_level: (x) => {
+    return 0; // Disabled
     const level = new webLevel.Level(x.max_level[0]);
     const score = x.max_level[1] + x.max_level[2];
     const adjustedLevel = level.getAdjustedLevel(score);

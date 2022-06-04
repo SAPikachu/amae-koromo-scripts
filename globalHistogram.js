@@ -235,7 +235,7 @@ async function main() {
     rendered.对局数 = doc.basic.accum.slice(0, doc.basic.accum.length - 1).reduce((a, b) => a + b, 0);
     delete rendered.id;
     bucket["0"].updateHistogram(rendered);
-    bucket[levelId].updateHistogram(rendered);
+    // bucket[levelId].updateHistogram(rendered);
   }
   tmpobj.removeCallback();
 
@@ -243,6 +243,7 @@ async function main() {
   await storage.saveDoc({
     _id: "global_histogram",
     type: "globalHistogram",
+    cache: 86400,
     updated: moment.utc().valueOf(),
     data: buckets,
   });
