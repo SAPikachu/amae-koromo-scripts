@@ -38,7 +38,7 @@
     "node-version-compare": "^1.0.2",
     "oboe": "^2.1.5",
     "pouchdb": "^7.2.1",
-    "protobufjs": "^6.8.8",
+    "protobufjs": "^6.11.3",
     "redis": "^3.0.2",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
