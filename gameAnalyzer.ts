@@ -202,19 +202,23 @@ const ACCEPTED_RECORD_TYPES = {
 export class MajsoulGameAnalyzer {
   _players: Player[];
   _pendingTile: Tile | undefined;
+  _latestDoras = [] as Tile[];
   constructor(newRoundRecord: lq.RecordNewRound) {
     assert([3, 4].includes(newRoundRecord.scores.length));
     const { tiles0, tiles1, tiles2, tiles3 } = newRoundRecord;
     const tiles = [tiles0, tiles1, tiles2, tiles3].slice(0, newRoundRecord.scores.length);
     this._players = tiles.map((t) => new Player(t.map(validateTile)));
+    this._latestDoras = newRoundRecord.doras?.map(validateTile) || [];
   }
   getRemainingNumTiles(seat: number, tiles: (Tile | string)[]): number {
+    assert(this._latestDoras.length && this._latestDoras.length <= 5);
     const bin = new TileBin();
     for (const player of this._players) {
       player._discarded.forEach((x) => bin.put(x));
       player._opened.forEach((x) => x.hand.forEach((t) => bin.put(t)));
     }
     this._players[seat]._hand.forEach((x) => bin.put(x));
+    this._latestDoras.forEach((x) => bin.put(x));
     let ret = 0;
     for (const tile of tiles) {
       ret += 4 - bin.getNum(validateTile(tile));
@@ -228,15 +232,22 @@ export class MajsoulGameAnalyzer {
     if (!(recordName in ACCEPTED_RECORD_TYPES)) {
       throw new Error(`Unknown record: ${recordName}`);
     }
+    assert(!(record as any).dora, "Unexpected dora field, may be old data");
+    const doras = (record as any).doras as string[];
+    if (doras?.length) {
+      this._latestDoras = doras.map(validateTile);
+    }
     switch (recordName) {
       case ".lq.RecordDealTile": {
         const r = record as lq.RecordDealTile;
+        assert(typeof r.seat === "number");
         this._players[r.seat].deal(validateTile(r.tile));
         this._pendingTile = undefined;
         break;
       }
       case ".lq.RecordDiscardTile": {
         const r = record as lq.RecordDiscardTile;
+        assert(typeof r.seat === "number");
         const tile = validateTile(r.tile);
         this._players[r.seat].discard(tile);
         this._pendingTile = tile;
@@ -260,6 +271,7 @@ export class MajsoulGameAnalyzer {
       }
       case ".lq.RecordChiPengGang": {
         const r = record as lq.RecordChiPengGang;
+        assert(typeof r.seat === "number");
         const tiles = r.tiles.map(validateTile);
         if (!this._pendingTile) {
           throw new Error("No pending tile");
@@ -276,12 +288,14 @@ export class MajsoulGameAnalyzer {
       }
       case ".lq.RecordBaBei": {
         const r = record as lq.RecordBaBei;
+        assert(typeof r.seat === "number");
         this._players[r.seat].kita();
         this._pendingTile = KITA;
         break;
       }
       case ".lq.RecordAnGangAddGang": {
         const r = record as lq.RecordAnGangAddGang;
+        assert(typeof r.seat === "number");
         const tile = validateTile(r.tiles);
         this._players[r.seat].kan(tile);
         this._pendingTile = tile;

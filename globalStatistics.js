@@ -3,7 +3,7 @@ const { wrappedRun } = require("./entryPoint");
 const moment = require("moment");
 
 const { CouchStorage } = require("./couchStorage");
-const { streamView } = require("./streamView");
+const { allStats } = require("./statIterator");
 
 function getProperSuffix(suffix) {
   return (process.env.DB_SUFFIX || "") + suffix;
@@ -134,7 +134,7 @@ async function main() {
     buckets[mode][levelId].num_players++;
     merge(buckets[mode][levelId], extended, debugId);
   }
-  await streamView("all_stats", "all_stats", { _suffix: getProperSuffix("_stats"), include_docs: true }, ({ doc }) => {
+  await allStats(getProperSuffix("_stats"), ({ doc }) => {
     const mode = doc.mode_id;
     processDoc({ mode, basic: doc.basic, extended: doc.extended, buckets, debugId: doc._id });
     if (doc.stats_year?.basic && doc.stats_year?.extended && doc.updated >= yearCutoff) {

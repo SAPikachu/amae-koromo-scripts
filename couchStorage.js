@@ -69,6 +69,13 @@ class CouchStorage {
   async saveGame(gameInfo, version, batch) {
     assert(this._mode === MODE_GAME);
     assert(gameInfo.uuid);
+    const accountWithoutSeat = gameInfo.accounts.filter((x) => x.seat === undefined);
+    if (accountWithoutSeat.length > 1) {
+      throw new Error("Unexpected empty seat values");
+    }
+    if (accountWithoutSeat.length === 1) {
+      accountWithoutSeat[0].seat = 0;
+    }
     if (gameInfo.toJSON) {
       gameInfo = gameInfo.toJSON();
     }
@@ -93,13 +100,13 @@ class CouchStorage {
     }
     return defaultValue;
   }
-  async saveDoc(doc, batch) {
+  async saveDoc(doc, batch, expectExisting) {
     let db = this._db;
     if (this._mode === MODE_GAME && doc.type === "roundData") {
       db = this._dbExtended;
     }
     let rev = undefined;
-    if (!batch) {
+    if (!batch || expectExisting) {
       try {
         const existingRecord = await db.get(doc._id);
         rev = existingRecord._rev;

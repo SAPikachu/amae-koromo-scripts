@@ -7,6 +7,31 @@ const chokidar = require("chokidar");
 const RECORDS_DIR = process.env.RECORDS_DIR || "records";
 const DEFAULT_BASE = process.env.LOCAL_DATA_BASE || path.join(process.env.HOME, "livegames");
 
+async function iteratePendingData(callback, baseDir = DEFAULT_BASE) {
+  const pendingDb = new require("better-sqlite3")(path.join(baseDir, "pending2.sqlite3"));
+  pendingDb.pragma("journal_mode = WAL");
+  pendingDb.pragma("synchronous = NORMAL");
+  const deadline = Date.now(); // - 60000;
+  const selectStm = pendingDb.prepare("SELECT ROWID AS ROWID, path FROM pending WHERE updated < ? LIMIT 1");
+  const deleteStm = pendingDb.prepare("DELETE FROM pending WHERE ROWID = ?");
+  for (;;) {
+    const row = selectStm.get(deadline);
+    if (!row) {
+      break;
+    }
+    const id = path.parse(row.path).name;
+    await callback({
+      id,
+      getData: () => JSON.parse(fs.readFileSync(row.path + ".json", { encoding: "utf-8" })),
+      getRecordData: () => fs.readFileSync(row.path + ".recordData"),
+    });
+    deleteStm.run(row.ROWID);
+  }
+  pendingDb.pragma("wal_checkpoint(PASSIVE)");
+  pendingDb.exec("VACUUM");
+  pendingDb.close();
+}
+
 async function iterateLocalData(
   callback,
   baseDir = DEFAULT_BASE,
@@ -54,39 +79,6 @@ async function iterateLocalData(
       }
     }
   })(path.join(baseDir, RECORDS_DIR));
-}
-
-async function watchLiveData(callback, baseDir = DEFAULT_BASE) {
-  let watcher;
-  function handle(p) {
-    const basename = path.basename(p);
-    if (/^\d{6}-.*\.recordData$/.test(basename)) {
-      // watcher.unwatch(p);
-      const components = path.parse(p);
-      const id = components.name;
-      let data;
-      try {
-        data = JSON.parse(fs.readFileSync(path.join(components.dir, id + ".json"), { encoding: "utf-8" }));
-      } catch (e) {
-        return;
-      }
-      callback({
-        id,
-        getData: () => data,
-        getRecordData: () => fs.readFileSync(p),
-      });
-    }
-  }
-  watcher = chokidar
-    .watch(path.join(baseDir, RECORDS_DIR), {
-      persistent: true,
-      awaitWriteFinish: true,
-      ignoreInitial: true,
-      ignored: ["**/*.json", "**/2004*", "**/200501", "**/200502", "**/200503"],
-    })
-    .on("add", handle)
-    .on("change", handle);
-  await new Promise(() => {});
 }
 
 async function watchLiveData2(callback, baseDir = DEFAULT_BASE) {
@@ -173,12 +165,13 @@ async function watchLiveData2(callback, baseDir = DEFAULT_BASE) {
   addDir(path.join(baseDir, RECORDS_DIR));
   await new Promise(() => {});
 }
+exports.iteratePendingData = iteratePendingData;
 exports.iterateLocalData = iterateLocalData;
 exports.watchLiveData = watchLiveData2;
 exports.DEFAULT_BASE = DEFAULT_BASE;
 
 if (require.main === module) {
-  watchLiveData2((item) => {
+  iteratePendingData((item) => {
     console.log(item.id);
     item.getRecordData();
   });

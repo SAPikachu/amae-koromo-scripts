@@ -12,7 +12,7 @@ const { createFinalReducer } = require("./dbExtension");
 const { COUCHDB_USER, COUCHDB_PASSWORD, COUCHDB_PROTO, PLAYER_SERVERS, REDIS_HOST, REDIS_PASSWORD } = require("./env");
 
 const SUFFIXES = {
-  9: null,
+  9: "_gold_stats",
   12: "_stats",
   16: "_stats",
   22: "_sanma_stats",
@@ -20,12 +20,13 @@ const SUFFIXES = {
   26: "_sanma_stats",
   15: "_e4_stats",
   11: "_e4_stats",
-  8: null,
+  8: "_e4_stats",
   25: "_e3_stats",
   23: "_e3_stats",
   21: "_e3_stats",
 };
 
+/*
 const MODE_GROUPS = {};
 
 [
@@ -34,6 +35,7 @@ const MODE_GROUPS = {};
   [21, 23, 25],
   [11, 15],
 ].forEach((group) => group.forEach((id) => (MODE_GROUPS[id] = group)));
+*/
 
 async function withRetry(func, num = 5, retryInterval = 5000) {
   // eslint-disable-next-line no-constant-condition
@@ -77,7 +79,7 @@ async function saveStats({ storage, id, mode, stats, timestamp, statsYear, stats
   });
   while (true) {
     try {
-      return await storage.db.put(doc);
+      return await storage.db.put(doc, { batch: "ok" });
     } catch (e) {
       if (e.type !== "request-timeout") {
         throw e;
@@ -117,7 +119,7 @@ async function getPlayerStats500(id, mode, type) {
     .get(
       `${COUCHDB_PROTO}://${COUCHDB_USER}:${COUCHDB_PASSWORD}@${PLAYER_SERVERS[mode.toString()]}/p${mode}_${id
         .toString()
-        .padStart(10, "0")}/_all_docs?descending=true&skip=499&limit=1&include_docs=true`
+        .padStart(10, "0")}/_all_docs?descending=true&skip=501&limit=1&include_docs=true`
     )
     .catch(() => null);
   if (!resp || !resp.data || !resp.data.rows || !resp.data.rows[0]) {
@@ -126,11 +128,11 @@ async function getPlayerStats500(id, mode, type) {
   return await getPlayerStats(id, mode, type, `startkey=${resp.data.rows[0].doc.start_time}`);
 }
 
-async function run({ exitThreshold = 0, stateDocName = "cacheStats3" }) {
-  console.log("Starting");
-  const basicReduce = await createFinalReducer("_meta_basic", "_design/player_stats_2", "player_stats");
-  const extendedReduce = await createFinalReducer("_meta_extended", "_design/player_extended_stats", "player_stats");
-  console.log("Connecting to Redis");
+async function run({ exitThreshold = 0, stateDocName = "cacheStats3", threadId = "-", onComplete = () => {} }) {
+  console.log(`[${threadId}] Starting`);
+  // const basicReduce = await createFinalReducer("_meta_basic", "_design/player_stats_2", "player_stats");
+  // const extendedReduce = await createFinalReducer("_meta_extended", "_design/player_extended_stats", "player_stats");
+  console.log(`[${threadId}] Connecting to Redis`);
   const redisClient = redis.createClient({
     host: REDIS_HOST,
     password: REDIS_PASSWORD,
@@ -143,7 +145,7 @@ async function run({ exitThreshold = 0, stateDocName = "cacheStats3" }) {
   const storages = {};
   for (;;) {
     if (exitThreshold > 0 && (await zcard(stateDocName)) < exitThreshold) {
-      console.log("Thread exiting");
+      console.log(`[${threadId}] Thread exiting`);
       return;
     }
     const resp = await bzpopmin(stateDocName, 0);
@@ -158,18 +160,20 @@ async function run({ exitThreshold = 0, stateDocName = "cacheStats3" }) {
       await zrem(stateDocName, dbName);
       continue;
     }
-    assert(MODE_GROUPS[updatedMode]);
+    // assert(MODE_GROUPS[updatedMode]);
     assert(SUFFIXES[updatedMode]);
-    console.log(id, updatedMode);
+    console.log(`[${threadId}]`, id, updatedMode);
     if (!storages[SUFFIXES[updatedMode]]) {
       storages[SUFFIXES[updatedMode]] = new CouchStorage({ suffix: SUFFIXES[updatedMode] });
     }
     const targetStorage = storages[SUFFIXES[updatedMode]];
+    /*
     const allStats = {
       basic: [],
       extended: [],
     };
-    for (const mode of MODE_GROUPS[updatedMode]) {
+    */
+    for (const mode of /*MODE_GROUPS[updatedMode]*/ [updatedMode]) {
       let basic = await withRetry(() => getPlayerStats(id, mode, "basic"));
       if (!basic) {
         if (mode.toString() !== updatedMode.toString()) {
@@ -181,8 +185,10 @@ async function run({ exitThreshold = 0, stateDocName = "cacheStats3" }) {
       }
       const extended = await withRetry(() => getPlayerStats(id, mode, "extended"));
       assert(!!extended);
+      /* 
       allStats.basic.push(basic);
       allStats.extended.push(extended);
+      */
       if (mode.toString() === updatedMode.toString()) {
         const extraStats = await Promise.all([
           withRetry(() => getPlayerStatsYear(id, mode, "basic")),
@@ -208,6 +214,7 @@ async function run({ exitThreshold = 0, stateDocName = "cacheStats3" }) {
         await withRetry(() => saveStats(stats));
       }
     }
+    /*
     assert(allStats.basic.length);
     assert(allStats.extended.length);
     const reducedStats = {
@@ -223,13 +230,17 @@ async function run({ exitThreshold = 0, stateDocName = "cacheStats3" }) {
         timestamp: reducedStats.basic.latest_timestamp * 1000,
       })
     );
+    */
     await zrem(stateDocName, dbName);
+    onComplete(dbName);
   }
 }
 
 async function main() {
   const stateDocName = "cacheStats3";
-  run({ stateDocName, exitThreshold: 0 }).catch((e) => {
+  let completed = 0;
+  let onComplete = () => completed++;
+  run({ stateDocName, exitThreshold: 0, onComplete }).catch((e) => {
     console.error(e);
     process.exit(1);
   });
@@ -240,16 +251,22 @@ async function main() {
   });
   const zcard = promisify(redisClient.zcard.bind(redisClient));
   let extraRunning = 0;
-  const THRESHOLDS = [1000, 10000];
+  const THRESHOLDS = [1000, 2000, 4000, 10000];
+  let lastTs = Date.now();
   for (;;) {
     await new Promise((res) => setTimeout(res, 60000));
+    const count = await zcard(stateDocName);
+    const ts = Date.now();
+    const elapsed = ts - lastTs;
+    lastTs = ts;
+    console.log(`C=${completed}/R=${((completed * 1000) / elapsed).toFixed(1)}/Q=${count}`);
+    completed = 0;
     if (extraRunning >= THRESHOLDS.length) {
       continue;
     }
-    const count = await zcard(stateDocName);
     if (count > THRESHOLDS[extraRunning]) {
       extraRunning++;
-      run({ stateDocName, exitThreshold: 100 })
+      run({ stateDocName, exitThreshold: 25, threadId: extraRunning, onComplete })
         .then(() => extraRunning--)
         .catch((e) => {
           console.error(e);

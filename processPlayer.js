@@ -136,7 +136,7 @@ async function uploadPlayer({ playerId, data, basic, extended, designDocs, logTa
     const ignore = await redisClient.sismember("compactIgnore", dbName);
     await redisClient.zincrby(!ignore ? "compactQueue" : "compactQueueAlt", 1 + Math.random() * 0.01, dbName);
 
-    await redisClient.zadd("cacheStats3", new Date().getTime() + Math.random() * 1000 * 60 * 60, dbName);
+    await redisClient.zadd("cacheStats3", "LT", new Date().getTime() + Math.random() * 1000 * 60 * 60, dbName);
   }
 }
 
@@ -244,7 +244,7 @@ async function run({ mapper, dbSuffix, stateServer, logTag, throttler, nicknameS
       }
     }
     seq = batch.last_seq;
-    await stateStorage.saveDoc({ _id: "seq", value: seq, timestamp: new Date().getTime() });
+    await stateStorage.saveDoc({ _id: "seq", value: seq, timestamp: new Date().getTime() }, true, true);
   }
 }
 async function main() {
@@ -302,11 +302,13 @@ async function main() {
       })
     );
   } else {
-    const throttler = new Throttler(0);
+    // const throttler = new Throttler(0);
     Object.keys(settings)
       .filter((key) => !settings[key]._disabled)
       .forEach((key) =>
-        promises.push(run({ ...settings[key], mapper, getDesignDocs, nicknameStorage, redisClient, throttler }))
+        promises.push(
+          run({ ...settings[key], mapper, getDesignDocs, nicknameStorage, redisClient, throttler: new Throttler(10) })
+        )
       );
   }
   await Promise.all(promises);

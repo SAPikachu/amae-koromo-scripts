@@ -65,6 +65,7 @@ async function compact({ dbName }) {
     }
   }
   s._db.close().catch(() => {});
+  await new Promise((res) => setTimeout(res, 500));
 }
 
 function getCPUInfo() {
@@ -162,14 +163,14 @@ async function main() {
       if (downCooldown > 0) {
         downCooldown--;
       }
-      if (idlePercent < 0.08 + concurrency * 0.02) {
+      if (idlePercent < 0.32 + concurrency * 0.08) {
         if (concurrency > 1 && downCooldown <= 0) {
           concurrency--;
           downCooldown = 2;
           upCooldown = 10;
           console.log("Concurrency:", concurrency);
         }
-      } else if (idlePercent > 0.2) {
+      } else if (idlePercent > 0.8) {
         if (concurrency < Math.min(Math.floor(idlePercent * 10) + 1, 7) && upCooldown <= 0) {
           if (getNumRunning() < concurrency) {
             setTimeout(() => onComplete(), 1100);

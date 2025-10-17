@@ -8,24 +8,21 @@ require("ts-node").register({
 
 const { wrappedRun } = require("./entryPoint");
 
-const fs = require("fs");
 const assert = require("assert");
 const { incrsummary } = require("@stdlib/stats-incr");
 const sp = require("streaming-percentiles");
 const _ = require("lodash");
-const tmp = require("tmp");
-const ndjson = require("ndjson");
 const moment = require("moment");
 
 const { CouchStorage } = require("./couchStorage");
-const { streamView } = require("./streamView");
+const { allStatsWithoutMerged } = require("./statIterator");
 
 const { createRenderer } = require("./dbExtension");
 
 const webLevel = require("./web/src/data/types/level.ts");
 
 const sourceDbs = {
-  "": ["_stats", "_e4_stats"],
+  "": ["_stats", "_e4_stats", "_gold_stats"],
   _sanma: ["_sanma_stats", "_e3_stats"],
 };
 
@@ -116,8 +113,8 @@ class Metric {
         Math.min(summary.count, isDiscrete ? summary.range + 1 : Histogram.DEFAULT_NUM_BINS)
       );
       if (summary.count > Histogram.DEFAULT_NUM_BINS * 2) {
-        const clippedMin = this.percentiles.quantile(0.01);
-        const clippedMax = this.percentiles.quantile(0.99);
+        const clippedMin = this.percentiles.quantile(0.02);
+        const clippedMax = this.percentiles.quantile(0.98);
         if (clippedMin < clippedMax && !isDiscrete) {
           this.histogramClamped = new Histogram(clippedMin, clippedMax);
         }
@@ -181,11 +178,9 @@ async function main() {
 
   const buckets = {};
   console.log("Generating summary...");
-  tmp.setGracefulCleanup();
-  const tmpobj = tmp.fileSync();
-  fs.unlinkSync(tmpobj.name);
   for (const db of sourceDbs[process.env.DB_SUFFIX || ""]) {
-    await streamView("all_stats", "all_stats", { _suffix: db, include_docs: true }, ({ doc }) => {
+    await allStatsWithoutMerged(db, ({ doc }) => {
+      assert(doc.mode_id);
       if (!doc.mode_id) {
         return;
       }
@@ -207,37 +202,44 @@ async function main() {
         render("list", "player_extended_stats", [{ key: [id, id, id], value: doc.extended }]).body
       );
       rendered.对局数 = doc.basic.accum.slice(0, doc.basic.accum.length - 1).reduce((a, b) => a + b, 0);
+      rendered.局收支 =
+        ((doc.basic.score_accum.reduce((a, b) => a + b, 0) -
+          (Math.floor(doc.basic.level[0] / 10000) === 1 ? 250 : 350) * rendered.对局数) /
+          rendered.count) *
+        100;
       delete rendered.id;
       bucket["0"].update(rendered);
       bucket[levelId].update(rendered);
-      fs.writeSync(tmpobj.fd, JSON.stringify(doc) + "\n", null, "utf8");
     });
   }
-  fs.fsyncSync(tmpobj.fd);
   console.log("Generating histograms...");
-  const stream = fs
-    .createReadStream(tmpobj.path, {
-      fd: tmpobj.fd,
-      encoding: "utf8",
-      start: 0,
-      autoClose: false,
-      emitClose: false,
-    })
-    .pipe(ndjson.parse());
-  for await (const doc of stream) {
-    assert(doc.mode_id);
-    const bucket = buckets[doc.mode_id];
-    const levelId = getAdjustedLevelId(doc.basic.level);
-    const id = doc.account_id;
-    const rendered = JSON.parse(
-      render("list", "player_extended_stats", [{ key: [id, id, id], value: doc.extended }]).body
-    );
-    rendered.对局数 = doc.basic.accum.slice(0, doc.basic.accum.length - 1).reduce((a, b) => a + b, 0);
-    delete rendered.id;
-    bucket["0"].updateHistogram(rendered);
-    // bucket[levelId].updateHistogram(rendered);
+  for (const db of sourceDbs[process.env.DB_SUFFIX || ""]) {
+    await allStatsWithoutMerged(db, ({ doc }) => {
+      assert(doc.mode_id);
+      if (!doc.mode_id) {
+        return;
+      }
+      assert(doc.mode_id);
+      const bucket = buckets[doc.mode_id];
+      const levelId = getAdjustedLevelId(doc.basic.level);
+      if (!new webLevel.Level(levelId).isAllowedMode(doc.mode_id)) {
+        return;
+      }
+      const id = doc.account_id;
+      const rendered = JSON.parse(
+        render("list", "player_extended_stats", [{ key: [id, id, id], value: doc.extended }]).body
+      );
+      rendered.对局数 = doc.basic.accum.slice(0, doc.basic.accum.length - 1).reduce((a, b) => a + b, 0);
+      rendered.局收支 =
+        ((doc.basic.score_accum.reduce((a, b) => a + b, 0) -
+          (Math.floor(doc.basic.level[0] / 10000) === 1 ? 250 : 350) * rendered.对局数) /
+          rendered.count) *
+        100;
+      delete rendered.id;
+      bucket["0"].updateHistogram(rendered);
+      // bucket[levelId].updateHistogram(rendered);
+    });
   }
-  tmpobj.removeCallback();
 
   const storage = new CouchStorage({ suffix: getProperSuffix("_aggregates") });
   await storage.saveDoc({

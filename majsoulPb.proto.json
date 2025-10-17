@@ -256,19 +256,24 @@
         },
         "NotifyAnnouncementUpdate": {
           "fields": {
-            "announcements": {
+            "update_list": {
               "rule": "repeated",
-              "type": "Announcement",
+              "type": "AnnouncementUpdate",
               "id": 1
-            },
-            "sort": {
-              "rule": "repeated",
-              "type": "uint32",
-              "id": 2
-            },
-            "lang": {
-              "type": "string",
-              "id": 3
+            }
+          },
+          "nested": {
+            "AnnouncementUpdate": {
+              "fields": {
+                "lang": {
+                  "type": "string",
+                  "id": 1
+                },
+                "platform": {
+                  "type": "string",
+                  "id": 2
+                }
+              }
             }
           }
         },
@@ -341,6 +346,93 @@
             }
           }
         },
+        "NotifyActivitySegmentTaskUpdate": {
+          "fields": {
+            "progresses": {
+              "rule": "repeated",
+              "type": "lq.SegmentTaskProgress",
+              "id": 1
+            }
+          }
+        },
+        "NotifyActivityUpdate": {
+          "fields": {
+            "list": {
+              "rule": "repeated",
+              "type": "FeedActivityData",
+              "id": 1
+            }
+          },
+          "nested": {
+            "FeedActivityData": {
+              "fields": {
+                "activity_id": {
+                  "type": "uint32",
+                  "id": 1
+                },
+                "feed_count": {
+                  "type": "uint32",
+                  "id": 2
+                },
+                "friend_receive_data": {
+                  "type": "CountWithTimeData",
+                  "id": 3
+                },
+                "friend_send_data": {
+                  "type": "CountWithTimeData",
+                  "id": 4
+                },
+                "gift_inbox": {
+                  "rule": "repeated",
+                  "type": "GiftBoxData",
+                  "id": 5
+                }
+              },
+              "nested": {
+                "CountWithTimeData": {
+                  "fields": {
+                    "count": {
+                      "type": "uint32",
+                      "id": 1
+                    },
+                    "last_update_time": {
+                      "type": "uint32",
+                      "id": 2
+                    }
+                  }
+                },
+                "GiftBoxData": {
+                  "fields": {
+                    "id": {
+                      "type": "uint32",
+                      "id": 1
+                    },
+                    "item_id": {
+                      "type": "uint32",
+                      "id": 2
+                    },
+                    "count": {
+                      "type": "uint32",
+                      "id": 3
+                    },
+                    "from_account_id": {
+                      "type": "uint32",
+                      "id": 4
+                    },
+                    "time": {
+                      "type": "uint32",
+                      "id": 5
+                    },
+                    "received": {
+                      "type": "uint32",
+                      "id": 6
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
         "NotifyAccountChallengeTaskUpdate": {
           "fields": {
             "progresses": {
@@ -377,6 +469,7 @@
         "NotifyRollingNotice": {
           "fields": {
             "notice": {
+              "rule": "repeated",
               "type": "RollingNotice",
               "id": 1
             }
@@ -569,6 +662,9 @@
               "id": 3
             }
           }
+        },
+        "NotifyLoginQueueFinished": {
+          "fields": {}
         },
         "NotifyGameFinishRewardV2": {
           "fields": {
@@ -1011,6 +1107,15 @@
             "item_id": {
               "type": "uint32",
               "id": 2
+            },
+            "type": {
+              "type": "uint32",
+              "id": 3
+            },
+            "item_id_list": {
+              "rule": "repeated",
+              "type": "uint32",
+              "id": 4
             }
           }
         },
@@ -1127,6 +1232,11 @@
             "frozen_state": {
               "type": "uint32",
               "id": 29
+            },
+            "loading_image": {
+              "rule": "repeated",
+              "type": "uint32",
+              "id": 30
             }
           },
           "nested": {
@@ -1254,8 +1364,12 @@
               "id": 14
             },
             "activity": {
-              "type": "AccountActivityUpdate",
+              "type": "lq.AccountActivityUpdate",
               "id": 15
+            },
+            "activity_segment_task": {
+              "type": "SegmentTaskUpdate",
+              "id": 16
             }
           },
           "nested": {
@@ -1433,37 +1547,17 @@
                 }
               }
             },
-            "AccountActivityUpdate": {
+            "SegmentTaskUpdate": {
               "fields": {
-                "mine_data": {
+                "progresses": {
                   "rule": "repeated",
-                  "type": "MineActivityData",
+                  "type": "lq.SegmentTaskProgress",
                   "id": 1
                 },
-                "rpg_data": {
+                "task_list": {
                   "rule": "repeated",
-                  "type": "lq.RPGActivity",
+                  "type": "uint32",
                   "id": 2
-                }
-              },
-              "nested": {
-                "MineActivityData": {
-                  "fields": {
-                    "dig_point": {
-                      "rule": "repeated",
-                      "type": "Point",
-                      "id": 1
-                    },
-                    "rewards": {
-                      "rule": "repeated",
-                      "type": "MineReward",
-                      "id": 2
-                    },
-                    "id": {
-                      "type": "uint32",
-                      "id": 3
-                    }
-                  }
                 }
               }
             }
@@ -1707,6 +1801,10 @@
             "left_count": {
               "type": "uint32",
               "id": 2
+            },
+            "field_spell_var": {
+              "type": "uint32",
+              "id": 3
             }
           }
         },
@@ -1916,9 +2014,53 @@
               "type": "uint32",
               "id": 51
             },
+            "field_spell_mode": {
+              "type": "uint32",
+              "id": 52
+            },
+            "zhanxing": {
+              "type": "uint32",
+              "id": 53
+            },
+            "tianming_mode": {
+              "type": "uint32",
+              "id": 54
+            },
             "disable_leijiyiman": {
               "type": "bool",
               "id": 60
+            },
+            "disable_double_yakuman": {
+              "type": "uint32",
+              "id": 62
+            },
+            "disable_composite_yakuman": {
+              "type": "uint32",
+              "id": 63
+            },
+            "enable_shiti": {
+              "type": "uint32",
+              "id": 64
+            },
+            "enable_nontsumo_liqi": {
+              "type": "uint32",
+              "id": 65
+            },
+            "disable_double_wind_four_fu": {
+              "type": "uint32",
+              "id": 66
+            },
+            "disable_angang_guoshi": {
+              "type": "uint32",
+              "id": 67
+            },
+            "enable_renhe": {
+              "type": "uint32",
+              "id": 68
+            },
+            "enable_baopai_extend_settings": {
+              "type": "uint32",
+              "id": 69
             }
           }
         },
@@ -2053,6 +2195,27 @@
               "rule": "repeated",
               "type": "ItemGainRecord",
               "id": 3
+            }
+          }
+        },
+        "FakeRandomRecords": {
+          "fields": {
+            "item_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "special_item_id": {
+              "type": "uint32",
+              "id": 2
+            },
+            "gain_count": {
+              "type": "uint32",
+              "id": 3
+            },
+            "gain_history": {
+              "rule": "repeated",
+              "type": "uint32",
+              "id": 4
             }
           }
         },
@@ -2230,6 +2393,10 @@
               "rule": "repeated",
               "type": "I18nContext",
               "id": 11
+            },
+            "template_id": {
+              "type": "uint32",
+              "id": 12
             }
           }
         },
@@ -2585,6 +2752,14 @@
             "model_number": {
               "type": "string",
               "id": 9
+            },
+            "screen_width": {
+              "type": "uint32",
+              "id": 10
+            },
+            "screen_height": {
+              "type": "uint32",
+              "id": 11
             }
           }
         },
@@ -2621,6 +2796,10 @@
             "content": {
               "type": "string",
               "id": 3
+            },
+            "header_image": {
+              "type": "string",
+              "id": 4
             }
           }
         },
@@ -2706,6 +2885,10 @@
               "rule": "repeated",
               "type": "uint32",
               "id": 9
+            },
+            "last_show_id": {
+              "type": "uint32",
+              "id": 10
             }
           }
         },
@@ -2742,6 +2925,410 @@
             "total_win_count": {
               "type": "uint32",
               "id": 8
+            }
+          }
+        },
+        "FeedActivityData": {
+          "fields": {
+            "activity_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "feed_count": {
+              "type": "uint32",
+              "id": 2
+            },
+            "friend_receive_data": {
+              "type": "CountWithTimeData",
+              "id": 3
+            },
+            "friend_send_data": {
+              "type": "CountWithTimeData",
+              "id": 4
+            },
+            "gift_inbox": {
+              "rule": "repeated",
+              "type": "GiftBoxData",
+              "id": 5
+            }
+          },
+          "nested": {
+            "CountWithTimeData": {
+              "fields": {
+                "count": {
+                  "type": "uint32",
+                  "id": 1
+                },
+                "last_update_time": {
+                  "type": "uint32",
+                  "id": 2
+                }
+              }
+            },
+            "GiftBoxData": {
+              "fields": {
+                "id": {
+                  "type": "uint32",
+                  "id": 1
+                },
+                "item_id": {
+                  "type": "uint32",
+                  "id": 2
+                },
+                "count": {
+                  "type": "uint32",
+                  "id": 3
+                },
+                "from_account_id": {
+                  "type": "uint32",
+                  "id": 4
+                },
+                "time": {
+                  "type": "uint32",
+                  "id": 5
+                },
+                "received": {
+                  "type": "uint32",
+                  "id": 6
+                }
+              }
+            }
+          }
+        },
+        "SegmentTaskProgress": {
+          "fields": {
+            "id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "counter": {
+              "type": "uint32",
+              "id": 2
+            },
+            "achieved": {
+              "type": "bool",
+              "id": 3
+            },
+            "rewarded": {
+              "type": "bool",
+              "id": 4
+            },
+            "failed": {
+              "type": "bool",
+              "id": 5
+            },
+            "reward_count": {
+              "type": "uint32",
+              "id": 6
+            },
+            "achieved_count": {
+              "type": "uint32",
+              "id": 7
+            }
+          }
+        },
+        "MineActivityData": {
+          "fields": {
+            "dig_point": {
+              "rule": "repeated",
+              "type": "Point",
+              "id": 1
+            },
+            "map": {
+              "rule": "repeated",
+              "type": "MineReward",
+              "id": 2
+            },
+            "id": {
+              "type": "uint32",
+              "id": 3
+            }
+          }
+        },
+        "AccountActivityUpdate": {
+          "fields": {
+            "mine_data": {
+              "rule": "repeated",
+              "type": "lq.MineActivityData",
+              "id": 1
+            },
+            "rpg_data": {
+              "rule": "repeated",
+              "type": "lq.RPGActivity",
+              "id": 2
+            },
+            "feed_data": {
+              "rule": "repeated",
+              "type": "ActivityFeedData",
+              "id": 3
+            },
+            "spot_data": {
+              "rule": "repeated",
+              "type": "lq.ActivitySpotData",
+              "id": 4
+            },
+            "friend_gift_data": {
+              "rule": "repeated",
+              "type": "lq.ActivityFriendGiftData",
+              "id": 5
+            },
+            "upgrade_data": {
+              "rule": "repeated",
+              "type": "lq.ActivityUpgradeData",
+              "id": 6
+            },
+            "gacha_data": {
+              "rule": "repeated",
+              "type": "lq.ActivityGachaUpdateData",
+              "id": 7
+            }
+          }
+        },
+        "ActivityFeedData": {
+          "fields": {
+            "activity_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "feed_count": {
+              "type": "uint32",
+              "id": 2
+            },
+            "friend_receive_data": {
+              "type": "CountWithTimeData",
+              "id": 3
+            },
+            "friend_send_data": {
+              "type": "CountWithTimeData",
+              "id": 4
+            },
+            "gift_inbox": {
+              "rule": "repeated",
+              "type": "GiftBoxData",
+              "id": 5
+            },
+            "max_inbox_id": {
+              "type": "uint32",
+              "id": 6
+            }
+          },
+          "nested": {
+            "CountWithTimeData": {
+              "fields": {
+                "count": {
+                  "type": "uint32",
+                  "id": 1
+                },
+                "last_update_time": {
+                  "type": "uint32",
+                  "id": 2
+                }
+              }
+            },
+            "GiftBoxData": {
+              "fields": {
+                "id": {
+                  "type": "uint32",
+                  "id": 1
+                },
+                "item_id": {
+                  "type": "uint32",
+                  "id": 2
+                },
+                "count": {
+                  "type": "uint32",
+                  "id": 3
+                },
+                "from_account_id": {
+                  "type": "uint32",
+                  "id": 4
+                },
+                "time": {
+                  "type": "uint32",
+                  "id": 5
+                },
+                "received": {
+                  "type": "uint32",
+                  "id": 6
+                }
+              }
+            }
+          }
+        },
+        "ActivityFriendGiftData": {
+          "fields": {
+            "activity_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "max_inbox_id": {
+              "type": "uint32",
+              "id": 2
+            },
+            "receive_data": {
+              "type": "CountWithTimeData",
+              "id": 3
+            },
+            "send_data": {
+              "type": "CountWithTimeData",
+              "id": 4
+            },
+            "gift_inbox": {
+              "rule": "repeated",
+              "type": "GiftBoxData",
+              "id": 5
+            }
+          },
+          "nested": {
+            "CountWithTimeData": {
+              "fields": {
+                "count": {
+                  "type": "uint32",
+                  "id": 1
+                },
+                "last_update_time": {
+                  "type": "uint32",
+                  "id": 2
+                },
+                "send_friend_id": {
+                  "rule": "repeated",
+                  "type": "uint32",
+                  "id": 3
+                }
+              }
+            },
+            "GiftBoxData": {
+              "fields": {
+                "id": {
+                  "type": "uint32",
+                  "id": 1
+                },
+                "item_id": {
+                  "type": "uint32",
+                  "id": 2
+                },
+                "count": {
+                  "type": "uint32",
+                  "id": 3
+                },
+                "from_account_id": {
+                  "type": "uint32",
+                  "id": 4
+                },
+                "time": {
+                  "type": "uint32",
+                  "id": 5
+                },
+                "received": {
+                  "type": "uint32",
+                  "id": 6
+                }
+              }
+            }
+          }
+        },
+        "ActivityUpgradeData": {
+          "fields": {
+            "activity_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "groups": {
+              "rule": "repeated",
+              "type": "LevelGroup",
+              "id": 2
+            },
+            "received_level": {
+              "type": "uint32",
+              "id": 3
+            }
+          },
+          "nested": {
+            "LevelGroup": {
+              "fields": {
+                "group_id": {
+                  "type": "uint32",
+                  "id": 1
+                },
+                "level": {
+                  "type": "uint32",
+                  "id": 2
+                }
+              }
+            }
+          }
+        },
+        "GachaRecord": {
+          "fields": {
+            "id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "count": {
+              "type": "uint32",
+              "id": 2
+            }
+          }
+        },
+        "ActivityGachaData": {
+          "fields": {
+            "activity_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "gained": {
+              "rule": "repeated",
+              "type": "GachaRecord",
+              "id": 2
+            }
+          }
+        },
+        "ActivityGachaUpdateData": {
+          "fields": {
+            "activity_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "gained": {
+              "rule": "repeated",
+              "type": "GachaRecord",
+              "id": 2
+            },
+            "remain_count": {
+              "type": "uint32",
+              "id": 3
+            }
+          }
+        },
+        "ActivitySpotData": {
+          "fields": {
+            "activity_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "spots": {
+              "rule": "repeated",
+              "type": "SpotData",
+              "id": 3
+            }
+          },
+          "nested": {
+            "SpotData": {
+              "fields": {
+                "unique_id": {
+                  "type": "uint32",
+                  "id": 1
+                },
+                "rewarded": {
+                  "type": "uint32",
+                  "id": 2
+                },
+                "unlocked_ending": {
+                  "rule": "repeated",
+                  "type": "uint32",
+                  "id": 3
+                }
+              }
             }
           }
         },
@@ -3039,6 +3626,11 @@
               "rule": "repeated",
               "type": "uint32",
               "id": 7
+            },
+            "rewarded_level": {
+              "rule": "repeated",
+              "type": "uint32",
+              "id": 8
             }
           }
         },
@@ -3226,6 +3818,10 @@
                 "enable_for_frozen_account": {
                   "type": "bool",
                   "id": 6
+                },
+                "extra_data": {
+                  "type": "string",
+                  "id": 7
                 }
               }
             }
@@ -3330,6 +3926,10 @@
             "face_black_count": {
               "type": "uint32",
               "id": 3
+            },
+            "ticket_face_black_count": {
+              "type": "uint32",
+              "id": 4
             }
           }
         },
@@ -3450,6 +4050,10 @@
             "public_notice": {
               "type": "string",
               "id": 10
+            },
+            "contest_type": {
+              "type": "uint32",
+              "id": 11
             }
           }
         },
@@ -3514,6 +4118,10 @@
             "contest_type": {
               "type": "uint32",
               "id": 15
+            },
+            "disable_broadcast": {
+              "type": "uint32",
+              "id": 16
             }
           }
         },
@@ -4228,6 +4836,58 @@
             "disable_leijiyiman": {
               "type": "bool",
               "id": 42
+            },
+            "dora3_mode": {
+              "type": "uint32",
+              "id": 43
+            },
+            "xuezhandaodi": {
+              "type": "uint32",
+              "id": 44
+            },
+            "huansanzhang": {
+              "type": "uint32",
+              "id": 45
+            },
+            "chuanma": {
+              "type": "uint32",
+              "id": 46
+            },
+            "disable_double_yakuman": {
+              "type": "uint32",
+              "id": 62
+            },
+            "disable_composite_yakuman": {
+              "type": "uint32",
+              "id": 63
+            },
+            "enable_shiti": {
+              "type": "uint32",
+              "id": 64
+            },
+            "enable_nontsumo_liqi": {
+              "type": "uint32",
+              "id": 65
+            },
+            "disable_double_wind_four_fu": {
+              "type": "uint32",
+              "id": 66
+            },
+            "disable_angang_guoshi": {
+              "type": "uint32",
+              "id": 67
+            },
+            "enable_renhe": {
+              "type": "uint32",
+              "id": 68
+            },
+            "enable_baopai_extend_settings": {
+              "type": "uint32",
+              "id": 69
+            },
+            "fanfu": {
+              "type": "uint32",
+              "id": 70
             }
           }
         },
@@ -4437,6 +5097,10 @@
             "ting_type": {
               "type": "uint32",
               "id": 21
+            },
+            "ting_mian": {
+              "type": "uint32",
+              "id": 22
             }
           },
           "nested": {
@@ -4646,11 +5310,394 @@
             }
           }
         },
+        "VoteData": {
+          "fields": {
+            "activity_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "vote": {
+              "type": "uint32",
+              "id": 2
+            },
+            "count": {
+              "type": "uint32",
+              "id": 3
+            }
+          }
+        },
+        "ActivityBuffData": {
+          "fields": {
+            "buff_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "level": {
+              "type": "uint32",
+              "id": 5
+            }
+          }
+        },
+        "AccountResourceSnapshot": {
+          "fields": {
+            "bag_item": {
+              "rule": "repeated",
+              "type": "BagItemSnapshot",
+              "id": 1
+            },
+            "currency": {
+              "rule": "repeated",
+              "type": "CurrencySnapshot",
+              "id": 2
+            },
+            "title": {
+              "type": "TitleSnapshot",
+              "id": 3
+            },
+            "used_title": {
+              "type": "UsedTitleSnapshot",
+              "id": 4
+            }
+          },
+          "nested": {
+            "BagItemSnapshot": {
+              "fields": {
+                "resource_id": {
+                  "type": "uint32",
+                  "id": 1
+                },
+                "resource_count": {
+                  "type": "uint32",
+                  "id": 2
+                },
+                "resource_version": {
+                  "type": "uint32",
+                  "id": 3
+                }
+              }
+            },
+            "CurrencySnapshot": {
+              "fields": {
+                "currency_id": {
+                  "type": "uint32",
+                  "id": 1
+                },
+                "currency_count": {
+                  "type": "uint32",
+                  "id": 2
+                }
+              }
+            },
+            "TitleSnapshot": {
+              "fields": {
+                "title_list": {
+                  "rule": "repeated",
+                  "type": "uint32",
+                  "id": 1
+                }
+              }
+            },
+            "UsedTitleSnapshot": {
+              "fields": {
+                "title_id": {
+                  "type": "uint32",
+                  "id": 1
+                }
+              }
+            }
+          }
+        },
+        "AccountCharacterSnapshot": {
+          "fields": {
+            "created_characters": {
+              "rule": "repeated",
+              "type": "uint32",
+              "id": 1
+            },
+            "removed_characters": {
+              "rule": "repeated",
+              "type": "Character",
+              "id": 2
+            },
+            "modified_characters": {
+              "rule": "repeated",
+              "type": "Character",
+              "id": 3
+            },
+            "main_character": {
+              "type": "MainCharacterSnapshot",
+              "id": 4
+            },
+            "skins": {
+              "type": "SkinsSnapshot",
+              "id": 5
+            },
+            "hidden_characters": {
+              "type": "HiddenCharacter",
+              "id": 6
+            }
+          },
+          "nested": {
+            "MainCharacterSnapshot": {
+              "fields": {
+                "character_id": {
+                  "type": "uint32",
+                  "id": 1
+                }
+              }
+            },
+            "SkinsSnapshot": {
+              "fields": {
+                "skin_list": {
+                  "rule": "repeated",
+                  "type": "uint32",
+                  "id": 1
+                }
+              }
+            },
+            "HiddenCharacter": {
+              "fields": {
+                "hidden_list": {
+                  "rule": "repeated",
+                  "type": "uint32",
+                  "id": 1
+                }
+              }
+            }
+          }
+        },
+        "AccountMailRecord": {
+          "fields": {
+            "created_mails": {
+              "rule": "repeated",
+              "type": "uint32",
+              "id": 1
+            },
+            "removed_mails": {
+              "rule": "repeated",
+              "type": "MailSnapshot",
+              "id": 2
+            },
+            "modified_mails": {
+              "rule": "repeated",
+              "type": "MailSnapshot",
+              "id": 3
+            }
+          },
+          "nested": {
+            "MailSnapshot": {
+              "fields": {
+                "mail_id": {
+                  "type": "uint32",
+                  "id": 1
+                },
+                "reference_id": {
+                  "type": "uint32",
+                  "id": 2
+                },
+                "create_time": {
+                  "type": "uint32",
+                  "id": 3
+                },
+                "expire_time": {
+                  "type": "uint32",
+                  "id": 4
+                },
+                "take_attachment": {
+                  "type": "uint32",
+                  "id": 5
+                },
+                "attachments": {
+                  "rule": "repeated",
+                  "type": "RewardSlot",
+                  "id": 6
+                }
+              }
+            }
+          }
+        },
+        "AccountAchievementSnapshot": {
+          "fields": {
+            "achievements": {
+              "rule": "repeated",
+              "type": "AchievementProgress",
+              "id": 1
+            },
+            "rewarded_group": {
+              "type": "RewardedGroupSnapshot",
+              "id": 2
+            },
+            "version": {
+              "type": "AchievementVersion",
+              "id": 3
+            }
+          },
+          "nested": {
+            "RewardedGroupSnapshot": {
+              "fields": {
+                "rewarded_id": {
+                  "type": "uint32",
+                  "id": 1
+                }
+              }
+            },
+            "AchievementVersion": {
+              "fields": {
+                "version": {
+                  "type": "uint32",
+                  "id": 1
+                }
+              }
+            }
+          }
+        },
+        "AccountMiscSnapshot": {
+          "fields": {
+            "faith_data": {
+              "type": "FaithData",
+              "id": 1
+            },
+            "vip_reward_gained": {
+              "type": "AccountVIPRewardSnapshot",
+              "id": 2
+            },
+            "vip": {
+              "type": "AccountVIP",
+              "id": 3
+            },
+            "shop_info": {
+              "type": "ShopInfo",
+              "id": 4
+            },
+            "month_ticket": {
+              "type": "AccountMonthTicketSnapshot",
+              "id": 5
+            }
+          },
+          "nested": {
+            "AccountVIPRewardSnapshot": {
+              "fields": {
+                "rewarded": {
+                  "rule": "repeated",
+                  "type": "uint32",
+                  "id": 1
+                }
+              }
+            },
+            "MonthTicketInfo": {
+              "fields": {
+                "id": {
+                  "type": "uint32",
+                  "id": 1
+                },
+                "end_time": {
+                  "type": "uint32",
+                  "id": 2
+                },
+                "last_pay_time": {
+                  "type": "uint32",
+                  "id": 3
+                },
+                "record_start_time": {
+                  "type": "uint32",
+                  "id": 4
+                },
+                "history": {
+                  "rule": "repeated",
+                  "type": "uint32",
+                  "id": 5
+                }
+              }
+            },
+            "AccountMonthTicketSnapshot": {
+              "fields": {
+                "tickets": {
+                  "rule": "repeated",
+                  "type": "MonthTicketInfo",
+                  "id": 1
+                }
+              }
+            },
+            "AccountVIP": {
+              "fields": {
+                "vip": {
+                  "type": "uint32",
+                  "id": 1
+                }
+              }
+            }
+          }
+        },
+        "AccountGiftCodeRecord": {
+          "fields": {
+            "used_gift_code": {
+              "rule": "repeated",
+              "type": "string",
+              "id": 1
+            }
+          }
+        },
+        "AccSn": {
+          "fields": {
+            "resource": {
+              "type": "AccountResourceSnapshot",
+              "id": 1
+            },
+            "character": {
+              "type": "AccountCharacterSnapshot",
+              "id": 2
+            },
+            "mail": {
+              "type": "AccountMailRecord",
+              "id": 3
+            },
+            "achievement": {
+              "type": "AccountAchievementSnapshot",
+              "id": 4
+            },
+            "misc": {
+              "type": "AccountMiscSnapshot",
+              "id": 5
+            },
+            "gift_code": {
+              "type": "AccountGiftCodeRecord",
+              "id": 6
+            }
+          }
+        },
+        "AccSnDa": {
+          "fields": {
+            "account_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "time": {
+              "type": "uint32",
+              "id": 2
+            },
+            "snapshot": {
+              "type": "bytes",
+              "id": 3
+            }
+          }
+        },
         "Lobby": {
           "methods": {
             "fetchConnectionInfo": {
               "requestType": "ReqCommon",
               "responseType": "ResConnectionInfo"
+            },
+            "fetchQueueInfo": {
+              "requestType": "ReqCommon",
+              "responseType": "ResFetchQueueInfo"
+            },
+            "cancelQueue": {
+              "requestType": "ReqCommon",
+              "responseType": "ResCommon"
+            },
+            "openidCheck": {
+              "requestType": "ReqOpenidCheck",
+              "responseType": "ResOauth2Check"
             },
             "signup": {
               "requestType": "ReqSignupAccount",
@@ -5132,6 +6179,10 @@
               "requestType": "ReqChangeCharacterView",
               "responseType": "ResCommon"
             },
+            "setHiddenCharacter": {
+              "requestType": "ReqSetHiddenCharacter",
+              "responseType": "ResSetHiddenCharacter"
+            },
             "sendGiftToCharacter": {
               "requestType": "ReqSendGiftToCharacter",
               "responseType": "ResSendGiftToCharacter"
@@ -5276,6 +6327,14 @@
               "requestType": "ReqCreateJPSoftbankOrder",
               "responseType": "ResCreateJPSoftbankOrder"
             },
+            "createJPPayPayOrder": {
+              "requestType": "ReqCreateJPPayPayOrder",
+              "responseType": "ResCreateJPPayPayOrder"
+            },
+            "fetchJPCommonCreditCardOrder": {
+              "requestType": "ReqFetchJPCommonCreditCardOrder",
+              "responseType": "ResFetchJPCommonCreditCardOrder"
+            },
             "createENPaypalOrder": {
               "requestType": "ReqCreateENPaypalOrder",
               "responseType": "ResCreateENPaypalOrder"
@@ -5295,6 +6354,26 @@
             "createENAlipayOrder": {
               "requestType": "ReqCreateENAlipayOrder",
               "responseType": "ResCreateENAlipayOrder"
+            },
+            "createKRPaypalOrder": {
+              "requestType": "ReqCreateKRPaypalOrder",
+              "responseType": "ResCreateKRPaypalOrder"
+            },
+            "createKRMasterCardOrder": {
+              "requestType": "ReqCreateKRMasterCardOrder",
+              "responseType": "ResCreateKRMasterCardOrder"
+            },
+            "createKRVisaOrder": {
+              "requestType": "ReqCreateKRVisaOrder",
+              "responseType": "ResCreateKRVisaOrder"
+            },
+            "createKRJCBOrder": {
+              "requestType": "ReqCreateKRJCBOrder",
+              "responseType": "ResCreateKRJCBOrder"
+            },
+            "createKRAlipayOrder": {
+              "requestType": "ReqCreateKRAlipayOrder",
+              "responseType": "ResCreateKRAlipayOrder"
             },
             "createDMMOrder": {
               "requestType": "ReqCreateDMMOrder",
@@ -5350,6 +6429,10 @@
             },
             "solveGooglePayOrderV3": {
               "requestType": "ReqSolveGooglePlayOrderV3",
+              "responseType": "ResCommon"
+            },
+            "deliverAA32Order": {
+              "requestType": "ReqDeliverAA32Order",
               "responseType": "ResCommon"
             },
             "fetchMisc": {
@@ -5468,6 +6551,10 @@
               "requestType": "ReqCompleteActivityTask",
               "responseType": "ResCommon"
             },
+            "completePeriodActivityTaskBatch": {
+              "requestType": "ReqCompletePeriodActivityTaskBatch",
+              "responseType": "ResCommon"
+            },
             "completeRandomActivityTask": {
               "requestType": "ReqCompleteActivityTask",
               "responseType": "ResCommon"
@@ -5475,6 +6562,10 @@
             "receiveActivityFlipTask": {
               "requestType": "ReqReceiveActivityFlipTask",
               "responseType": "ResReceiveActivityFlipTask"
+            },
+            "completeSegmentTaskReward": {
+              "requestType": "ReqCompleteSegmentTaskReward",
+              "responseType": "ResCompleteSegmentTaskReward"
             },
             "fetchActivityFlipInfo": {
               "requestType": "ReqFetchActivityFlipInfo",
@@ -5523,6 +6614,14 @@
             "upgradeActivityBuff": {
               "requestType": "ReqUpgradeActivityBuff",
               "responseType": "ResActivityBuff"
+            },
+            "upgradeActivityLevel": {
+              "requestType": "ReqUpgradeActivityLevel",
+              "responseType": "ResUpgradeActivityLevel"
+            },
+            "receiveUpgradeActivityReward": {
+              "requestType": "ReqReceiveUpgradeActivityReward",
+              "responseType": "ResReceiveUpgradeActivityReward"
             },
             "upgradeChallenge": {
               "requestType": "ReqCommon",
@@ -5612,8 +6711,16 @@
               "requestType": "ReqFetchRPGBattleHistory",
               "responseType": "ResFetchRPGBattleHistory"
             },
+            "fetchRPGBattleHistoryV2": {
+              "requestType": "ReqFetchRPGBattleHistory",
+              "responseType": "ResFetchRPGBattleHistoryV2"
+            },
             "receiveRPGRewards": {
               "requestType": "ReqReceiveRPGRewards",
+              "responseType": "ResReceiveRPGRewards"
+            },
+            "receiveRPGReward": {
+              "requestType": "ReqReceiveRPGReward",
               "responseType": "ResReceiveRPGRewards"
             },
             "buyArenaTicket": {
@@ -5627,6 +6734,94 @@
             "receiveArenaReward": {
               "requestType": "ReqArenaReward",
               "responseType": "ResArenaReward"
+            },
+            "fetchOBToken": {
+              "requestType": "ReqFetchOBToken",
+              "responseType": "ResFetchOBToken"
+            },
+            "receiveCharacterRewards": {
+              "requestType": "ReqReceiveCharacterRewards",
+              "responseType": "ResReceiveCharacterRewards"
+            },
+            "feedActivityFeed": {
+              "requestType": "ReqFeedActivityFeed",
+              "responseType": "ResFeedActivityFeed"
+            },
+            "sendActivityGiftToFriend": {
+              "requestType": "ReqSendActivityGiftToFriend",
+              "responseType": "ResSendActivityGiftToFriend"
+            },
+            "receiveActivityGift": {
+              "requestType": "ReqReceiveActivityGift",
+              "responseType": "ResCommon"
+            },
+            "receiveAllActivityGift": {
+              "requestType": "ReqReceiveAllActivityGift",
+              "responseType": "ResReceiveAllActivityGift"
+            },
+            "fetchFriendGiftActivityData": {
+              "requestType": "ReqFetchFriendGiftActivityData",
+              "responseType": "ResFetchFriendGiftActivityData"
+            },
+            "openPreChestItem": {
+              "requestType": "ReqOpenPreChestItem",
+              "responseType": "ResOpenPreChestItem"
+            },
+            "fetchVoteActivity": {
+              "requestType": "ReqFetchVoteActivity",
+              "responseType": "ResFetchVoteActivity"
+            },
+            "voteActivity": {
+              "requestType": "ReqVoteActivity",
+              "responseType": "ResVoteActivity"
+            },
+            "unlockActivitySpot": {
+              "requestType": "ReqUnlockActivitySpot",
+              "responseType": "ResCommon"
+            },
+            "receiveActivitySpotReward": {
+              "requestType": "ReqReceiveActivitySpotReward",
+              "responseType": "ResReceiveActivitySpotReward"
+            },
+            "deleteAccount": {
+              "requestType": "ReqCommon",
+              "responseType": "ResDeleteAccount"
+            },
+            "cancelDeleteAccount": {
+              "requestType": "ReqCommon",
+              "responseType": "ResCommon"
+            },
+            "logReport": {
+              "requestType": "ReqLogReport",
+              "responseType": "ResCommon"
+            },
+            "bindOauth2": {
+              "requestType": "ReqBindOauth2",
+              "responseType": "ResCommon"
+            },
+            "fetchOauth2Info": {
+              "requestType": "ReqFetchOauth2",
+              "responseType": "ResFetchOauth2"
+            },
+            "setLoadingImage": {
+              "requestType": "ReqSetLoadingImage",
+              "responseType": "ResCommon"
+            },
+            "fetchShopInterval": {
+              "requestType": "ReqCommon",
+              "responseType": "ResFetchShopInterval"
+            },
+            "fetchActivityInterval": {
+              "requestType": "ReqCommon",
+              "responseType": "ResFetchActivityInterval"
+            },
+            "fetchRecentFriend": {
+              "requestType": "ReqCommon",
+              "responseType": "ResFetchrecentFriend"
+            },
+            "openGacha": {
+              "requestType": "ReqOpenGacha",
+              "responseType": "ResOpenGacha"
             }
           }
         },
@@ -5638,6 +6833,34 @@
             },
             "client_endpoint": {
               "type": "NetworkEndpoint",
+              "id": 2
+            }
+          }
+        },
+        "ResFetchQueueInfo": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "remain": {
+              "type": "uint32",
+              "id": 2
+            },
+            "rank": {
+              "type": "uint32",
+              "id": 3
+            }
+          }
+        },
+        "ReqOpenidCheck": {
+          "fields": {
+            "type": {
+              "type": "uint32",
+              "id": 1
+            },
+            "token": {
+              "type": "string",
               "id": 2
             }
           }
@@ -5667,6 +6890,10 @@
             "client_version_string": {
               "type": "string",
               "id": 6
+            },
+            "tag": {
+              "type": "string",
+              "id": 7
             }
           }
         },
@@ -5724,6 +6951,10 @@
             "client_version_string": {
               "type": "string",
               "id": 11
+            },
+            "tag": {
+              "type": "string",
+              "id": 12
             }
           }
         },
@@ -6047,6 +7278,10 @@
             "client_version_string": {
               "type": "string",
               "id": 7
+            },
+            "tag": {
+              "type": "string",
+              "id": 8
             }
           }
         },
@@ -6100,6 +7335,10 @@
             "client_version_string": {
               "type": "string",
               "id": 10
+            },
+            "tag": {
+              "type": "string",
+              "id": 11
             }
           }
         },
@@ -6203,6 +7442,10 @@
             "advertise_str": {
               "type": "string",
               "id": 2
+            },
+            "tag": {
+              "type": "string",
+              "id": 3
             }
           }
         },
@@ -6984,6 +8227,10 @@
             "lang": {
               "type": "string",
               "id": 1
+            },
+            "platform": {
+              "type": "string",
+              "id": 2
             }
           }
         },
@@ -7639,6 +8886,10 @@
             "account_id": {
               "type": "uint32",
               "id": 4
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 5
             }
           }
         },
@@ -7711,6 +8962,10 @@
             "account_ip": {
               "type": "string",
               "id": 4
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 5
             }
           }
         },
@@ -7747,6 +9002,10 @@
             "account_ip": {
               "type": "string",
               "id": 4
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 5
             }
           }
         },
@@ -7817,6 +9076,10 @@
             "return_url": {
               "type": "string",
               "id": 5
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 6
             }
           }
         },
@@ -7845,6 +9108,10 @@
             "account_id": {
               "type": "uint32",
               "id": 3
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 4
             }
           }
         },
@@ -7881,6 +9148,10 @@
             "account_id": {
               "type": "uint32",
               "id": 3
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 4
             }
           }
         },
@@ -7917,6 +9188,10 @@
             "access_token": {
               "type": "string",
               "id": 5
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 6
             }
           }
         },
@@ -7953,6 +9228,10 @@
             "access_token": {
               "type": "string",
               "id": 5
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 6
             }
           }
         },
@@ -7989,6 +9268,10 @@
             "access_token": {
               "type": "string",
               "id": 5
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 6
             }
           }
         },
@@ -8025,6 +9308,10 @@
             "access_token": {
               "type": "string",
               "id": 5
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 6
             }
           }
         },
@@ -8061,6 +9348,10 @@
             "access_token": {
               "type": "string",
               "id": 5
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 6
             }
           }
         },
@@ -8097,6 +9388,10 @@
             "access_token": {
               "type": "string",
               "id": 5
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 6
             }
           }
         },
@@ -8109,6 +9404,66 @@
             "order_id": {
               "type": "string",
               "id": 2
+            }
+          }
+        },
+        "ReqCreateJPPayPayOrder": {
+          "fields": {
+            "goods_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "client_type": {
+              "type": "uint32",
+              "id": 2
+            },
+            "account_id": {
+              "type": "uint32",
+              "id": 3
+            },
+            "return_url": {
+              "type": "string",
+              "id": 4
+            },
+            "access_token": {
+              "type": "string",
+              "id": 5
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 6
+            }
+          }
+        },
+        "ResCreateJPPayPayOrder": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "order_id": {
+              "type": "string",
+              "id": 2
+            }
+          }
+        },
+        "ReqFetchJPCommonCreditCardOrder": {
+          "fields": {
+            "order_id": {
+              "type": "string",
+              "id": 1
+            },
+            "account_id": {
+              "type": "uint32",
+              "id": 2
+            }
+          }
+        },
+        "ResFetchJPCommonCreditCardOrder": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
             }
           }
         },
@@ -8129,6 +9484,10 @@
             "order_type": {
               "type": "uint32",
               "id": 4
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 5
             }
           }
         },
@@ -8165,6 +9524,10 @@
             "access_token": {
               "type": "string",
               "id": 5
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 6
             }
           }
         },
@@ -8201,6 +9564,10 @@
             "access_token": {
               "type": "string",
               "id": 5
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 6
             }
           }
         },
@@ -8237,6 +9604,10 @@
             "access_token": {
               "type": "string",
               "id": 5
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 6
             }
           }
         },
@@ -8273,6 +9644,10 @@
             "access_token": {
               "type": "string",
               "id": 5
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 6
             }
           }
         },
@@ -8309,10 +9684,214 @@
             "access_token": {
               "type": "string",
               "id": 5
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 6
             }
           }
         },
         "ResCreateENAlipayOrder": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "order_id": {
+              "type": "string",
+              "id": 2
+            }
+          }
+        },
+        "ReqCreateKRPaypalOrder": {
+          "fields": {
+            "goods_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "client_type": {
+              "type": "uint32",
+              "id": 2
+            },
+            "account_id": {
+              "type": "uint32",
+              "id": 3
+            },
+            "return_url": {
+              "type": "string",
+              "id": 4
+            },
+            "access_token": {
+              "type": "string",
+              "id": 5
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 6
+            }
+          }
+        },
+        "ResCreateKRPaypalOrder": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "order_id": {
+              "type": "string",
+              "id": 2
+            }
+          }
+        },
+        "ReqCreateKRJCBOrder": {
+          "fields": {
+            "goods_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "client_type": {
+              "type": "uint32",
+              "id": 2
+            },
+            "account_id": {
+              "type": "uint32",
+              "id": 3
+            },
+            "return_url": {
+              "type": "string",
+              "id": 4
+            },
+            "access_token": {
+              "type": "string",
+              "id": 5
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 6
+            }
+          }
+        },
+        "ResCreateKRJCBOrder": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "order_id": {
+              "type": "string",
+              "id": 2
+            }
+          }
+        },
+        "ReqCreateKRMasterCardOrder": {
+          "fields": {
+            "goods_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "client_type": {
+              "type": "uint32",
+              "id": 2
+            },
+            "account_id": {
+              "type": "uint32",
+              "id": 3
+            },
+            "return_url": {
+              "type": "string",
+              "id": 4
+            },
+            "access_token": {
+              "type": "string",
+              "id": 5
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 6
+            }
+          }
+        },
+        "ResCreateKRMasterCardOrder": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "order_id": {
+              "type": "string",
+              "id": 2
+            }
+          }
+        },
+        "ReqCreateKRVisaOrder": {
+          "fields": {
+            "goods_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "client_type": {
+              "type": "uint32",
+              "id": 2
+            },
+            "account_id": {
+              "type": "uint32",
+              "id": 3
+            },
+            "return_url": {
+              "type": "string",
+              "id": 4
+            },
+            "access_token": {
+              "type": "string",
+              "id": 5
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 6
+            }
+          }
+        },
+        "ResCreateKRVisaOrder": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "order_id": {
+              "type": "string",
+              "id": 2
+            }
+          }
+        },
+        "ReqCreateKRAlipayOrder": {
+          "fields": {
+            "goods_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "client_type": {
+              "type": "uint32",
+              "id": 2
+            },
+            "account_id": {
+              "type": "uint32",
+              "id": 3
+            },
+            "return_url": {
+              "type": "string",
+              "id": 4
+            },
+            "access_token": {
+              "type": "string",
+              "id": 5
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 6
+            }
+          }
+        },
+        "ResCreateKRAlipayOrder": {
           "fields": {
             "error": {
               "type": "Error",
@@ -8337,6 +9916,10 @@
             "client_type": {
               "type": "uint32",
               "id": 3
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 4
             }
           }
         },
@@ -8397,6 +9980,10 @@
             "debt_order_id": {
               "type": "string",
               "id": 5
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 6
             }
           }
         },
@@ -8465,6 +10052,10 @@
             "debt_order_id": {
               "type": "string",
               "id": 6
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 7
             }
           }
         },
@@ -8513,6 +10104,10 @@
             "debt_order_id": {
               "type": "string",
               "id": 4
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 5
             }
           }
         },
@@ -8561,6 +10156,10 @@
             "debt_order_id": {
               "type": "string",
               "id": 4
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 5
             }
           }
         },
@@ -8601,6 +10200,10 @@
             "debt_order_id": {
               "type": "string",
               "id": 5
+            },
+            "client_version_string": {
+              "type": "string",
+              "id": 6
             }
           }
         },
@@ -8615,6 +10218,22 @@
               "id": 2
             },
             "url": {
+              "type": "string",
+              "id": 3
+            }
+          }
+        },
+        "ReqDeliverAA32Order": {
+          "fields": {
+            "account_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "nsa_id": {
+              "type": "string",
+              "id": 2
+            },
+            "nsa_token": {
               "type": "string",
               "id": 3
             }
@@ -8801,6 +10420,11 @@
               "rule": "repeated",
               "type": "uint32",
               "id": 9
+            },
+            "hidden_characters": {
+              "rule": "repeated",
+              "type": "uint32",
+              "id": 10
             }
           }
         },
@@ -8846,6 +10470,28 @@
             "item_id": {
               "type": "uint32",
               "id": 3
+            }
+          }
+        },
+        "ReqSetHiddenCharacter": {
+          "fields": {
+            "chara_list": {
+              "rule": "repeated",
+              "type": "uint32",
+              "id": 1
+            }
+          }
+        },
+        "ResSetHiddenCharacter": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "hidden_characters": {
+              "rule": "repeated",
+              "type": "uint32",
+              "id": 2
             }
           }
         },
@@ -9098,14 +10744,29 @@
               "type": "uint32",
               "id": 2
             },
-            "bill_short_cut": {
+            "ver_price": {
               "rule": "repeated",
-              "type": "BillShortcut",
+              "type": "Item",
               "id": 3
             },
-            "deal_price": {
-              "type": "uint32",
+            "ver_goods": {
+              "rule": "repeated",
+              "type": "Item",
               "id": 4
+            }
+          },
+          "nested": {
+            "Item": {
+              "fields": {
+                "id": {
+                  "type": "uint32",
+                  "id": 1
+                },
+                "count": {
+                  "type": "uint32",
+                  "id": 2
+                }
+              }
             }
           }
         },
@@ -9699,7 +11360,7 @@
             },
             "mine_data": {
               "rule": "repeated",
-              "type": "MineActivityData",
+              "type": "lq.MineActivityData",
               "id": 13
             },
             "rpg_data": {
@@ -9711,6 +11372,41 @@
               "rule": "repeated",
               "type": "lq.ActivityArenaData",
               "id": 15
+            },
+            "feed_data": {
+              "rule": "repeated",
+              "type": "lq.FeedActivityData",
+              "id": 16
+            },
+            "segment_task_progress_list": {
+              "rule": "repeated",
+              "type": "lq.SegmentTaskProgress",
+              "id": 17
+            },
+            "vote_records": {
+              "rule": "repeated",
+              "type": "lq.VoteData",
+              "id": 18
+            },
+            "spot_data": {
+              "rule": "repeated",
+              "type": "lq.ActivitySpotData",
+              "id": 19
+            },
+            "friend_gift_data": {
+              "rule": "repeated",
+              "type": "lq.ActivityFriendGiftData",
+              "id": 20
+            },
+            "upgrade_data": {
+              "rule": "repeated",
+              "type": "lq.ActivityUpgradeData",
+              "id": 21
+            },
+            "gacha_data": {
+              "rule": "repeated",
+              "type": "lq.ActivityGachaUpdateData",
+              "id": 22
             }
           },
           "nested": {
@@ -9809,24 +11505,6 @@
                   "id": 3
                 }
               }
-            },
-            "MineActivityData": {
-              "fields": {
-                "dig_point": {
-                  "rule": "repeated",
-                  "type": "Point",
-                  "id": 1
-                },
-                "map": {
-                  "rule": "repeated",
-                  "type": "MineReward",
-                  "id": 2
-                },
-                "id": {
-                  "type": "uint32",
-                  "id": 3
-                }
-              }
             }
           }
         },
@@ -9887,6 +11565,15 @@
             }
           }
         },
+        "ReqCompletePeriodActivityTaskBatch": {
+          "fields": {
+            "task_list": {
+              "rule": "repeated",
+              "type": "uint32",
+              "id": 1
+            }
+          }
+        },
         "ReqReceiveActivityFlipTask": {
           "fields": {
             "task_id": {
@@ -9903,6 +11590,31 @@
             },
             "error": {
               "type": "Error",
+              "id": 2
+            }
+          }
+        },
+        "ReqCompleteSegmentTaskReward": {
+          "fields": {
+            "task_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "count": {
+              "type": "uint32",
+              "id": 2
+            }
+          }
+        },
+        "ResCompleteSegmentTaskReward": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "rewards": {
+              "rule": "repeated",
+              "type": "ExecuteReward",
               "id": 2
             }
           }
@@ -10229,22 +11941,8 @@
             },
             "buff_list": {
               "rule": "repeated",
-              "type": "ActivityBuffData",
+              "type": "lq.ActivityBuffData",
               "id": 2
-            }
-          },
-          "nested": {
-            "ActivityBuffData": {
-              "fields": {
-                "buff_id": {
-                  "type": "uint32",
-                  "id": 1
-                },
-                "level": {
-                  "type": "uint32",
-                  "id": 2
-                }
-              }
             }
           }
         },
@@ -10253,6 +11951,104 @@
             "buff_id": {
               "type": "uint32",
               "id": 1
+            }
+          }
+        },
+        "ReqUpgradeActivityLevel": {
+          "fields": {
+            "activity_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "group": {
+              "type": "uint32",
+              "id": 2
+            },
+            "count": {
+              "type": "uint32",
+              "id": 3
+            }
+          }
+        },
+        "ResUpgradeActivityLevel": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "rewards": {
+              "rule": "repeated",
+              "type": "ExecuteReward",
+              "id": 2
+            }
+          }
+        },
+        "ReqReceiveUpgradeActivityReward": {
+          "fields": {
+            "activity_id": {
+              "type": "uint32",
+              "id": 1
+            }
+          }
+        },
+        "ResReceiveUpgradeActivityReward": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "rewards": {
+              "rule": "repeated",
+              "type": "ExecuteReward",
+              "id": 2
+            }
+          }
+        },
+        "ReqReceiveAllActivityGift": {
+          "fields": {
+            "activity_id": {
+              "type": "uint32",
+              "id": 1
+            }
+          }
+        },
+        "ResReceiveAllActivityGift": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "rewards": {
+              "rule": "repeated",
+              "type": "ExecuteReward",
+              "id": 2
+            },
+            "receive_gift": {
+              "rule": "repeated",
+              "type": "ReceiveRewards",
+              "id": 3
+            }
+          },
+          "nested": {
+            "ReceiveRewards": {
+              "fields": {
+                "id": {
+                  "type": "uint32",
+                  "id": 1
+                },
+                "from_account_id": {
+                  "type": "uint32",
+                  "id": 2
+                },
+                "item_id": {
+                  "type": "uint32",
+                  "id": 3
+                },
+                "count": {
+                  "type": "uint32",
+                  "id": 4
+                }
+              }
             }
           }
         },
@@ -10832,6 +12628,75 @@
             }
           }
         },
+        "ResFetchRPGBattleHistoryV2": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "battle_result": {
+              "rule": "repeated",
+              "type": "BattleResultV2",
+              "id": 2
+            },
+            "start_state": {
+              "type": "lq.RPGState",
+              "id": 3
+            },
+            "current_state": {
+              "type": "lq.RPGState",
+              "id": 4
+            },
+            "recent_battle_result": {
+              "rule": "repeated",
+              "type": "BattleResultV2",
+              "id": 5
+            }
+          },
+          "nested": {
+            "BattleResultV2": {
+              "fields": {
+                "uuid": {
+                  "type": "string",
+                  "id": 14
+                },
+                "chang": {
+                  "type": "uint32",
+                  "id": 1
+                },
+                "ju": {
+                  "type": "uint32",
+                  "id": 2
+                },
+                "ben": {
+                  "type": "uint32",
+                  "id": 3
+                },
+                "damage": {
+                  "type": "uint32",
+                  "id": 5
+                },
+                "monster_seq": {
+                  "type": "uint32",
+                  "id": 7
+                },
+                "killed": {
+                  "type": "uint32",
+                  "id": 9
+                },
+                "buff": {
+                  "rule": "repeated",
+                  "type": "lq.ActivityBuffData",
+                  "id": 10
+                },
+                "points": {
+                  "type": "uint32",
+                  "id": 11
+                }
+              }
+            }
+          }
+        },
         "ReqBuyArenaTicket": {
           "fields": {
             "activity_id": {
@@ -10891,6 +12756,18 @@
             }
           }
         },
+        "ReqReceiveRPGReward": {
+          "fields": {
+            "activity_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "monster_seq": {
+              "type": "uint32",
+              "id": 2
+            }
+          }
+        },
         "ResReceiveRPGRewards": {
           "fields": {
             "error": {
@@ -10915,6 +12792,510 @@
                   "id": 2
                 }
               }
+            }
+          }
+        },
+        "ReqFetchOBToken": {
+          "fields": {
+            "uuid": {
+              "type": "string",
+              "id": 1
+            }
+          }
+        },
+        "ResFetchOBToken": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "token": {
+              "type": "string",
+              "id": 2
+            },
+            "create_time": {
+              "type": "uint32",
+              "id": 3
+            },
+            "delay": {
+              "type": "uint32",
+              "id": 4
+            },
+            "start_time": {
+              "type": "uint32",
+              "id": 5
+            }
+          }
+        },
+        "ReqReceiveCharacterRewards": {
+          "fields": {
+            "character_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "level": {
+              "type": "uint32",
+              "id": 2
+            }
+          }
+        },
+        "ResReceiveCharacterRewards": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "items": {
+              "rule": "repeated",
+              "type": "RewardItem",
+              "id": 2
+            }
+          },
+          "nested": {
+            "RewardItem": {
+              "fields": {
+                "id": {
+                  "type": "uint32",
+                  "id": 1
+                },
+                "count": {
+                  "type": "uint32",
+                  "id": 2
+                }
+              }
+            }
+          }
+        },
+        "ReqFeedActivityFeed": {
+          "fields": {
+            "activity_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "count": {
+              "type": "uint32",
+              "id": 2
+            }
+          }
+        },
+        "ResFeedActivityFeed": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "items": {
+              "rule": "repeated",
+              "type": "RewardItem",
+              "id": 2
+            },
+            "feed_count": {
+              "type": "uint32",
+              "id": 3
+            }
+          },
+          "nested": {
+            "RewardItem": {
+              "fields": {
+                "id": {
+                  "type": "uint32",
+                  "id": 1
+                },
+                "count": {
+                  "type": "uint32",
+                  "id": 2
+                }
+              }
+            }
+          }
+        },
+        "ReqSendActivityGiftToFriend": {
+          "fields": {
+            "activity_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "item_id": {
+              "type": "uint32",
+              "id": 2
+            },
+            "target_id": {
+              "type": "uint32",
+              "id": 3
+            }
+          }
+        },
+        "ResSendActivityGiftToFriend": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "send_gift_count": {
+              "type": "uint32",
+              "id": 2
+            }
+          }
+        },
+        "ReqReceiveActivityGift": {
+          "fields": {
+            "activity_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "id": {
+              "type": "uint32",
+              "id": 2
+            }
+          }
+        },
+        "ReqFetchFriendGiftActivityData": {
+          "fields": {
+            "activity_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "account_list": {
+              "rule": "repeated",
+              "type": "uint32",
+              "id": 2
+            }
+          }
+        },
+        "ResFetchFriendGiftActivityData": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "list": {
+              "rule": "repeated",
+              "type": "FriendData",
+              "id": 2
+            }
+          },
+          "nested": {
+            "ItemCountData": {
+              "fields": {
+                "item": {
+                  "type": "uint32",
+                  "id": 1
+                },
+                "count": {
+                  "type": "uint32",
+                  "id": 2
+                }
+              }
+            },
+            "FriendData": {
+              "fields": {
+                "account_id": {
+                  "type": "uint32",
+                  "id": 1
+                },
+                "items": {
+                  "rule": "repeated",
+                  "type": "ItemCountData",
+                  "id": 2
+                },
+                "receive_count": {
+                  "type": "uint32",
+                  "id": 3
+                }
+              }
+            }
+          }
+        },
+        "ReqOpenPreChestItem": {
+          "fields": {
+            "item_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "pool_id": {
+              "type": "uint32",
+              "id": 2
+            }
+          }
+        },
+        "ResOpenPreChestItem": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "results": {
+              "rule": "repeated",
+              "type": "OpenResult",
+              "id": 2
+            }
+          }
+        },
+        "ReqFetchVoteActivity": {
+          "fields": {
+            "activity_id": {
+              "type": "uint32",
+              "id": 1
+            }
+          }
+        },
+        "ResFetchVoteActivity": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "vote_rank": {
+              "rule": "repeated",
+              "type": "uint32",
+              "id": 2
+            },
+            "update_time": {
+              "type": "uint32",
+              "id": 3
+            }
+          }
+        },
+        "ReqVoteActivity": {
+          "fields": {
+            "vote": {
+              "type": "uint32",
+              "id": 1
+            },
+            "activity_id": {
+              "type": "uint32",
+              "id": 2
+            }
+          }
+        },
+        "ResVoteActivity": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "vote_records": {
+              "rule": "repeated",
+              "type": "VoteData",
+              "id": 2
+            }
+          }
+        },
+        "ReqUnlockActivitySpot": {
+          "fields": {
+            "unique_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "ending_id": {
+              "type": "uint32",
+              "id": 2
+            }
+          }
+        },
+        "ReqReceiveActivitySpotReward": {
+          "fields": {
+            "unique_id": {
+              "type": "uint32",
+              "id": 1
+            }
+          }
+        },
+        "ResReceiveActivitySpotReward": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "items": {
+              "rule": "repeated",
+              "type": "RewardItem",
+              "id": 2
+            }
+          },
+          "nested": {
+            "RewardItem": {
+              "fields": {
+                "id": {
+                  "type": "uint32",
+                  "id": 1
+                },
+                "count": {
+                  "type": "uint32",
+                  "id": 2
+                }
+              }
+            }
+          }
+        },
+        "ReqLogReport": {
+          "fields": {
+            "success": {
+              "type": "uint32",
+              "id": 1
+            },
+            "failed": {
+              "type": "uint32",
+              "id": 2
+            }
+          }
+        },
+        "ReqBindOauth2": {
+          "fields": {
+            "type": {
+              "type": "uint32",
+              "id": 1
+            },
+            "token": {
+              "type": "string",
+              "id": 2
+            }
+          }
+        },
+        "ReqFetchOauth2": {
+          "fields": {
+            "type": {
+              "type": "uint32",
+              "id": 1
+            }
+          }
+        },
+        "ResFetchOauth2": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "openid": {
+              "type": "string",
+              "id": 2
+            }
+          }
+        },
+        "ResDeleteAccount": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "delete_time": {
+              "type": "uint32",
+              "id": 2
+            }
+          }
+        },
+        "ReqSetLoadingImage": {
+          "fields": {
+            "images": {
+              "rule": "repeated",
+              "type": "uint32",
+              "id": 1
+            }
+          }
+        },
+        "ResFetchShopInterval": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "result": {
+              "rule": "repeated",
+              "type": "ShopInterval",
+              "id": 2
+            }
+          },
+          "nested": {
+            "ShopInterval": {
+              "fields": {
+                "group_id": {
+                  "type": "uint32",
+                  "id": 1
+                },
+                "interval": {
+                  "type": "uint32",
+                  "id": 2
+                }
+              }
+            }
+          }
+        },
+        "ResFetchActivityInterval": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "result": {
+              "rule": "repeated",
+              "type": "ActivityInterval",
+              "id": 2
+            }
+          },
+          "nested": {
+            "ActivityInterval": {
+              "fields": {
+                "activity_id": {
+                  "type": "uint32",
+                  "id": 1
+                },
+                "interval": {
+                  "type": "uint32",
+                  "id": 2
+                }
+              }
+            }
+          }
+        },
+        "ResFetchrecentFriend": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "account_list": {
+              "rule": "repeated",
+              "type": "uint32",
+              "id": 2
+            }
+          }
+        },
+        "ReqOpenGacha": {
+          "fields": {
+            "activity_id": {
+              "type": "uint32",
+              "id": 1
+            },
+            "count": {
+              "type": "uint32",
+              "id": 2
+            }
+          }
+        },
+        "ResOpenGacha": {
+          "fields": {
+            "error": {
+              "type": "Error",
+              "id": 1
+            },
+            "result_list": {
+              "rule": "repeated",
+              "type": "uint32",
+              "id": 2
+            },
+            "reward_items": {
+              "rule": "repeated",
+              "type": "ExecuteReward",
+              "id": 3
+            },
+            "sp_reward_items": {
+              "rule": "repeated",
+              "type": "ExecuteReward",
+              "id": 4
+            },
+            "remain_count": {
+              "type": "uint32",
+              "id": 5
             }
           }
         },
@@ -10984,6 +13365,22 @@
               "rule": "repeated",
               "type": "HuleInfo",
               "id": 5
+            }
+          }
+        },
+        "ActionNewCard": {
+          "fields": {
+            "field_spell": {
+              "type": "uint32",
+              "id": 1
+            }
+          }
+        },
+        "RecordNewCard": {
+          "fields": {
+            "field_spell": {
+              "type": "uint32",
+              "id": 1
             }
           }
         },
@@ -11063,9 +13460,13 @@
               "type": "uint32",
               "id": 17
             },
-            "new_tile": {
-              "type": "string",
+            "field_spell": {
+              "type": "uint32",
               "id": 18
+            },
+            "sha256": {
+              "type": "string",
+              "id": 19
             }
           }
         },
@@ -11160,9 +13561,13 @@
               "type": "uint32",
               "id": 20
             },
-            "new_tile": {
-              "type": "string",
+            "field_spell": {
+              "type": "uint32",
               "id": 21
+            },
+            "sha256": {
+              "type": "string",
+              "id": 22
             }
           },
           "nested": {
@@ -11626,6 +14031,24 @@
             "dadian": {
               "type": "uint32",
               "id": 20
+            },
+            "baopai": {
+              "type": "uint32",
+              "id": 21
+            },
+            "baopai_seats": {
+              "rule": "repeated",
+              "type": "uint32",
+              "id": 22
+            },
+            "lines": {
+              "rule": "repeated",
+              "type": "string",
+              "id": 23
+            },
+            "tianming_bonus": {
+              "type": "uint32",
+              "id": 24
             }
           }
         },
@@ -12251,6 +14674,10 @@
             "muyu": {
               "type": "MuyuInfo",
               "id": 10
+            },
+            "tile_index": {
+              "type": "uint32",
+              "id": 11
             }
           }
         },
@@ -12293,6 +14720,52 @@
             "muyu": {
               "type": "MuyuInfo",
               "id": 11
+            },
+            "tile_index": {
+              "type": "uint32",
+              "id": 12
+            }
+          }
+        },
+        "ActionFillAwaitingTiles": {
+          "fields": {
+            "awaiting_tiles": {
+              "rule": "repeated",
+              "type": "string",
+              "id": 1
+            },
+            "left_tile_count": {
+              "type": "uint32",
+              "id": 2
+            },
+            "operation": {
+              "type": "OptionalOperationList",
+              "id": 3
+            },
+            "liqi": {
+              "type": "LiQiSuccess",
+              "id": 4
+            }
+          }
+        },
+        "RecordFillAwaitingTiles": {
+          "fields": {
+            "awaiting_tiles": {
+              "rule": "repeated",
+              "type": "string",
+              "id": 1
+            },
+            "left_tile_count": {
+              "type": "uint32",
+              "id": 2
+            },
+            "operation": {
+              "type": "OptionalOperationList",
+              "id": 3
+            },
+            "liqi": {
+              "type": "LiQiSuccess",
+              "id": 4
             }
           }
         },
@@ -12341,6 +14814,15 @@
             "muyu": {
               "type": "MuyuInfo",
               "id": 10
+            },
+            "scores": {
+              "rule": "repeated",
+              "type": "int32",
+              "id": 11
+            },
+            "liqibang": {
+              "type": "uint32",
+              "id": 12
             }
           }
         },
@@ -12385,6 +14867,15 @@
             "muyu": {
               "type": "MuyuInfo",
               "id": 10
+            },
+            "scores": {
+              "rule": "repeated",
+              "type": "int32",
+              "id": 11
+            },
+            "liqibang": {
+              "type": "uint32",
+              "id": 12
             }
           }
         },

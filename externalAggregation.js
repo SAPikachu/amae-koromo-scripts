@@ -9,7 +9,7 @@ require("ts-node").register({
 const { wrappedRun } = require("./entryPoint");
 
 const { CouchStorage } = require("./couchStorage");
-const { streamView } = require("./streamView");
+const { numGames } = require("./statIterator");
 
 const assert = require("assert");
 
@@ -113,7 +113,7 @@ const SETTINGS = {
           assert(m);
           assert("初士杰豪圣魂".indexOf(m[1]) >= 0);
           let key = "初士杰豪圣魂".indexOf(m[1]) * 100000000;
-          key += parseFloat(m[2] || "0") * 1000000;
+          key += (m[1] === "魂" ? 0 : parseFloat(m[2] || "0")) * 1000000;
           key += { "+": 60000, "-": 0 }[m[3]] || 3000;
           key += parseFloat(m[4]);
           return key;
@@ -144,7 +144,7 @@ const SETTINGS = {
           );
           const m = /^(.)([0-9.]+)?(\+|-)? ?\(?(-?[0-9.]+)\)?$/.exec(estimatedLevel);
           let key = "初士杰豪圣魂".indexOf(m[1]) * 100000000;
-          key += parseFloat(m[2] || "0") * 1000000;
+          key += (m[1] === "魂" ? 0 : parseFloat(m[2] || "0")) * 1000000;
           key += { "+": 60000, "-": 0 }[m[3]] || 3000;
           key += parseFloat(m[4]);
           return key;
@@ -205,6 +205,13 @@ const RANKINGS = {
         .reduce((a, b) => a + b, 0),
     sort: "asc",
   },
+  局收支: {
+    valueFunc: (doc) =>
+      ((doc.score_accum.reduce((a, b) => a + b, 0) - (Math.floor(doc.level[0] / 10000) === 1 ? 250 : 350) * doc.count) /
+        doc.extended.count) *
+      100,
+    sort: "desc",
+  },
   max_level: (x) => {
     return 0; // Disabled
     const level = new webLevel.Level(x.max_level[0]);
@@ -222,83 +229,101 @@ async function generateRateRanking() {
   Object.assign(RANKINGS, setting.extraRankings);
   const storage = new CouchStorage({ suffix: setting.aggregates || "INVALID" });
   const nicknameStorage = new CouchStorage({ suffix: "_nicknames" });
+  const nicknameCache = new Map();
+  async function getNicknameDoc(docName) {
+    if (!nicknameCache.has(docName)) {
+      nicknameCache.set(docName, await nicknameStorage.db.get(docName));
+    }
+    return nicknameCache.get(docName);
+  }
   const stats = [];
   const timestamp = new Date().getTime();
-  await streamView(
-    "num_games",
-    "num_games",
-    { startkey: 300, include_docs: true, _suffix: setting.stats },
-    ({ doc }) => {
-      if (!doc) {
-        console.error("Streaming view failed");
-        process.exit(1);
-      }
-      if (!doc.basic || !doc.extended) {
-        console.log(`Invalid doc: ${doc._id}`, doc);
-        return;
-      }
-      const val = doc.basic;
-      val.extended = doc.extended;
-      val.count = val.accum.slice(0, 4).reduce((a, b) => a + b, 0);
-      assert(val.count >= 300);
-      stats.push({ key: [doc.account_id, doc.mode_id], value: val });
+  console.log("Loading stats...");
+  await numGames(setting.stats, 300, ({ doc }) => {
+    if (!doc) {
+      console.error("Streaming view failed");
+      process.exit(1);
     }
-  );
+    if (!doc.basic || !doc.extended) {
+      console.log(`Invalid doc: ${doc._id}`, doc);
+      return;
+    }
+    const val = doc.basic;
+    val.extended = doc.extended;
+    val.count = val.accum.slice(0, 4).reduce((a, b) => a + b, 0);
+    assert(val.count >= 300);
+    stats.push({ key: [doc.account_id, doc.mode_id], value: val });
+  });
   assert(stats.length);
+  console.log(`Loaded ${stats.length} docs`);
 
+  const activeCutoff = Date.now() - 1000 * 60 * 60 * 24 * 365;
   for (const key of Object.keys(RANKINGS)) {
-    for (const minGames of [undefined, 600, 1000, 2500, 5000, 10000]) {
-      const suffix = minGames ? `_${minGames}` : "";
-      const settings = typeof RANKINGS[key] === "function" ? { valueFunc: RANKINGS[key], sort: "desc" } : RANKINGS[key];
-      const items = stats
-        .filter((x) => !minGames || x.value.count >= minGames)
-        .map((x) => ({
-          key: x.key,
-          value: {
-            ...x.value,
-            rank_key: settings.valueFunc(x.value, x.key[1]),
-            id: x.key[0],
-          },
-        }))
-        .filter((x) => x.value.rank_key !== undefined);
-      if (settings.sort === "asc") {
-        items.sort((a, b) => a.value.rank_key - b.value.rank_key);
-      } else {
-        items.sort((a, b) => b.value.rank_key - a.value.rank_key);
-      }
-      const groups = {};
-      for (const item of items) {
-        const modeKey = item.key[1].toString();
-        groups[modeKey] = groups[modeKey] || [];
-        groups[modeKey].push(item.value);
-      }
-      for (const x of Object.keys(groups)) {
-        groups[x] = groups[x].slice(0, 100);
-        for (const item of groups[x]) {
-          const nicknameDoc = await nicknameStorage.db.get(item.id.toString().padStart(10, "0"));
-          item.ranking_level = item.level;
-          let level = item.level;
-          let timestamp = 0;
-          for (const mode of Object.values(nicknameDoc.modes)) {
-            if (mode.timestamp < timestamp) {
-              continue;
-            }
-            if (Math.floor(mode.level[0] / 10000) !== Math.floor(level[0] / 10000)) {
-              continue;
-            }
-            level = mode.level;
-            timestamp = mode.timestamp;
-          }
-          item.level = level;
+    console.log(key);
+    const settings = typeof RANKINGS[key] === "function" ? { valueFunc: RANKINGS[key], sort: "desc" } : RANKINGS[key];
+    const allItems = stats
+      .map((x) => ({
+        key: x.key,
+        value: {
+          ...x.value,
+          rank_key: settings.valueFunc(x.value, x.key[1]),
+          id: x.key[0],
+        },
+      }))
+      .filter((x) => x.value.rank_key !== undefined && !isNaN(x.value.rank_key));
+    for (const minGames of [undefined, 300, 600, 1000, 2500, 5000, 10000]) {
+      for (const activeOnly of minGames ? [false, true] : [false]) {
+        const suffix = minGames ? `_${minGames}${activeOnly ? "_active" : ""}` : "";
+        const groups = {};
+        const items = allItems.filter(
+          (x) =>
+            (!minGames || x.value.count >= minGames) &&
+            (!activeOnly || (x.value.latest_timestamp && x.value.latest_timestamp > activeCutoff))
+        );
+        if (settings.sort === "asc") {
+          items.sort((a, b) => a.value.rank_key - b.value.rank_key);
+        } else {
+          items.sort((a, b) => b.value.rank_key - a.value.rank_key);
         }
+        for (const item of items) {
+          const modeKey = item.key[1].toString();
+          groups[modeKey] = groups[modeKey] || [];
+          groups[modeKey].push(item.value);
+        }
+        for (const x of Object.keys(groups)) {
+          groups[x] = groups[x].slice(0, 100);
+          for (const item of groups[x]) {
+            const docName = item.id.toString().padStart(10, "0");
+            const nicknameDoc = await getNicknameDoc(docName);
+            item.ranking_level = item.level;
+            let level = item.level;
+            let timestamp = 0;
+            for (const mode of Object.values(nicknameDoc.modes)) {
+              if (mode.timestamp < timestamp) {
+                continue;
+              }
+              if (Math.floor(mode.level[0] / 10000) !== Math.floor(level[0] / 10000)) {
+                continue;
+              }
+              level = mode.level;
+              timestamp = mode.timestamp;
+            }
+            item.level = level;
+          }
+        }
+        const newDoc = {
+          _id: `career_ranking_${key}${suffix}`,
+          type: "careerRanking",
+          version: 1,
+          data: groups,
+          updated: timestamp,
+        };
+        if (process.env.EA_DEBUG) {
+          // console.log(JSON.stringify(newDoc, undefined, 2));
+          continue;
+        }
+        await storage.saveDoc(newDoc, true, true);
       }
-      await storage.saveDoc({
-        _id: `career_ranking_${key}${suffix}`,
-        type: "careerRanking",
-        version: 1,
-        data: groups,
-        updated: timestamp,
-      });
     }
   }
 }

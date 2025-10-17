@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig",
-  "exclude": ["node_modules", "./.*", "web"],
+  "exclude": ["node_modules", "./.*", "web", "gameProvider.ts", "generateTsDefinition.ts"],
   "include": ["*.ts"],
   "compilerOptions": {
     "noEmit": false,

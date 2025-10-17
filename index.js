@@ -11,7 +11,7 @@ const compareVersion = require("node-version-compare");
 const { DataStorage } = require("./storage");
 const { createMajsoulConnection, fetchLatestDataDefinition } = require("./majsoul");
 const { CouchStorage, MODE_GAME } = require("./couchStorage");
-const { iterateLocalData, watchLiveData, DEFAULT_BASE } = require("./localData");
+const { iterateLocalData, watchLiveData, DEFAULT_BASE, iteratePendingData } = require("./localData");
 const { calcShanten } = require("./shanten");
 const { MajsoulGameAnalyzer } = require("./gameAnalyzer");
 
@@ -101,12 +101,14 @@ function buildRecordData({ data, dataDefinition, game }) {
     msg = wrapper.decode(data);
     typeObj = root.lookupType(msg.name);
     if (!typeObj || !typeObj.decode) {
-      console.log(game, msg, typeObj);
+      console.log(`No decoder: name=${msg.name} uuid=${game.uuid} !!typeObj=${!!typeObj}`);
+      // console.log(game, msg, typeObj);
       return null;
     }
     payload = typeObj.decode(msg.data);
   } catch (e) {
-    console.log(game, msg, typeObj);
+    console.log(`Decode error: name=${msg.name} uuid=${game.uuid} !!typeObj=${!!typeObj}`);
+    // console.log(game, msg, typeObj);
     console.error(e);
     return null;
   }
@@ -134,19 +136,30 @@ function buildRecordData({ data, dataDefinition, game }) {
       itemType = root.lookupType(item.name);
       itemPayload = itemType.decode(item.data);
     } catch (e) {
-      console.log(game, item, itemType);
+      console.log(game, item, !!itemType);
       console.error(e);
       return null;
     }
     if (item.name !== ".lq.RecordNewRound") {
       assert(analyzer);
-      analyzer.processRecord(item.name, itemPayload);
+      try {
+        analyzer.processRecord(item.name, itemPayload);
+      } catch (e) {
+        console.log(game, item, !!itemType, itemPayload);
+        console.error(e);
+        return null;
+      }
     }
     if ([".lq.RecordDealTile"].includes(item.name)) {
       continue;
     }
     if (item.name === ".lq.RecordNewRound") {
-      analyzer = new MajsoulGameAnalyzer(itemPayload);
+      try {
+        analyzer = new MajsoulGameAnalyzer(itemPayload);
+      } catch (e) {
+        console.error(e);
+        return null;
+      }
       assert([3, 4].includes(itemPayload.scores.length));
       rounds.push(
         [0, 1, 2, 3].slice(0, itemPayload.scores.length).map((seat) => ({
@@ -173,9 +186,11 @@ function buildRecordData({ data, dataDefinition, game }) {
     assert([3, 4].includes(numPlayers));
     switch (item.name) {
       case ".lq.RecordChiPengGang":
+        assert(typeof itemPayload.seat === "number");
         curRound[itemPayload.seat].副露 = (curRound[itemPayload.seat].副露 || 0) + 1;
         break;
       case ".lq.RecordDiscardTile":
+        assert(typeof itemPayload.seat === "number");
         // console.log(itemPayload);
         lastDiscardSeat = itemPayload.seat;
         振听 = itemPayload.zhenting; // Array of all players' status
@@ -199,7 +214,10 @@ function buildRecordData({ data, dataDefinition, game }) {
         break;
       case ".lq.RecordNoTile":
         if (itemPayload.liujumanguan) {
-          itemPayload.scores.forEach((x) => (curRound[x.seat].流满 = true));
+          itemPayload.scores.forEach((x) => {
+            assert(typeof x.seat === "number");
+            return (curRound[x.seat].流满 = true);
+          });
         }
         itemPayload.players.forEach((x, seat) => {
           curRound[seat].流听 = x.tingpai;
@@ -207,6 +225,7 @@ function buildRecordData({ data, dataDefinition, game }) {
         break;
       case ".lq.RecordHule":
         itemPayload.hules.forEach((x) => {
+          assert(typeof x.seat === "number");
           curRound[x.seat].和 = [
             itemPayload.delta_scores[x.seat] - (x.liqi ? 1000 : 0),
             _.flatten(x.fans.map((x) => Array(x.val).fill(x.id))),
@@ -214,7 +233,7 @@ function buildRecordData({ data, dataDefinition, game }) {
           ];
           if (!x.zimo && curRound[x.seat].和[0] < Math.max(0, x.point_rong - 1500)) {
             // 一炮多响 + 包牌
-            console.log(itemPayload, game.uuid);
+            // console.log(itemPayload, game.uuid);
             assert(itemPayload.hules.length >= 2);
             const info = itemPayload.hules.filter((other) => other.yiman && other.seat !== x.seat)[0];
             assert(info);
@@ -223,6 +242,7 @@ function buildRecordData({ data, dataDefinition, game }) {
           }
           const numLosingPlayers = itemPayload.delta_scores.filter((x) => x < 0).length;
           if (x.zimo) {
+            assert(typeof x.seat === "number");
             assert(itemPayload.hules.length === 1);
             assert(numLosingPlayers === numPlayers - 1 || itemPayload.hules[0].yiman);
             curRound[x.seat].自摸 = true;
@@ -231,6 +251,7 @@ function buildRecordData({ data, dataDefinition, game }) {
             }
             if (numLosingPlayers === 1) {
               itemPayload.delta_scores.forEach((score, seat) => {
+                assert(typeof seat === "number");
                 if (score < 0) {
                   curRound[seat].包牌 = Math.abs(score);
                 }
@@ -239,6 +260,7 @@ function buildRecordData({ data, dataDefinition, game }) {
           } else {
             assert([1, 2].includes(numLosingPlayers));
             itemPayload.delta_scores.forEach((score, seat) => {
+              assert(typeof seat === "number");
               if (score < 0) {
                 if (numLosingPlayers === 1) {
                   assert(seat === lastDiscardSeat);
@@ -253,6 +275,7 @@ function buildRecordData({ data, dataDefinition, game }) {
         break;
       case ".lq.RecordBaBei":
       case ".lq.RecordAnGangAddGang":
+        assert(typeof itemPayload.seat === "number");
         lastDiscardSeat = itemPayload.seat;
         break;
       case ".lq.RecordLiuJu":
@@ -263,7 +286,7 @@ function buildRecordData({ data, dataDefinition, game }) {
         console.log(item.name);
         delete itemPayload.operation;
         console.log(itemPayload);
-        assert(false);
+        assert(false, `Unknown record type: ${item.name}`);
     }
   }
   return rounds;
@@ -276,11 +299,15 @@ async function processRecordDataForGameId(store, uuid, recordData, gameData, bat
   const rounds = buildRecordData(rawRecordInfo);
   if (!rounds) {
     console.error(`Corrupted data: ${uuid}`);
+    const e = new Error(`Corrupted data: ${uuid}`);
+    e.noRetry = true;
+    if (["240417-1fd14c94-32df-4ab6-a739-bb6454934796", "240417-a749e1dc-5725-4b64-a3f9-f4f09a3dd476"].includes(uuid)) {
+      // Source data is corrupt, not fixable
+      throw e;
+    }
     fs.mkdirSync(path.join(DEFAULT_BASE, "210101"), { recursive: true });
     fs.writeFileSync(path.join(DEFAULT_BASE, "210101", uuid + ".json"), "");
     fs.utimesSync(path.join(DEFAULT_BASE, "210101", uuid + ".json"), 1, 1);
-    const e = new Error(`Corrupted data: ${uuid}`);
-    e.noRetry = true;
     throw e;
   }
   // console.log(rawRecordInfo.game.uuid);
@@ -329,8 +356,17 @@ async function processGames(conn, ids, storageParams = {}, gamePostprocess = (ga
     console.log("Saving");
     // const compressedRecordData = await store.compressData(recordData);
     // await withRetry(() => dataStore.setRaw(`recordData/${id}.lzma2`, compressedRecordData));
-    const game = gamePostprocess(resp.head);
+    const game = gamePostprocess(JSON.parse(JSON.stringify(resp.head)));
     assert(game);
+    const accountWithoutSeat = game.accounts.filter((x) => x.seat === undefined);
+    if (accountWithoutSeat.length > 1) {
+      throw new Error("Unexpected empty seat values");
+    }
+    if (accountWithoutSeat.length === 1) {
+      accountWithoutSeat[0].seat = 0;
+    }
+    game.accounts.sort((a, b) => a.seat - b.seat);
+    game.result.players.sort((a, b) => a.seat - b.seat);
     await withRetry(() => store.saveGame(game, conn._codec.version));
     await withRetry(() => store.ensureDataDefinition(conn._codec.version, conn._codec.rawDefinition));
     await withRetry(() =>
@@ -340,7 +376,7 @@ async function processGames(conn, ids, storageParams = {}, gamePostprocess = (ga
   }
   await store.triggerViewRefresh();
 }
-
+/*
 async function syncToCouchDb() {
   const storage = new DataStorage();
   const store = new CouchStorage();
@@ -361,8 +397,8 @@ async function syncToCouchDb() {
   }
   await store.triggerViewRefresh();
 }
-
-async function loadLocalData() {
+*/
+async function loadLocalData(withPendingDb) {
   const store = new CouchStorage();
   const dataDefs = await store._db.allDocs({
     include_docs: true,
@@ -424,6 +460,15 @@ async function loadLocalData() {
         }
         console.log(`Saving ${item.id}`);
         const recordData = item.getRecordData();
+        const accountWithoutSeat = item.data.accounts.filter((x) => x.seat === undefined);
+        if (accountWithoutSeat.length > 1) {
+          throw new Error("Unexpected empty seat values");
+        }
+        if (accountWithoutSeat.length === 1) {
+          accountWithoutSeat[0].seat = 0;
+        }
+        item.data.accounts.sort((a, b) => a.seat - b.seat);
+        item.data.result.players.sort((a, b) => a.seat - b.seat);
         await withRetry(() => itemStore.saveGame(item.data, ver, true));
         await withRetry(() =>
           processRecordDataForGameId(itemStore, item.id, recordData, { game: item.data, dataDefinition }, true)
@@ -432,7 +477,7 @@ async function loadLocalData() {
       await itemStore.triggerViewRefresh();
     }
   };
-  await iterateLocalData(async function (item) {
+  await (withPendingDb ? iteratePendingData : iterateLocalData)(async function (item) {
     try {
       item.data = item.getData();
     } catch (e) {
@@ -530,6 +575,15 @@ async function loadLiveData() {
         return;
       }
       console.log(`Saving ${item.data.config.meta.mode_id} ${item.id}`);
+      const accountWithoutSeat = item.data.accounts.filter((x) => x.seat === undefined);
+      if (accountWithoutSeat.length > 1) {
+        throw new Error("Unexpected empty seat values");
+      }
+      if (accountWithoutSeat.length === 1) {
+        accountWithoutSeat[0].seat = 0;
+      }
+      item.data.accounts.sort((a, b) => a.seat - b.seat);
+      item.data.result.players.sort((a, b) => a.seat - b.seat);
       const recordData = item.getRecordData();
       await withRetry(() => itemStore.ensureDataDefinition(dataDefinitionVersion, dataDefinition));
       await withRetry(() => itemStore.saveGame(item.data, ver, true));
@@ -546,11 +600,14 @@ async function loadLiveData() {
   });
 }
 
+let _syncContestConn;
 async function syncContest(contestId, dbSuffix) {
-  const conn = await createMajsoulConnection();
+  console.log("syncContest", contestId, dbSuffix);
+  const conn = _syncContestConn || (await createMajsoulConnection());
   if (!conn) {
     return;
   }
+  _syncContestConn = conn;
   try {
     let resp = await conn.rpcCall(".lq.Lobby.fetchCustomizedContestByContestId", {
       contest_id: contestId,
@@ -577,6 +634,14 @@ async function syncContest(contestId, dbSuffix) {
       nextIndex = resp.next_index;
     }
     await processGames(conn, Object.keys(idLog), { suffix: dbSuffix }, (game) => {
+      const accountWithoutSeat = game.accounts.filter((x) => x.seat === undefined);
+      if (accountWithoutSeat.length > 1) {
+        throw new Error("Unexpected empty seat values");
+      }
+      if (accountWithoutSeat.length === 1) {
+        accountWithoutSeat[0].seat = 0;
+      }
+      assert(game.accounts.every((x) => typeof x.seat === "number"));
       for (let i = 0; i < 4; i++) {
         if (!game.accounts.some((x) => x.seat === i)) {
           console.log(`${game.uuid} ${i} Computer`);
@@ -595,11 +660,12 @@ async function syncContest(contestId, dbSuffix) {
           });
         }
         game.accounts.sort((a, b) => a.seat - b.seat);
+        game.result.players.sort((a, b) => a.seat - b.seat);
       }
       return game;
     });
   } finally {
-    conn.close();
+    // conn.close();
   }
 }
 
@@ -612,6 +678,14 @@ async function syncContest2() {
   try {
     const ids = [];
     await processGames(conn, ids, { suffix: dbSuffix }, (game) => {
+      const accountWithoutSeat = game.accounts.filter((x) => x.seat === undefined);
+      if (accountWithoutSeat.length > 1) {
+        throw new Error("Unexpected empty seat values");
+      }
+      if (accountWithoutSeat.length === 1) {
+        accountWithoutSeat[0].seat = 0;
+      }
+      assert(game.accounts.every((x) => typeof x.seat === "number"));
       for (let i = 0; i < 4; i++) {
         if (!game.accounts.some((x) => x.seat === i)) {
           console.log(`${game.uuid} ${i} Computer`);
@@ -630,6 +704,7 @@ async function syncContest2() {
           });
         }
         game.accounts.sort((a, b) => a.seat - b.seat);
+        game.result.players.sort((a, b) => a.seat - b.seat);
       }
       return game;
     });
@@ -643,10 +718,10 @@ async function main() {
     throw new Error("Moved to separate script");
   }
   if (process.env.SYNC_COUCHDB) {
-    return await syncToCouchDb();
+    throw new Error("No longer supported");
   }
   if (process.env.LOAD_LOCAL_DATA) {
-    return await loadLocalData();
+    return await loadLocalData(process.env.WITH_PENDING_DB?.toString() === "1");
   }
   if (process.env.LOAD_LIVE_DATA) {
     return await loadLiveData();

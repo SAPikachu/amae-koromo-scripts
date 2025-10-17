@@ -9,7 +9,7 @@ require("ts-node").register({
 const { wrappedRun } = require("./entryPoint");
 
 const { CouchStorage } = require("./couchStorage");
-const { streamView } = require("./streamView");
+const { allStats } = require("./statIterator");
 
 const webLevel = require("./web/src/data/types/level.ts");
 
@@ -33,6 +33,7 @@ const RANKINGS = {
     const adjustedScore = adjustedLevel.isSame(level)
       ? level.getVersionAdjustedScore(score)
       : adjustedLevel.getStartingPoint();
+      
     return (
       (adjustedLevel._majorRank * 100 + adjustedLevel._minorRank) * 1000000 + adjustedScore + 1 / x.latest_timestamp
     );
@@ -56,7 +57,7 @@ async function generateMaxLevelRanking() {
   const stats = [];
   const timestamp = new Date().getTime();
   for (const suffix of setting.stats) {
-    await streamView("num_games", "num_games", { include_docs: true, _suffix: suffix }, ({ doc }) => {
+    await allStats(suffix, ({ doc }) => {
       if (!doc) {
         console.error("Streaming view failed");
         process.exit(1);
@@ -101,10 +102,7 @@ async function generateMaxLevelRanking() {
       }
       const groups = {};
       for (const item of items) {
-        const modeKey = item.key[1].toString();
-        if (modeKey !== "0") {
-          continue;
-        }
+        const modeKey = "0";
         groups[modeKey] = groups[modeKey] || [];
         groups[modeKey].push(item.value);
       }

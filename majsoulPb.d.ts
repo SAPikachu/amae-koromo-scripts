@@ -1709,14 +1709,8 @@ export namespace lq {
     /** Properties of a NotifyAnnouncementUpdate. */
     interface INotifyAnnouncementUpdate {
 
-        /** NotifyAnnouncementUpdate announcements */
-        announcements?: (lq.IAnnouncement[]|null);
-
-        /** NotifyAnnouncementUpdate sort */
-        sort?: (number[]|null);
-
-        /** NotifyAnnouncementUpdate lang */
-        lang?: (string|null);
+        /** NotifyAnnouncementUpdate update_list */
+        update_list?: (lq.NotifyAnnouncementUpdate.IAnnouncementUpdate[]|null);
     }
 
     /** Represents a NotifyAnnouncementUpdate. */
@@ -1728,14 +1722,8 @@ export namespace lq {
          */
         constructor(properties?: lq.INotifyAnnouncementUpdate);
 
-        /** NotifyAnnouncementUpdate announcements. */
-        public announcements: lq.IAnnouncement[];
-
-        /** NotifyAnnouncementUpdate sort. */
-        public sort: number[];
-
-        /** NotifyAnnouncementUpdate lang. */
-        public lang: string;
+        /** NotifyAnnouncementUpdate update_list. */
+        public update_list: lq.NotifyAnnouncementUpdate.IAnnouncementUpdate[];
 
         /**
          * Creates a new NotifyAnnouncementUpdate instance using the specified properties.
@@ -1806,6 +1794,105 @@ export namespace lq {
          * @returns JSON object
          */
         public toJSON(): { [k: string]: any };
+    }
+
+    namespace NotifyAnnouncementUpdate {
+
+        /** Properties of an AnnouncementUpdate. */
+        interface IAnnouncementUpdate {
+
+            /** AnnouncementUpdate lang */
+            lang?: (string|null);
+
+            /** AnnouncementUpdate platform */
+            platform?: (string|null);
+        }
+
+        /** Represents an AnnouncementUpdate. */
+        class AnnouncementUpdate implements IAnnouncementUpdate {
+
+            /**
+             * Constructs a new AnnouncementUpdate.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.NotifyAnnouncementUpdate.IAnnouncementUpdate);
+
+            /** AnnouncementUpdate lang. */
+            public lang: string;
+
+            /** AnnouncementUpdate platform. */
+            public platform: string;
+
+            /**
+             * Creates a new AnnouncementUpdate instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns AnnouncementUpdate instance
+             */
+            public static create(properties?: lq.NotifyAnnouncementUpdate.IAnnouncementUpdate): lq.NotifyAnnouncementUpdate.AnnouncementUpdate;
+
+            /**
+             * Encodes the specified AnnouncementUpdate message. Does not implicitly {@link lq.NotifyAnnouncementUpdate.AnnouncementUpdate.verify|verify} messages.
+             * @param message AnnouncementUpdate message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.NotifyAnnouncementUpdate.IAnnouncementUpdate, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified AnnouncementUpdate message, length delimited. Does not implicitly {@link lq.NotifyAnnouncementUpdate.AnnouncementUpdate.verify|verify} messages.
+             * @param message AnnouncementUpdate message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.NotifyAnnouncementUpdate.IAnnouncementUpdate, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes an AnnouncementUpdate message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns AnnouncementUpdate
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.NotifyAnnouncementUpdate.AnnouncementUpdate;
+
+            /**
+             * Decodes an AnnouncementUpdate message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns AnnouncementUpdate
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.NotifyAnnouncementUpdate.AnnouncementUpdate;
+
+            /**
+             * Verifies an AnnouncementUpdate message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates an AnnouncementUpdate message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns AnnouncementUpdate
+             */
+            public static fromObject(object: { [k: string]: any }): lq.NotifyAnnouncementUpdate.AnnouncementUpdate;
+
+            /**
+             * Creates a plain object from an AnnouncementUpdate message. Also converts values to other types if specified.
+             * @param message AnnouncementUpdate
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.NotifyAnnouncementUpdate.AnnouncementUpdate, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this AnnouncementUpdate to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
     }
 
     /** Properties of a NotifyNewMail. */
@@ -2450,6 +2537,522 @@ export namespace lq {
         public toJSON(): { [k: string]: any };
     }
 
+    /** Properties of a NotifyActivitySegmentTaskUpdate. */
+    interface INotifyActivitySegmentTaskUpdate {
+
+        /** NotifyActivitySegmentTaskUpdate progresses */
+        progresses?: (lq.ISegmentTaskProgress[]|null);
+    }
+
+    /** Represents a NotifyActivitySegmentTaskUpdate. */
+    class NotifyActivitySegmentTaskUpdate implements INotifyActivitySegmentTaskUpdate {
+
+        /**
+         * Constructs a new NotifyActivitySegmentTaskUpdate.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.INotifyActivitySegmentTaskUpdate);
+
+        /** NotifyActivitySegmentTaskUpdate progresses. */
+        public progresses: lq.ISegmentTaskProgress[];
+
+        /**
+         * Creates a new NotifyActivitySegmentTaskUpdate instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns NotifyActivitySegmentTaskUpdate instance
+         */
+        public static create(properties?: lq.INotifyActivitySegmentTaskUpdate): lq.NotifyActivitySegmentTaskUpdate;
+
+        /**
+         * Encodes the specified NotifyActivitySegmentTaskUpdate message. Does not implicitly {@link lq.NotifyActivitySegmentTaskUpdate.verify|verify} messages.
+         * @param message NotifyActivitySegmentTaskUpdate message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.INotifyActivitySegmentTaskUpdate, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified NotifyActivitySegmentTaskUpdate message, length delimited. Does not implicitly {@link lq.NotifyActivitySegmentTaskUpdate.verify|verify} messages.
+         * @param message NotifyActivitySegmentTaskUpdate message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.INotifyActivitySegmentTaskUpdate, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a NotifyActivitySegmentTaskUpdate message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns NotifyActivitySegmentTaskUpdate
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.NotifyActivitySegmentTaskUpdate;
+
+        /**
+         * Decodes a NotifyActivitySegmentTaskUpdate message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns NotifyActivitySegmentTaskUpdate
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.NotifyActivitySegmentTaskUpdate;
+
+        /**
+         * Verifies a NotifyActivitySegmentTaskUpdate message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a NotifyActivitySegmentTaskUpdate message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns NotifyActivitySegmentTaskUpdate
+         */
+        public static fromObject(object: { [k: string]: any }): lq.NotifyActivitySegmentTaskUpdate;
+
+        /**
+         * Creates a plain object from a NotifyActivitySegmentTaskUpdate message. Also converts values to other types if specified.
+         * @param message NotifyActivitySegmentTaskUpdate
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.NotifyActivitySegmentTaskUpdate, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this NotifyActivitySegmentTaskUpdate to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a NotifyActivityUpdate. */
+    interface INotifyActivityUpdate {
+
+        /** NotifyActivityUpdate list */
+        list?: (lq.NotifyActivityUpdate.IFeedActivityData[]|null);
+    }
+
+    /** Represents a NotifyActivityUpdate. */
+    class NotifyActivityUpdate implements INotifyActivityUpdate {
+
+        /**
+         * Constructs a new NotifyActivityUpdate.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.INotifyActivityUpdate);
+
+        /** NotifyActivityUpdate list. */
+        public list: lq.NotifyActivityUpdate.IFeedActivityData[];
+
+        /**
+         * Creates a new NotifyActivityUpdate instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns NotifyActivityUpdate instance
+         */
+        public static create(properties?: lq.INotifyActivityUpdate): lq.NotifyActivityUpdate;
+
+        /**
+         * Encodes the specified NotifyActivityUpdate message. Does not implicitly {@link lq.NotifyActivityUpdate.verify|verify} messages.
+         * @param message NotifyActivityUpdate message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.INotifyActivityUpdate, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified NotifyActivityUpdate message, length delimited. Does not implicitly {@link lq.NotifyActivityUpdate.verify|verify} messages.
+         * @param message NotifyActivityUpdate message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.INotifyActivityUpdate, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a NotifyActivityUpdate message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns NotifyActivityUpdate
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.NotifyActivityUpdate;
+
+        /**
+         * Decodes a NotifyActivityUpdate message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns NotifyActivityUpdate
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.NotifyActivityUpdate;
+
+        /**
+         * Verifies a NotifyActivityUpdate message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a NotifyActivityUpdate message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns NotifyActivityUpdate
+         */
+        public static fromObject(object: { [k: string]: any }): lq.NotifyActivityUpdate;
+
+        /**
+         * Creates a plain object from a NotifyActivityUpdate message. Also converts values to other types if specified.
+         * @param message NotifyActivityUpdate
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.NotifyActivityUpdate, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this NotifyActivityUpdate to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    namespace NotifyActivityUpdate {
+
+        /** Properties of a FeedActivityData. */
+        interface IFeedActivityData {
+
+            /** FeedActivityData activity_id */
+            activity_id?: (number|null);
+
+            /** FeedActivityData feed_count */
+            feed_count?: (number|null);
+
+            /** FeedActivityData friend_receive_data */
+            friend_receive_data?: (lq.NotifyActivityUpdate.FeedActivityData.ICountWithTimeData|null);
+
+            /** FeedActivityData friend_send_data */
+            friend_send_data?: (lq.NotifyActivityUpdate.FeedActivityData.ICountWithTimeData|null);
+
+            /** FeedActivityData gift_inbox */
+            gift_inbox?: (lq.NotifyActivityUpdate.FeedActivityData.IGiftBoxData[]|null);
+        }
+
+        /** Represents a FeedActivityData. */
+        class FeedActivityData implements IFeedActivityData {
+
+            /**
+             * Constructs a new FeedActivityData.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.NotifyActivityUpdate.IFeedActivityData);
+
+            /** FeedActivityData activity_id. */
+            public activity_id: number;
+
+            /** FeedActivityData feed_count. */
+            public feed_count: number;
+
+            /** FeedActivityData friend_receive_data. */
+            public friend_receive_data?: (lq.NotifyActivityUpdate.FeedActivityData.ICountWithTimeData|null);
+
+            /** FeedActivityData friend_send_data. */
+            public friend_send_data?: (lq.NotifyActivityUpdate.FeedActivityData.ICountWithTimeData|null);
+
+            /** FeedActivityData gift_inbox. */
+            public gift_inbox: lq.NotifyActivityUpdate.FeedActivityData.IGiftBoxData[];
+
+            /**
+             * Creates a new FeedActivityData instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns FeedActivityData instance
+             */
+            public static create(properties?: lq.NotifyActivityUpdate.IFeedActivityData): lq.NotifyActivityUpdate.FeedActivityData;
+
+            /**
+             * Encodes the specified FeedActivityData message. Does not implicitly {@link lq.NotifyActivityUpdate.FeedActivityData.verify|verify} messages.
+             * @param message FeedActivityData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.NotifyActivityUpdate.IFeedActivityData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified FeedActivityData message, length delimited. Does not implicitly {@link lq.NotifyActivityUpdate.FeedActivityData.verify|verify} messages.
+             * @param message FeedActivityData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.NotifyActivityUpdate.IFeedActivityData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a FeedActivityData message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns FeedActivityData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.NotifyActivityUpdate.FeedActivityData;
+
+            /**
+             * Decodes a FeedActivityData message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns FeedActivityData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.NotifyActivityUpdate.FeedActivityData;
+
+            /**
+             * Verifies a FeedActivityData message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a FeedActivityData message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns FeedActivityData
+             */
+            public static fromObject(object: { [k: string]: any }): lq.NotifyActivityUpdate.FeedActivityData;
+
+            /**
+             * Creates a plain object from a FeedActivityData message. Also converts values to other types if specified.
+             * @param message FeedActivityData
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.NotifyActivityUpdate.FeedActivityData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this FeedActivityData to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+
+        namespace FeedActivityData {
+
+            /** Properties of a CountWithTimeData. */
+            interface ICountWithTimeData {
+
+                /** CountWithTimeData count */
+                count?: (number|null);
+
+                /** CountWithTimeData last_update_time */
+                last_update_time?: (number|null);
+            }
+
+            /** Represents a CountWithTimeData. */
+            class CountWithTimeData implements ICountWithTimeData {
+
+                /**
+                 * Constructs a new CountWithTimeData.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: lq.NotifyActivityUpdate.FeedActivityData.ICountWithTimeData);
+
+                /** CountWithTimeData count. */
+                public count: number;
+
+                /** CountWithTimeData last_update_time. */
+                public last_update_time: number;
+
+                /**
+                 * Creates a new CountWithTimeData instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns CountWithTimeData instance
+                 */
+                public static create(properties?: lq.NotifyActivityUpdate.FeedActivityData.ICountWithTimeData): lq.NotifyActivityUpdate.FeedActivityData.CountWithTimeData;
+
+                /**
+                 * Encodes the specified CountWithTimeData message. Does not implicitly {@link lq.NotifyActivityUpdate.FeedActivityData.CountWithTimeData.verify|verify} messages.
+                 * @param message CountWithTimeData message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: lq.NotifyActivityUpdate.FeedActivityData.ICountWithTimeData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified CountWithTimeData message, length delimited. Does not implicitly {@link lq.NotifyActivityUpdate.FeedActivityData.CountWithTimeData.verify|verify} messages.
+                 * @param message CountWithTimeData message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: lq.NotifyActivityUpdate.FeedActivityData.ICountWithTimeData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a CountWithTimeData message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns CountWithTimeData
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.NotifyActivityUpdate.FeedActivityData.CountWithTimeData;
+
+                /**
+                 * Decodes a CountWithTimeData message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns CountWithTimeData
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.NotifyActivityUpdate.FeedActivityData.CountWithTimeData;
+
+                /**
+                 * Verifies a CountWithTimeData message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a CountWithTimeData message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns CountWithTimeData
+                 */
+                public static fromObject(object: { [k: string]: any }): lq.NotifyActivityUpdate.FeedActivityData.CountWithTimeData;
+
+                /**
+                 * Creates a plain object from a CountWithTimeData message. Also converts values to other types if specified.
+                 * @param message CountWithTimeData
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: lq.NotifyActivityUpdate.FeedActivityData.CountWithTimeData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this CountWithTimeData to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+            }
+
+            /** Properties of a GiftBoxData. */
+            interface IGiftBoxData {
+
+                /** GiftBoxData id */
+                id?: (number|null);
+
+                /** GiftBoxData item_id */
+                item_id?: (number|null);
+
+                /** GiftBoxData count */
+                count?: (number|null);
+
+                /** GiftBoxData from_account_id */
+                from_account_id?: (number|null);
+
+                /** GiftBoxData time */
+                time?: (number|null);
+
+                /** GiftBoxData received */
+                received?: (number|null);
+            }
+
+            /** Represents a GiftBoxData. */
+            class GiftBoxData implements IGiftBoxData {
+
+                /**
+                 * Constructs a new GiftBoxData.
+                 * @param [properties] Properties to set
+                 */
+                constructor(properties?: lq.NotifyActivityUpdate.FeedActivityData.IGiftBoxData);
+
+                /** GiftBoxData id. */
+                public id: number;
+
+                /** GiftBoxData item_id. */
+                public item_id: number;
+
+                /** GiftBoxData count. */
+                public count: number;
+
+                /** GiftBoxData from_account_id. */
+                public from_account_id: number;
+
+                /** GiftBoxData time. */
+                public time: number;
+
+                /** GiftBoxData received. */
+                public received: number;
+
+                /**
+                 * Creates a new GiftBoxData instance using the specified properties.
+                 * @param [properties] Properties to set
+                 * @returns GiftBoxData instance
+                 */
+                public static create(properties?: lq.NotifyActivityUpdate.FeedActivityData.IGiftBoxData): lq.NotifyActivityUpdate.FeedActivityData.GiftBoxData;
+
+                /**
+                 * Encodes the specified GiftBoxData message. Does not implicitly {@link lq.NotifyActivityUpdate.FeedActivityData.GiftBoxData.verify|verify} messages.
+                 * @param message GiftBoxData message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encode(message: lq.NotifyActivityUpdate.FeedActivityData.IGiftBoxData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Encodes the specified GiftBoxData message, length delimited. Does not implicitly {@link lq.NotifyActivityUpdate.FeedActivityData.GiftBoxData.verify|verify} messages.
+                 * @param message GiftBoxData message or plain object to encode
+                 * @param [writer] Writer to encode to
+                 * @returns Writer
+                 */
+                public static encodeDelimited(message: lq.NotifyActivityUpdate.FeedActivityData.IGiftBoxData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+                /**
+                 * Decodes a GiftBoxData message from the specified reader or buffer.
+                 * @param reader Reader or buffer to decode from
+                 * @param [length] Message length if known beforehand
+                 * @returns GiftBoxData
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.NotifyActivityUpdate.FeedActivityData.GiftBoxData;
+
+                /**
+                 * Decodes a GiftBoxData message from the specified reader or buffer, length delimited.
+                 * @param reader Reader or buffer to decode from
+                 * @returns GiftBoxData
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.NotifyActivityUpdate.FeedActivityData.GiftBoxData;
+
+                /**
+                 * Verifies a GiftBoxData message.
+                 * @param message Plain object to verify
+                 * @returns `null` if valid, otherwise the reason why it is not
+                 */
+                public static verify(message: { [k: string]: any }): (string|null);
+
+                /**
+                 * Creates a GiftBoxData message from a plain object. Also converts values to their respective internal types.
+                 * @param object Plain object
+                 * @returns GiftBoxData
+                 */
+                public static fromObject(object: { [k: string]: any }): lq.NotifyActivityUpdate.FeedActivityData.GiftBoxData;
+
+                /**
+                 * Creates a plain object from a GiftBoxData message. Also converts values to other types if specified.
+                 * @param message GiftBoxData
+                 * @param [options] Conversion options
+                 * @returns Plain object
+                 */
+                public static toObject(message: lq.NotifyActivityUpdate.FeedActivityData.GiftBoxData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                /**
+                 * Converts this GiftBoxData to JSON.
+                 * @returns JSON object
+                 */
+                public toJSON(): { [k: string]: any };
+            }
+        }
+    }
+
     /** Properties of a NotifyAccountChallengeTaskUpdate. */
     interface INotifyAccountChallengeTaskUpdate {
 
@@ -2658,7 +3261,7 @@ export namespace lq {
     interface INotifyRollingNotice {
 
         /** NotifyRollingNotice notice */
-        notice?: (lq.IRollingNotice|null);
+        notice?: (lq.IRollingNotice[]|null);
     }
 
     /** Represents a NotifyRollingNotice. */
@@ -2671,7 +3274,7 @@ export namespace lq {
         constructor(properties?: lq.INotifyRollingNotice);
 
         /** NotifyRollingNotice notice. */
-        public notice?: (lq.IRollingNotice|null);
+        public notice: lq.IRollingNotice[];
 
         /**
          * Creates a new NotifyRollingNotice instance using the specified properties.
@@ -3954,6 +4557,90 @@ export namespace lq {
 
         /**
          * Converts this NotifyAFKResult to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a NotifyLoginQueueFinished. */
+    interface INotifyLoginQueueFinished {
+    }
+
+    /** Represents a NotifyLoginQueueFinished. */
+    class NotifyLoginQueueFinished implements INotifyLoginQueueFinished {
+
+        /**
+         * Constructs a new NotifyLoginQueueFinished.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.INotifyLoginQueueFinished);
+
+        /**
+         * Creates a new NotifyLoginQueueFinished instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns NotifyLoginQueueFinished instance
+         */
+        public static create(properties?: lq.INotifyLoginQueueFinished): lq.NotifyLoginQueueFinished;
+
+        /**
+         * Encodes the specified NotifyLoginQueueFinished message. Does not implicitly {@link lq.NotifyLoginQueueFinished.verify|verify} messages.
+         * @param message NotifyLoginQueueFinished message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.INotifyLoginQueueFinished, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified NotifyLoginQueueFinished message, length delimited. Does not implicitly {@link lq.NotifyLoginQueueFinished.verify|verify} messages.
+         * @param message NotifyLoginQueueFinished message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.INotifyLoginQueueFinished, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a NotifyLoginQueueFinished message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns NotifyLoginQueueFinished
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.NotifyLoginQueueFinished;
+
+        /**
+         * Decodes a NotifyLoginQueueFinished message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns NotifyLoginQueueFinished
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.NotifyLoginQueueFinished;
+
+        /**
+         * Verifies a NotifyLoginQueueFinished message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a NotifyLoginQueueFinished message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns NotifyLoginQueueFinished
+         */
+        public static fromObject(object: { [k: string]: any }): lq.NotifyLoginQueueFinished;
+
+        /**
+         * Creates a plain object from a NotifyLoginQueueFinished message. Also converts values to other types if specified.
+         * @param message NotifyLoginQueueFinished
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.NotifyLoginQueueFinished, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this NotifyLoginQueueFinished to JSON.
          * @returns JSON object
          */
         public toJSON(): { [k: string]: any };
@@ -6706,6 +7393,12 @@ export namespace lq {
 
         /** ViewSlot item_id */
         item_id?: (number|null);
+
+        /** ViewSlot type */
+        type?: (number|null);
+
+        /** ViewSlot item_id_list */
+        item_id_list?: (number[]|null);
     }
 
     /** Represents a ViewSlot. */
@@ -6722,6 +7415,12 @@ export namespace lq {
 
         /** ViewSlot item_id. */
         public item_id: number;
+
+        /** ViewSlot type. */
+        public type: number;
+
+        /** ViewSlot item_id_list. */
+        public item_id_list: number[];
 
         /**
          * Creates a new ViewSlot instance using the specified properties.
@@ -6877,6 +7576,9 @@ export namespace lq {
 
         /** Account frozen_state */
         frozen_state?: (number|null);
+
+        /** Account loading_image */
+        loading_image?: (number[]|null);
     }
 
     /** Represents an Account. */
@@ -6968,6 +7670,9 @@ export namespace lq {
 
         /** Account frozen_state. */
         public frozen_state: number;
+
+        /** Account loading_image. */
+        public loading_image: number[];
 
         /**
          * Creates a new Account instance using the specified properties.
@@ -7569,7 +8274,10 @@ export namespace lq {
         ab_match?: (lq.AccountUpdate.IAccountABMatchUpdate|null);
 
         /** AccountUpdate activity */
-        activity?: (lq.AccountUpdate.IAccountActivityUpdate|null);
+        activity?: (lq.IAccountActivityUpdate|null);
+
+        /** AccountUpdate activity_segment_task */
+        activity_segment_task?: (lq.AccountUpdate.ISegmentTaskUpdate|null);
     }
 
     /** Represents an AccountUpdate. */
@@ -7624,7 +8332,10 @@ export namespace lq {
         public ab_match?: (lq.AccountUpdate.IAccountABMatchUpdate|null);
 
         /** AccountUpdate activity. */
-        public activity?: (lq.AccountUpdate.IAccountActivityUpdate|null);
+        public activity?: (lq.IAccountActivityUpdate|null);
+
+        /** AccountUpdate activity_segment_task. */
+        public activity_segment_task?: (lq.AccountUpdate.ISegmentTaskUpdate|null);
 
         /**
          * Creates a new AccountUpdate instance using the specified properties.
@@ -8638,205 +9349,100 @@ export namespace lq {
             }
         }
 
-        /** Properties of an AccountActivityUpdate. */
-        interface IAccountActivityUpdate {
+        /** Properties of a SegmentTaskUpdate. */
+        interface ISegmentTaskUpdate {
 
-            /** AccountActivityUpdate mine_data */
-            mine_data?: (lq.AccountUpdate.AccountActivityUpdate.IMineActivityData[]|null);
+            /** SegmentTaskUpdate progresses */
+            progresses?: (lq.ISegmentTaskProgress[]|null);
 
-            /** AccountActivityUpdate rpg_data */
-            rpg_data?: (lq.IRPGActivity[]|null);
+            /** SegmentTaskUpdate task_list */
+            task_list?: (number[]|null);
         }
 
-        /** Represents an AccountActivityUpdate. */
-        class AccountActivityUpdate implements IAccountActivityUpdate {
+        /** Represents a SegmentTaskUpdate. */
+        class SegmentTaskUpdate implements ISegmentTaskUpdate {
 
             /**
-             * Constructs a new AccountActivityUpdate.
+             * Constructs a new SegmentTaskUpdate.
              * @param [properties] Properties to set
              */
-            constructor(properties?: lq.AccountUpdate.IAccountActivityUpdate);
+            constructor(properties?: lq.AccountUpdate.ISegmentTaskUpdate);
 
-            /** AccountActivityUpdate mine_data. */
-            public mine_data: lq.AccountUpdate.AccountActivityUpdate.IMineActivityData[];
+            /** SegmentTaskUpdate progresses. */
+            public progresses: lq.ISegmentTaskProgress[];
 
-            /** AccountActivityUpdate rpg_data. */
-            public rpg_data: lq.IRPGActivity[];
+            /** SegmentTaskUpdate task_list. */
+            public task_list: number[];
 
             /**
-             * Creates a new AccountActivityUpdate instance using the specified properties.
+             * Creates a new SegmentTaskUpdate instance using the specified properties.
              * @param [properties] Properties to set
-             * @returns AccountActivityUpdate instance
+             * @returns SegmentTaskUpdate instance
              */
-            public static create(properties?: lq.AccountUpdate.IAccountActivityUpdate): lq.AccountUpdate.AccountActivityUpdate;
+            public static create(properties?: lq.AccountUpdate.ISegmentTaskUpdate): lq.AccountUpdate.SegmentTaskUpdate;
 
             /**
-             * Encodes the specified AccountActivityUpdate message. Does not implicitly {@link lq.AccountUpdate.AccountActivityUpdate.verify|verify} messages.
-             * @param message AccountActivityUpdate message or plain object to encode
+             * Encodes the specified SegmentTaskUpdate message. Does not implicitly {@link lq.AccountUpdate.SegmentTaskUpdate.verify|verify} messages.
+             * @param message SegmentTaskUpdate message or plain object to encode
              * @param [writer] Writer to encode to
              * @returns Writer
              */
-            public static encode(message: lq.AccountUpdate.IAccountActivityUpdate, writer?: $protobuf.Writer): $protobuf.Writer;
+            public static encode(message: lq.AccountUpdate.ISegmentTaskUpdate, writer?: $protobuf.Writer): $protobuf.Writer;
 
             /**
-             * Encodes the specified AccountActivityUpdate message, length delimited. Does not implicitly {@link lq.AccountUpdate.AccountActivityUpdate.verify|verify} messages.
-             * @param message AccountActivityUpdate message or plain object to encode
+             * Encodes the specified SegmentTaskUpdate message, length delimited. Does not implicitly {@link lq.AccountUpdate.SegmentTaskUpdate.verify|verify} messages.
+             * @param message SegmentTaskUpdate message or plain object to encode
              * @param [writer] Writer to encode to
              * @returns Writer
              */
-            public static encodeDelimited(message: lq.AccountUpdate.IAccountActivityUpdate, writer?: $protobuf.Writer): $protobuf.Writer;
+            public static encodeDelimited(message: lq.AccountUpdate.ISegmentTaskUpdate, writer?: $protobuf.Writer): $protobuf.Writer;
 
             /**
-             * Decodes an AccountActivityUpdate message from the specified reader or buffer.
+             * Decodes a SegmentTaskUpdate message from the specified reader or buffer.
              * @param reader Reader or buffer to decode from
              * @param [length] Message length if known beforehand
-             * @returns AccountActivityUpdate
+             * @returns SegmentTaskUpdate
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.AccountUpdate.AccountActivityUpdate;
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.AccountUpdate.SegmentTaskUpdate;
 
             /**
-             * Decodes an AccountActivityUpdate message from the specified reader or buffer, length delimited.
+             * Decodes a SegmentTaskUpdate message from the specified reader or buffer, length delimited.
              * @param reader Reader or buffer to decode from
-             * @returns AccountActivityUpdate
+             * @returns SegmentTaskUpdate
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.AccountUpdate.AccountActivityUpdate;
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.AccountUpdate.SegmentTaskUpdate;
 
             /**
-             * Verifies an AccountActivityUpdate message.
+             * Verifies a SegmentTaskUpdate message.
              * @param message Plain object to verify
              * @returns `null` if valid, otherwise the reason why it is not
              */
             public static verify(message: { [k: string]: any }): (string|null);
 
             /**
-             * Creates an AccountActivityUpdate message from a plain object. Also converts values to their respective internal types.
+             * Creates a SegmentTaskUpdate message from a plain object. Also converts values to their respective internal types.
              * @param object Plain object
-             * @returns AccountActivityUpdate
+             * @returns SegmentTaskUpdate
              */
-            public static fromObject(object: { [k: string]: any }): lq.AccountUpdate.AccountActivityUpdate;
+            public static fromObject(object: { [k: string]: any }): lq.AccountUpdate.SegmentTaskUpdate;
 
             /**
-             * Creates a plain object from an AccountActivityUpdate message. Also converts values to other types if specified.
-             * @param message AccountActivityUpdate
+             * Creates a plain object from a SegmentTaskUpdate message. Also converts values to other types if specified.
+             * @param message SegmentTaskUpdate
              * @param [options] Conversion options
              * @returns Plain object
              */
-            public static toObject(message: lq.AccountUpdate.AccountActivityUpdate, options?: $protobuf.IConversionOptions): { [k: string]: any };
+            public static toObject(message: lq.AccountUpdate.SegmentTaskUpdate, options?: $protobuf.IConversionOptions): { [k: string]: any };
 
             /**
-             * Converts this AccountActivityUpdate to JSON.
+             * Converts this SegmentTaskUpdate to JSON.
              * @returns JSON object
              */
             public toJSON(): { [k: string]: any };
-        }
-
-        namespace AccountActivityUpdate {
-
-            /** Properties of a MineActivityData. */
-            interface IMineActivityData {
-
-                /** MineActivityData dig_point */
-                dig_point?: (lq.IPoint[]|null);
-
-                /** MineActivityData rewards */
-                rewards?: (lq.IMineReward[]|null);
-
-                /** MineActivityData id */
-                id?: (number|null);
-            }
-
-            /** Represents a MineActivityData. */
-            class MineActivityData implements IMineActivityData {
-
-                /**
-                 * Constructs a new MineActivityData.
-                 * @param [properties] Properties to set
-                 */
-                constructor(properties?: lq.AccountUpdate.AccountActivityUpdate.IMineActivityData);
-
-                /** MineActivityData dig_point. */
-                public dig_point: lq.IPoint[];
-
-                /** MineActivityData rewards. */
-                public rewards: lq.IMineReward[];
-
-                /** MineActivityData id. */
-                public id: number;
-
-                /**
-                 * Creates a new MineActivityData instance using the specified properties.
-                 * @param [properties] Properties to set
-                 * @returns MineActivityData instance
-                 */
-                public static create(properties?: lq.AccountUpdate.AccountActivityUpdate.IMineActivityData): lq.AccountUpdate.AccountActivityUpdate.MineActivityData;
-
-                /**
-                 * Encodes the specified MineActivityData message. Does not implicitly {@link lq.AccountUpdate.AccountActivityUpdate.MineActivityData.verify|verify} messages.
-                 * @param message MineActivityData message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encode(message: lq.AccountUpdate.AccountActivityUpdate.IMineActivityData, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Encodes the specified MineActivityData message, length delimited. Does not implicitly {@link lq.AccountUpdate.AccountActivityUpdate.MineActivityData.verify|verify} messages.
-                 * @param message MineActivityData message or plain object to encode
-                 * @param [writer] Writer to encode to
-                 * @returns Writer
-                 */
-                public static encodeDelimited(message: lq.AccountUpdate.AccountActivityUpdate.IMineActivityData, writer?: $protobuf.Writer): $protobuf.Writer;
-
-                /**
-                 * Decodes a MineActivityData message from the specified reader or buffer.
-                 * @param reader Reader or buffer to decode from
-                 * @param [length] Message length if known beforehand
-                 * @returns MineActivityData
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.AccountUpdate.AccountActivityUpdate.MineActivityData;
-
-                /**
-                 * Decodes a MineActivityData message from the specified reader or buffer, length delimited.
-                 * @param reader Reader or buffer to decode from
-                 * @returns MineActivityData
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.AccountUpdate.AccountActivityUpdate.MineActivityData;
-
-                /**
-                 * Verifies a MineActivityData message.
-                 * @param message Plain object to verify
-                 * @returns `null` if valid, otherwise the reason why it is not
-                 */
-                public static verify(message: { [k: string]: any }): (string|null);
-
-                /**
-                 * Creates a MineActivityData message from a plain object. Also converts values to their respective internal types.
-                 * @param object Plain object
-                 * @returns MineActivityData
-                 */
-                public static fromObject(object: { [k: string]: any }): lq.AccountUpdate.AccountActivityUpdate.MineActivityData;
-
-                /**
-                 * Creates a plain object from a MineActivityData message. Also converts values to other types if specified.
-                 * @param message MineActivityData
-                 * @param [options] Conversion options
-                 * @returns Plain object
-                 */
-                public static toObject(message: lq.AccountUpdate.AccountActivityUpdate.MineActivityData, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-                /**
-                 * Converts this MineActivityData to JSON.
-                 * @returns JSON object
-                 */
-                public toJSON(): { [k: string]: any };
-            }
         }
     }
 
@@ -9736,6 +10342,9 @@ export namespace lq {
 
         /** GameTestingEnvironmentSet left_count */
         left_count?: (number|null);
+
+        /** GameTestingEnvironmentSet field_spell_var */
+        field_spell_var?: (number|null);
     }
 
     /** Represents a GameTestingEnvironmentSet. */
@@ -9752,6 +10361,9 @@ export namespace lq {
 
         /** GameTestingEnvironmentSet left_count. */
         public left_count: number;
+
+        /** GameTestingEnvironmentSet field_spell_var. */
+        public field_spell_var: number;
 
         /**
          * Creates a new GameTestingEnvironmentSet instance using the specified properties.
@@ -9980,8 +10592,41 @@ export namespace lq {
         /** GameDetailRule reveal_discard */
         reveal_discard?: (number|null);
 
+        /** GameDetailRule field_spell_mode */
+        field_spell_mode?: (number|null);
+
+        /** GameDetailRule zhanxing */
+        zhanxing?: (number|null);
+
+        /** GameDetailRule tianming_mode */
+        tianming_mode?: (number|null);
+
         /** GameDetailRule disable_leijiyiman */
         disable_leijiyiman?: (boolean|null);
+
+        /** GameDetailRule disable_double_yakuman */
+        disable_double_yakuman?: (number|null);
+
+        /** GameDetailRule disable_composite_yakuman */
+        disable_composite_yakuman?: (number|null);
+
+        /** GameDetailRule enable_shiti */
+        enable_shiti?: (number|null);
+
+        /** GameDetailRule enable_nontsumo_liqi */
+        enable_nontsumo_liqi?: (number|null);
+
+        /** GameDetailRule disable_double_wind_four_fu */
+        disable_double_wind_four_fu?: (number|null);
+
+        /** GameDetailRule disable_angang_guoshi */
+        disable_angang_guoshi?: (number|null);
+
+        /** GameDetailRule enable_renhe */
+        enable_renhe?: (number|null);
+
+        /** GameDetailRule enable_baopai_extend_settings */
+        enable_baopai_extend_settings?: (number|null);
     }
 
     /** Represents a GameDetailRule. */
@@ -10146,8 +10791,41 @@ export namespace lq {
         /** GameDetailRule reveal_discard. */
         public reveal_discard: number;
 
+        /** GameDetailRule field_spell_mode. */
+        public field_spell_mode: number;
+
+        /** GameDetailRule zhanxing. */
+        public zhanxing: number;
+
+        /** GameDetailRule tianming_mode. */
+        public tianming_mode: number;
+
         /** GameDetailRule disable_leijiyiman. */
         public disable_leijiyiman: boolean;
+
+        /** GameDetailRule disable_double_yakuman. */
+        public disable_double_yakuman: number;
+
+        /** GameDetailRule disable_composite_yakuman. */
+        public disable_composite_yakuman: number;
+
+        /** GameDetailRule enable_shiti. */
+        public enable_shiti: number;
+
+        /** GameDetailRule enable_nontsumo_liqi. */
+        public enable_nontsumo_liqi: number;
+
+        /** GameDetailRule disable_double_wind_four_fu. */
+        public disable_double_wind_four_fu: number;
+
+        /** GameDetailRule disable_angang_guoshi. */
+        public disable_angang_guoshi: number;
+
+        /** GameDetailRule enable_renhe. */
+        public enable_renhe: number;
+
+        /** GameDetailRule enable_baopai_extend_settings. */
+        public enable_baopai_extend_settings: number;
 
         /**
          * Creates a new GameDetailRule instance using the specified properties.
@@ -10878,6 +11556,114 @@ export namespace lq {
 
         /**
          * Converts this ItemGainRecords to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a FakeRandomRecords. */
+    interface IFakeRandomRecords {
+
+        /** FakeRandomRecords item_id */
+        item_id?: (number|null);
+
+        /** FakeRandomRecords special_item_id */
+        special_item_id?: (number|null);
+
+        /** FakeRandomRecords gain_count */
+        gain_count?: (number|null);
+
+        /** FakeRandomRecords gain_history */
+        gain_history?: (number[]|null);
+    }
+
+    /** Represents a FakeRandomRecords. */
+    class FakeRandomRecords implements IFakeRandomRecords {
+
+        /**
+         * Constructs a new FakeRandomRecords.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IFakeRandomRecords);
+
+        /** FakeRandomRecords item_id. */
+        public item_id: number;
+
+        /** FakeRandomRecords special_item_id. */
+        public special_item_id: number;
+
+        /** FakeRandomRecords gain_count. */
+        public gain_count: number;
+
+        /** FakeRandomRecords gain_history. */
+        public gain_history: number[];
+
+        /**
+         * Creates a new FakeRandomRecords instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns FakeRandomRecords instance
+         */
+        public static create(properties?: lq.IFakeRandomRecords): lq.FakeRandomRecords;
+
+        /**
+         * Encodes the specified FakeRandomRecords message. Does not implicitly {@link lq.FakeRandomRecords.verify|verify} messages.
+         * @param message FakeRandomRecords message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IFakeRandomRecords, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified FakeRandomRecords message, length delimited. Does not implicitly {@link lq.FakeRandomRecords.verify|verify} messages.
+         * @param message FakeRandomRecords message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IFakeRandomRecords, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a FakeRandomRecords message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns FakeRandomRecords
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.FakeRandomRecords;
+
+        /**
+         * Decodes a FakeRandomRecords message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns FakeRandomRecords
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.FakeRandomRecords;
+
+        /**
+         * Verifies a FakeRandomRecords message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a FakeRandomRecords message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns FakeRandomRecords
+         */
+        public static fromObject(object: { [k: string]: any }): lq.FakeRandomRecords;
+
+        /**
+         * Creates a plain object from a FakeRandomRecords message. Also converts values to other types if specified.
+         * @param message FakeRandomRecords
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.FakeRandomRecords, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this FakeRandomRecords to JSON.
          * @returns JSON object
          */
         public toJSON(): { [k: string]: any };
@@ -11803,6 +12589,9 @@ export namespace lq {
 
         /** Mail content_i18n */
         content_i18n?: (lq.II18nContext[]|null);
+
+        /** Mail template_id */
+        template_id?: (number|null);
     }
 
     /** Represents a Mail. */
@@ -11846,6 +12635,9 @@ export namespace lq {
 
         /** Mail content_i18n. */
         public content_i18n: lq.II18nContext[];
+
+        /** Mail template_id. */
+        public template_id: number;
 
         /**
          * Creates a new Mail instance using the specified properties.
@@ -13654,6 +14446,12 @@ export namespace lq {
 
         /** ClientDeviceInfo model_number */
         model_number?: (string|null);
+
+        /** ClientDeviceInfo screen_width */
+        screen_width?: (number|null);
+
+        /** ClientDeviceInfo screen_height */
+        screen_height?: (number|null);
     }
 
     /** Represents a ClientDeviceInfo. */
@@ -13691,6 +14489,12 @@ export namespace lq {
 
         /** ClientDeviceInfo model_number. */
         public model_number: string;
+
+        /** ClientDeviceInfo screen_width. */
+        public screen_width: number;
+
+        /** ClientDeviceInfo screen_height. */
+        public screen_height: number;
 
         /**
          * Creates a new ClientDeviceInfo instance using the specified properties.
@@ -13878,6 +14682,9 @@ export namespace lq {
 
         /** Announcement content */
         content?: (string|null);
+
+        /** Announcement header_image */
+        header_image?: (string|null);
     }
 
     /** Represents an Announcement. */
@@ -13897,6 +14704,9 @@ export namespace lq {
 
         /** Announcement content. */
         public content: string;
+
+        /** Announcement header_image. */
+        public header_image: string;
 
         /**
          * Creates a new Announcement instance using the specified properties.
@@ -14307,6 +15117,9 @@ export namespace lq {
 
         /** RPGActivity received_rewards */
         received_rewards?: (number[]|null);
+
+        /** RPGActivity last_show_id */
+        last_show_id?: (number|null);
     }
 
     /** Represents a RPGActivity. */
@@ -14335,6 +15148,9 @@ export namespace lq {
 
         /** RPGActivity received_rewards. */
         public received_rewards: number[];
+
+        /** RPGActivity last_show_id. */
+        public last_show_id: number;
 
         /**
          * Creates a new RPGActivity instance using the specified properties.
@@ -14537,6 +15353,2067 @@ export namespace lq {
          * @returns JSON object
          */
         public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a FeedActivityData. */
+    interface IFeedActivityData {
+
+        /** FeedActivityData activity_id */
+        activity_id?: (number|null);
+
+        /** FeedActivityData feed_count */
+        feed_count?: (number|null);
+
+        /** FeedActivityData friend_receive_data */
+        friend_receive_data?: (lq.FeedActivityData.ICountWithTimeData|null);
+
+        /** FeedActivityData friend_send_data */
+        friend_send_data?: (lq.FeedActivityData.ICountWithTimeData|null);
+
+        /** FeedActivityData gift_inbox */
+        gift_inbox?: (lq.FeedActivityData.IGiftBoxData[]|null);
+    }
+
+    /** Represents a FeedActivityData. */
+    class FeedActivityData implements IFeedActivityData {
+
+        /**
+         * Constructs a new FeedActivityData.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IFeedActivityData);
+
+        /** FeedActivityData activity_id. */
+        public activity_id: number;
+
+        /** FeedActivityData feed_count. */
+        public feed_count: number;
+
+        /** FeedActivityData friend_receive_data. */
+        public friend_receive_data?: (lq.FeedActivityData.ICountWithTimeData|null);
+
+        /** FeedActivityData friend_send_data. */
+        public friend_send_data?: (lq.FeedActivityData.ICountWithTimeData|null);
+
+        /** FeedActivityData gift_inbox. */
+        public gift_inbox: lq.FeedActivityData.IGiftBoxData[];
+
+        /**
+         * Creates a new FeedActivityData instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns FeedActivityData instance
+         */
+        public static create(properties?: lq.IFeedActivityData): lq.FeedActivityData;
+
+        /**
+         * Encodes the specified FeedActivityData message. Does not implicitly {@link lq.FeedActivityData.verify|verify} messages.
+         * @param message FeedActivityData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IFeedActivityData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified FeedActivityData message, length delimited. Does not implicitly {@link lq.FeedActivityData.verify|verify} messages.
+         * @param message FeedActivityData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IFeedActivityData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a FeedActivityData message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns FeedActivityData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.FeedActivityData;
+
+        /**
+         * Decodes a FeedActivityData message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns FeedActivityData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.FeedActivityData;
+
+        /**
+         * Verifies a FeedActivityData message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a FeedActivityData message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns FeedActivityData
+         */
+        public static fromObject(object: { [k: string]: any }): lq.FeedActivityData;
+
+        /**
+         * Creates a plain object from a FeedActivityData message. Also converts values to other types if specified.
+         * @param message FeedActivityData
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.FeedActivityData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this FeedActivityData to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    namespace FeedActivityData {
+
+        /** Properties of a CountWithTimeData. */
+        interface ICountWithTimeData {
+
+            /** CountWithTimeData count */
+            count?: (number|null);
+
+            /** CountWithTimeData last_update_time */
+            last_update_time?: (number|null);
+        }
+
+        /** Represents a CountWithTimeData. */
+        class CountWithTimeData implements ICountWithTimeData {
+
+            /**
+             * Constructs a new CountWithTimeData.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.FeedActivityData.ICountWithTimeData);
+
+            /** CountWithTimeData count. */
+            public count: number;
+
+            /** CountWithTimeData last_update_time. */
+            public last_update_time: number;
+
+            /**
+             * Creates a new CountWithTimeData instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns CountWithTimeData instance
+             */
+            public static create(properties?: lq.FeedActivityData.ICountWithTimeData): lq.FeedActivityData.CountWithTimeData;
+
+            /**
+             * Encodes the specified CountWithTimeData message. Does not implicitly {@link lq.FeedActivityData.CountWithTimeData.verify|verify} messages.
+             * @param message CountWithTimeData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.FeedActivityData.ICountWithTimeData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified CountWithTimeData message, length delimited. Does not implicitly {@link lq.FeedActivityData.CountWithTimeData.verify|verify} messages.
+             * @param message CountWithTimeData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.FeedActivityData.ICountWithTimeData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a CountWithTimeData message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns CountWithTimeData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.FeedActivityData.CountWithTimeData;
+
+            /**
+             * Decodes a CountWithTimeData message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns CountWithTimeData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.FeedActivityData.CountWithTimeData;
+
+            /**
+             * Verifies a CountWithTimeData message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a CountWithTimeData message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns CountWithTimeData
+             */
+            public static fromObject(object: { [k: string]: any }): lq.FeedActivityData.CountWithTimeData;
+
+            /**
+             * Creates a plain object from a CountWithTimeData message. Also converts values to other types if specified.
+             * @param message CountWithTimeData
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.FeedActivityData.CountWithTimeData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this CountWithTimeData to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+
+        /** Properties of a GiftBoxData. */
+        interface IGiftBoxData {
+
+            /** GiftBoxData id */
+            id?: (number|null);
+
+            /** GiftBoxData item_id */
+            item_id?: (number|null);
+
+            /** GiftBoxData count */
+            count?: (number|null);
+
+            /** GiftBoxData from_account_id */
+            from_account_id?: (number|null);
+
+            /** GiftBoxData time */
+            time?: (number|null);
+
+            /** GiftBoxData received */
+            received?: (number|null);
+        }
+
+        /** Represents a GiftBoxData. */
+        class GiftBoxData implements IGiftBoxData {
+
+            /**
+             * Constructs a new GiftBoxData.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.FeedActivityData.IGiftBoxData);
+
+            /** GiftBoxData id. */
+            public id: number;
+
+            /** GiftBoxData item_id. */
+            public item_id: number;
+
+            /** GiftBoxData count. */
+            public count: number;
+
+            /** GiftBoxData from_account_id. */
+            public from_account_id: number;
+
+            /** GiftBoxData time. */
+            public time: number;
+
+            /** GiftBoxData received. */
+            public received: number;
+
+            /**
+             * Creates a new GiftBoxData instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns GiftBoxData instance
+             */
+            public static create(properties?: lq.FeedActivityData.IGiftBoxData): lq.FeedActivityData.GiftBoxData;
+
+            /**
+             * Encodes the specified GiftBoxData message. Does not implicitly {@link lq.FeedActivityData.GiftBoxData.verify|verify} messages.
+             * @param message GiftBoxData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.FeedActivityData.IGiftBoxData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified GiftBoxData message, length delimited. Does not implicitly {@link lq.FeedActivityData.GiftBoxData.verify|verify} messages.
+             * @param message GiftBoxData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.FeedActivityData.IGiftBoxData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a GiftBoxData message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns GiftBoxData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.FeedActivityData.GiftBoxData;
+
+            /**
+             * Decodes a GiftBoxData message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns GiftBoxData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.FeedActivityData.GiftBoxData;
+
+            /**
+             * Verifies a GiftBoxData message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a GiftBoxData message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns GiftBoxData
+             */
+            public static fromObject(object: { [k: string]: any }): lq.FeedActivityData.GiftBoxData;
+
+            /**
+             * Creates a plain object from a GiftBoxData message. Also converts values to other types if specified.
+             * @param message GiftBoxData
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.FeedActivityData.GiftBoxData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this GiftBoxData to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+    }
+
+    /** Properties of a SegmentTaskProgress. */
+    interface ISegmentTaskProgress {
+
+        /** SegmentTaskProgress id */
+        id?: (number|null);
+
+        /** SegmentTaskProgress counter */
+        counter?: (number|null);
+
+        /** SegmentTaskProgress achieved */
+        achieved?: (boolean|null);
+
+        /** SegmentTaskProgress rewarded */
+        rewarded?: (boolean|null);
+
+        /** SegmentTaskProgress failed */
+        failed?: (boolean|null);
+
+        /** SegmentTaskProgress reward_count */
+        reward_count?: (number|null);
+
+        /** SegmentTaskProgress achieved_count */
+        achieved_count?: (number|null);
+    }
+
+    /** Represents a SegmentTaskProgress. */
+    class SegmentTaskProgress implements ISegmentTaskProgress {
+
+        /**
+         * Constructs a new SegmentTaskProgress.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.ISegmentTaskProgress);
+
+        /** SegmentTaskProgress id. */
+        public id: number;
+
+        /** SegmentTaskProgress counter. */
+        public counter: number;
+
+        /** SegmentTaskProgress achieved. */
+        public achieved: boolean;
+
+        /** SegmentTaskProgress rewarded. */
+        public rewarded: boolean;
+
+        /** SegmentTaskProgress failed. */
+        public failed: boolean;
+
+        /** SegmentTaskProgress reward_count. */
+        public reward_count: number;
+
+        /** SegmentTaskProgress achieved_count. */
+        public achieved_count: number;
+
+        /**
+         * Creates a new SegmentTaskProgress instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns SegmentTaskProgress instance
+         */
+        public static create(properties?: lq.ISegmentTaskProgress): lq.SegmentTaskProgress;
+
+        /**
+         * Encodes the specified SegmentTaskProgress message. Does not implicitly {@link lq.SegmentTaskProgress.verify|verify} messages.
+         * @param message SegmentTaskProgress message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.ISegmentTaskProgress, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified SegmentTaskProgress message, length delimited. Does not implicitly {@link lq.SegmentTaskProgress.verify|verify} messages.
+         * @param message SegmentTaskProgress message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.ISegmentTaskProgress, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a SegmentTaskProgress message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns SegmentTaskProgress
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.SegmentTaskProgress;
+
+        /**
+         * Decodes a SegmentTaskProgress message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns SegmentTaskProgress
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.SegmentTaskProgress;
+
+        /**
+         * Verifies a SegmentTaskProgress message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a SegmentTaskProgress message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns SegmentTaskProgress
+         */
+        public static fromObject(object: { [k: string]: any }): lq.SegmentTaskProgress;
+
+        /**
+         * Creates a plain object from a SegmentTaskProgress message. Also converts values to other types if specified.
+         * @param message SegmentTaskProgress
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.SegmentTaskProgress, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this SegmentTaskProgress to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a MineActivityData. */
+    interface IMineActivityData {
+
+        /** MineActivityData dig_point */
+        dig_point?: (lq.IPoint[]|null);
+
+        /** MineActivityData map */
+        map?: (lq.IMineReward[]|null);
+
+        /** MineActivityData id */
+        id?: (number|null);
+    }
+
+    /** Represents a MineActivityData. */
+    class MineActivityData implements IMineActivityData {
+
+        /**
+         * Constructs a new MineActivityData.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IMineActivityData);
+
+        /** MineActivityData dig_point. */
+        public dig_point: lq.IPoint[];
+
+        /** MineActivityData map. */
+        public map: lq.IMineReward[];
+
+        /** MineActivityData id. */
+        public id: number;
+
+        /**
+         * Creates a new MineActivityData instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns MineActivityData instance
+         */
+        public static create(properties?: lq.IMineActivityData): lq.MineActivityData;
+
+        /**
+         * Encodes the specified MineActivityData message. Does not implicitly {@link lq.MineActivityData.verify|verify} messages.
+         * @param message MineActivityData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IMineActivityData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified MineActivityData message, length delimited. Does not implicitly {@link lq.MineActivityData.verify|verify} messages.
+         * @param message MineActivityData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IMineActivityData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a MineActivityData message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns MineActivityData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.MineActivityData;
+
+        /**
+         * Decodes a MineActivityData message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns MineActivityData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.MineActivityData;
+
+        /**
+         * Verifies a MineActivityData message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a MineActivityData message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns MineActivityData
+         */
+        public static fromObject(object: { [k: string]: any }): lq.MineActivityData;
+
+        /**
+         * Creates a plain object from a MineActivityData message. Also converts values to other types if specified.
+         * @param message MineActivityData
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.MineActivityData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this MineActivityData to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of an AccountActivityUpdate. */
+    interface IAccountActivityUpdate {
+
+        /** AccountActivityUpdate mine_data */
+        mine_data?: (lq.IMineActivityData[]|null);
+
+        /** AccountActivityUpdate rpg_data */
+        rpg_data?: (lq.IRPGActivity[]|null);
+
+        /** AccountActivityUpdate feed_data */
+        feed_data?: (lq.IActivityFeedData[]|null);
+
+        /** AccountActivityUpdate spot_data */
+        spot_data?: (lq.IActivitySpotData[]|null);
+
+        /** AccountActivityUpdate friend_gift_data */
+        friend_gift_data?: (lq.IActivityFriendGiftData[]|null);
+
+        /** AccountActivityUpdate upgrade_data */
+        upgrade_data?: (lq.IActivityUpgradeData[]|null);
+
+        /** AccountActivityUpdate gacha_data */
+        gacha_data?: (lq.IActivityGachaUpdateData[]|null);
+    }
+
+    /** Represents an AccountActivityUpdate. */
+    class AccountActivityUpdate implements IAccountActivityUpdate {
+
+        /**
+         * Constructs a new AccountActivityUpdate.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IAccountActivityUpdate);
+
+        /** AccountActivityUpdate mine_data. */
+        public mine_data: lq.IMineActivityData[];
+
+        /** AccountActivityUpdate rpg_data. */
+        public rpg_data: lq.IRPGActivity[];
+
+        /** AccountActivityUpdate feed_data. */
+        public feed_data: lq.IActivityFeedData[];
+
+        /** AccountActivityUpdate spot_data. */
+        public spot_data: lq.IActivitySpotData[];
+
+        /** AccountActivityUpdate friend_gift_data. */
+        public friend_gift_data: lq.IActivityFriendGiftData[];
+
+        /** AccountActivityUpdate upgrade_data. */
+        public upgrade_data: lq.IActivityUpgradeData[];
+
+        /** AccountActivityUpdate gacha_data. */
+        public gacha_data: lq.IActivityGachaUpdateData[];
+
+        /**
+         * Creates a new AccountActivityUpdate instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns AccountActivityUpdate instance
+         */
+        public static create(properties?: lq.IAccountActivityUpdate): lq.AccountActivityUpdate;
+
+        /**
+         * Encodes the specified AccountActivityUpdate message. Does not implicitly {@link lq.AccountActivityUpdate.verify|verify} messages.
+         * @param message AccountActivityUpdate message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IAccountActivityUpdate, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified AccountActivityUpdate message, length delimited. Does not implicitly {@link lq.AccountActivityUpdate.verify|verify} messages.
+         * @param message AccountActivityUpdate message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IAccountActivityUpdate, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an AccountActivityUpdate message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns AccountActivityUpdate
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.AccountActivityUpdate;
+
+        /**
+         * Decodes an AccountActivityUpdate message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns AccountActivityUpdate
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.AccountActivityUpdate;
+
+        /**
+         * Verifies an AccountActivityUpdate message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an AccountActivityUpdate message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns AccountActivityUpdate
+         */
+        public static fromObject(object: { [k: string]: any }): lq.AccountActivityUpdate;
+
+        /**
+         * Creates a plain object from an AccountActivityUpdate message. Also converts values to other types if specified.
+         * @param message AccountActivityUpdate
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.AccountActivityUpdate, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this AccountActivityUpdate to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of an ActivityFeedData. */
+    interface IActivityFeedData {
+
+        /** ActivityFeedData activity_id */
+        activity_id?: (number|null);
+
+        /** ActivityFeedData feed_count */
+        feed_count?: (number|null);
+
+        /** ActivityFeedData friend_receive_data */
+        friend_receive_data?: (lq.ActivityFeedData.ICountWithTimeData|null);
+
+        /** ActivityFeedData friend_send_data */
+        friend_send_data?: (lq.ActivityFeedData.ICountWithTimeData|null);
+
+        /** ActivityFeedData gift_inbox */
+        gift_inbox?: (lq.ActivityFeedData.IGiftBoxData[]|null);
+
+        /** ActivityFeedData max_inbox_id */
+        max_inbox_id?: (number|null);
+    }
+
+    /** Represents an ActivityFeedData. */
+    class ActivityFeedData implements IActivityFeedData {
+
+        /**
+         * Constructs a new ActivityFeedData.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IActivityFeedData);
+
+        /** ActivityFeedData activity_id. */
+        public activity_id: number;
+
+        /** ActivityFeedData feed_count. */
+        public feed_count: number;
+
+        /** ActivityFeedData friend_receive_data. */
+        public friend_receive_data?: (lq.ActivityFeedData.ICountWithTimeData|null);
+
+        /** ActivityFeedData friend_send_data. */
+        public friend_send_data?: (lq.ActivityFeedData.ICountWithTimeData|null);
+
+        /** ActivityFeedData gift_inbox. */
+        public gift_inbox: lq.ActivityFeedData.IGiftBoxData[];
+
+        /** ActivityFeedData max_inbox_id. */
+        public max_inbox_id: number;
+
+        /**
+         * Creates a new ActivityFeedData instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ActivityFeedData instance
+         */
+        public static create(properties?: lq.IActivityFeedData): lq.ActivityFeedData;
+
+        /**
+         * Encodes the specified ActivityFeedData message. Does not implicitly {@link lq.ActivityFeedData.verify|verify} messages.
+         * @param message ActivityFeedData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IActivityFeedData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ActivityFeedData message, length delimited. Does not implicitly {@link lq.ActivityFeedData.verify|verify} messages.
+         * @param message ActivityFeedData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IActivityFeedData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an ActivityFeedData message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ActivityFeedData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ActivityFeedData;
+
+        /**
+         * Decodes an ActivityFeedData message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ActivityFeedData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ActivityFeedData;
+
+        /**
+         * Verifies an ActivityFeedData message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an ActivityFeedData message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ActivityFeedData
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ActivityFeedData;
+
+        /**
+         * Creates a plain object from an ActivityFeedData message. Also converts values to other types if specified.
+         * @param message ActivityFeedData
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ActivityFeedData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ActivityFeedData to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    namespace ActivityFeedData {
+
+        /** Properties of a CountWithTimeData. */
+        interface ICountWithTimeData {
+
+            /** CountWithTimeData count */
+            count?: (number|null);
+
+            /** CountWithTimeData last_update_time */
+            last_update_time?: (number|null);
+        }
+
+        /** Represents a CountWithTimeData. */
+        class CountWithTimeData implements ICountWithTimeData {
+
+            /**
+             * Constructs a new CountWithTimeData.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.ActivityFeedData.ICountWithTimeData);
+
+            /** CountWithTimeData count. */
+            public count: number;
+
+            /** CountWithTimeData last_update_time. */
+            public last_update_time: number;
+
+            /**
+             * Creates a new CountWithTimeData instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns CountWithTimeData instance
+             */
+            public static create(properties?: lq.ActivityFeedData.ICountWithTimeData): lq.ActivityFeedData.CountWithTimeData;
+
+            /**
+             * Encodes the specified CountWithTimeData message. Does not implicitly {@link lq.ActivityFeedData.CountWithTimeData.verify|verify} messages.
+             * @param message CountWithTimeData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.ActivityFeedData.ICountWithTimeData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified CountWithTimeData message, length delimited. Does not implicitly {@link lq.ActivityFeedData.CountWithTimeData.verify|verify} messages.
+             * @param message CountWithTimeData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.ActivityFeedData.ICountWithTimeData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a CountWithTimeData message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns CountWithTimeData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ActivityFeedData.CountWithTimeData;
+
+            /**
+             * Decodes a CountWithTimeData message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns CountWithTimeData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ActivityFeedData.CountWithTimeData;
+
+            /**
+             * Verifies a CountWithTimeData message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a CountWithTimeData message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns CountWithTimeData
+             */
+            public static fromObject(object: { [k: string]: any }): lq.ActivityFeedData.CountWithTimeData;
+
+            /**
+             * Creates a plain object from a CountWithTimeData message. Also converts values to other types if specified.
+             * @param message CountWithTimeData
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.ActivityFeedData.CountWithTimeData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this CountWithTimeData to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+
+        /** Properties of a GiftBoxData. */
+        interface IGiftBoxData {
+
+            /** GiftBoxData id */
+            id?: (number|null);
+
+            /** GiftBoxData item_id */
+            item_id?: (number|null);
+
+            /** GiftBoxData count */
+            count?: (number|null);
+
+            /** GiftBoxData from_account_id */
+            from_account_id?: (number|null);
+
+            /** GiftBoxData time */
+            time?: (number|null);
+
+            /** GiftBoxData received */
+            received?: (number|null);
+        }
+
+        /** Represents a GiftBoxData. */
+        class GiftBoxData implements IGiftBoxData {
+
+            /**
+             * Constructs a new GiftBoxData.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.ActivityFeedData.IGiftBoxData);
+
+            /** GiftBoxData id. */
+            public id: number;
+
+            /** GiftBoxData item_id. */
+            public item_id: number;
+
+            /** GiftBoxData count. */
+            public count: number;
+
+            /** GiftBoxData from_account_id. */
+            public from_account_id: number;
+
+            /** GiftBoxData time. */
+            public time: number;
+
+            /** GiftBoxData received. */
+            public received: number;
+
+            /**
+             * Creates a new GiftBoxData instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns GiftBoxData instance
+             */
+            public static create(properties?: lq.ActivityFeedData.IGiftBoxData): lq.ActivityFeedData.GiftBoxData;
+
+            /**
+             * Encodes the specified GiftBoxData message. Does not implicitly {@link lq.ActivityFeedData.GiftBoxData.verify|verify} messages.
+             * @param message GiftBoxData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.ActivityFeedData.IGiftBoxData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified GiftBoxData message, length delimited. Does not implicitly {@link lq.ActivityFeedData.GiftBoxData.verify|verify} messages.
+             * @param message GiftBoxData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.ActivityFeedData.IGiftBoxData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a GiftBoxData message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns GiftBoxData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ActivityFeedData.GiftBoxData;
+
+            /**
+             * Decodes a GiftBoxData message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns GiftBoxData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ActivityFeedData.GiftBoxData;
+
+            /**
+             * Verifies a GiftBoxData message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a GiftBoxData message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns GiftBoxData
+             */
+            public static fromObject(object: { [k: string]: any }): lq.ActivityFeedData.GiftBoxData;
+
+            /**
+             * Creates a plain object from a GiftBoxData message. Also converts values to other types if specified.
+             * @param message GiftBoxData
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.ActivityFeedData.GiftBoxData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this GiftBoxData to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+    }
+
+    /** Properties of an ActivityFriendGiftData. */
+    interface IActivityFriendGiftData {
+
+        /** ActivityFriendGiftData activity_id */
+        activity_id?: (number|null);
+
+        /** ActivityFriendGiftData max_inbox_id */
+        max_inbox_id?: (number|null);
+
+        /** ActivityFriendGiftData receive_data */
+        receive_data?: (lq.ActivityFriendGiftData.ICountWithTimeData|null);
+
+        /** ActivityFriendGiftData send_data */
+        send_data?: (lq.ActivityFriendGiftData.ICountWithTimeData|null);
+
+        /** ActivityFriendGiftData gift_inbox */
+        gift_inbox?: (lq.ActivityFriendGiftData.IGiftBoxData[]|null);
+    }
+
+    /** Represents an ActivityFriendGiftData. */
+    class ActivityFriendGiftData implements IActivityFriendGiftData {
+
+        /**
+         * Constructs a new ActivityFriendGiftData.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IActivityFriendGiftData);
+
+        /** ActivityFriendGiftData activity_id. */
+        public activity_id: number;
+
+        /** ActivityFriendGiftData max_inbox_id. */
+        public max_inbox_id: number;
+
+        /** ActivityFriendGiftData receive_data. */
+        public receive_data?: (lq.ActivityFriendGiftData.ICountWithTimeData|null);
+
+        /** ActivityFriendGiftData send_data. */
+        public send_data?: (lq.ActivityFriendGiftData.ICountWithTimeData|null);
+
+        /** ActivityFriendGiftData gift_inbox. */
+        public gift_inbox: lq.ActivityFriendGiftData.IGiftBoxData[];
+
+        /**
+         * Creates a new ActivityFriendGiftData instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ActivityFriendGiftData instance
+         */
+        public static create(properties?: lq.IActivityFriendGiftData): lq.ActivityFriendGiftData;
+
+        /**
+         * Encodes the specified ActivityFriendGiftData message. Does not implicitly {@link lq.ActivityFriendGiftData.verify|verify} messages.
+         * @param message ActivityFriendGiftData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IActivityFriendGiftData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ActivityFriendGiftData message, length delimited. Does not implicitly {@link lq.ActivityFriendGiftData.verify|verify} messages.
+         * @param message ActivityFriendGiftData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IActivityFriendGiftData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an ActivityFriendGiftData message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ActivityFriendGiftData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ActivityFriendGiftData;
+
+        /**
+         * Decodes an ActivityFriendGiftData message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ActivityFriendGiftData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ActivityFriendGiftData;
+
+        /**
+         * Verifies an ActivityFriendGiftData message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an ActivityFriendGiftData message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ActivityFriendGiftData
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ActivityFriendGiftData;
+
+        /**
+         * Creates a plain object from an ActivityFriendGiftData message. Also converts values to other types if specified.
+         * @param message ActivityFriendGiftData
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ActivityFriendGiftData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ActivityFriendGiftData to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    namespace ActivityFriendGiftData {
+
+        /** Properties of a CountWithTimeData. */
+        interface ICountWithTimeData {
+
+            /** CountWithTimeData count */
+            count?: (number|null);
+
+            /** CountWithTimeData last_update_time */
+            last_update_time?: (number|null);
+
+            /** CountWithTimeData send_friend_id */
+            send_friend_id?: (number[]|null);
+        }
+
+        /** Represents a CountWithTimeData. */
+        class CountWithTimeData implements ICountWithTimeData {
+
+            /**
+             * Constructs a new CountWithTimeData.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.ActivityFriendGiftData.ICountWithTimeData);
+
+            /** CountWithTimeData count. */
+            public count: number;
+
+            /** CountWithTimeData last_update_time. */
+            public last_update_time: number;
+
+            /** CountWithTimeData send_friend_id. */
+            public send_friend_id: number[];
+
+            /**
+             * Creates a new CountWithTimeData instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns CountWithTimeData instance
+             */
+            public static create(properties?: lq.ActivityFriendGiftData.ICountWithTimeData): lq.ActivityFriendGiftData.CountWithTimeData;
+
+            /**
+             * Encodes the specified CountWithTimeData message. Does not implicitly {@link lq.ActivityFriendGiftData.CountWithTimeData.verify|verify} messages.
+             * @param message CountWithTimeData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.ActivityFriendGiftData.ICountWithTimeData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified CountWithTimeData message, length delimited. Does not implicitly {@link lq.ActivityFriendGiftData.CountWithTimeData.verify|verify} messages.
+             * @param message CountWithTimeData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.ActivityFriendGiftData.ICountWithTimeData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a CountWithTimeData message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns CountWithTimeData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ActivityFriendGiftData.CountWithTimeData;
+
+            /**
+             * Decodes a CountWithTimeData message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns CountWithTimeData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ActivityFriendGiftData.CountWithTimeData;
+
+            /**
+             * Verifies a CountWithTimeData message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a CountWithTimeData message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns CountWithTimeData
+             */
+            public static fromObject(object: { [k: string]: any }): lq.ActivityFriendGiftData.CountWithTimeData;
+
+            /**
+             * Creates a plain object from a CountWithTimeData message. Also converts values to other types if specified.
+             * @param message CountWithTimeData
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.ActivityFriendGiftData.CountWithTimeData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this CountWithTimeData to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+
+        /** Properties of a GiftBoxData. */
+        interface IGiftBoxData {
+
+            /** GiftBoxData id */
+            id?: (number|null);
+
+            /** GiftBoxData item_id */
+            item_id?: (number|null);
+
+            /** GiftBoxData count */
+            count?: (number|null);
+
+            /** GiftBoxData from_account_id */
+            from_account_id?: (number|null);
+
+            /** GiftBoxData time */
+            time?: (number|null);
+
+            /** GiftBoxData received */
+            received?: (number|null);
+        }
+
+        /** Represents a GiftBoxData. */
+        class GiftBoxData implements IGiftBoxData {
+
+            /**
+             * Constructs a new GiftBoxData.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.ActivityFriendGiftData.IGiftBoxData);
+
+            /** GiftBoxData id. */
+            public id: number;
+
+            /** GiftBoxData item_id. */
+            public item_id: number;
+
+            /** GiftBoxData count. */
+            public count: number;
+
+            /** GiftBoxData from_account_id. */
+            public from_account_id: number;
+
+            /** GiftBoxData time. */
+            public time: number;
+
+            /** GiftBoxData received. */
+            public received: number;
+
+            /**
+             * Creates a new GiftBoxData instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns GiftBoxData instance
+             */
+            public static create(properties?: lq.ActivityFriendGiftData.IGiftBoxData): lq.ActivityFriendGiftData.GiftBoxData;
+
+            /**
+             * Encodes the specified GiftBoxData message. Does not implicitly {@link lq.ActivityFriendGiftData.GiftBoxData.verify|verify} messages.
+             * @param message GiftBoxData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.ActivityFriendGiftData.IGiftBoxData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified GiftBoxData message, length delimited. Does not implicitly {@link lq.ActivityFriendGiftData.GiftBoxData.verify|verify} messages.
+             * @param message GiftBoxData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.ActivityFriendGiftData.IGiftBoxData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a GiftBoxData message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns GiftBoxData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ActivityFriendGiftData.GiftBoxData;
+
+            /**
+             * Decodes a GiftBoxData message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns GiftBoxData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ActivityFriendGiftData.GiftBoxData;
+
+            /**
+             * Verifies a GiftBoxData message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a GiftBoxData message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns GiftBoxData
+             */
+            public static fromObject(object: { [k: string]: any }): lq.ActivityFriendGiftData.GiftBoxData;
+
+            /**
+             * Creates a plain object from a GiftBoxData message. Also converts values to other types if specified.
+             * @param message GiftBoxData
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.ActivityFriendGiftData.GiftBoxData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this GiftBoxData to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+    }
+
+    /** Properties of an ActivityUpgradeData. */
+    interface IActivityUpgradeData {
+
+        /** ActivityUpgradeData activity_id */
+        activity_id?: (number|null);
+
+        /** ActivityUpgradeData groups */
+        groups?: (lq.ActivityUpgradeData.ILevelGroup[]|null);
+
+        /** ActivityUpgradeData received_level */
+        received_level?: (number|null);
+    }
+
+    /** Represents an ActivityUpgradeData. */
+    class ActivityUpgradeData implements IActivityUpgradeData {
+
+        /**
+         * Constructs a new ActivityUpgradeData.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IActivityUpgradeData);
+
+        /** ActivityUpgradeData activity_id. */
+        public activity_id: number;
+
+        /** ActivityUpgradeData groups. */
+        public groups: lq.ActivityUpgradeData.ILevelGroup[];
+
+        /** ActivityUpgradeData received_level. */
+        public received_level: number;
+
+        /**
+         * Creates a new ActivityUpgradeData instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ActivityUpgradeData instance
+         */
+        public static create(properties?: lq.IActivityUpgradeData): lq.ActivityUpgradeData;
+
+        /**
+         * Encodes the specified ActivityUpgradeData message. Does not implicitly {@link lq.ActivityUpgradeData.verify|verify} messages.
+         * @param message ActivityUpgradeData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IActivityUpgradeData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ActivityUpgradeData message, length delimited. Does not implicitly {@link lq.ActivityUpgradeData.verify|verify} messages.
+         * @param message ActivityUpgradeData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IActivityUpgradeData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an ActivityUpgradeData message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ActivityUpgradeData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ActivityUpgradeData;
+
+        /**
+         * Decodes an ActivityUpgradeData message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ActivityUpgradeData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ActivityUpgradeData;
+
+        /**
+         * Verifies an ActivityUpgradeData message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an ActivityUpgradeData message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ActivityUpgradeData
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ActivityUpgradeData;
+
+        /**
+         * Creates a plain object from an ActivityUpgradeData message. Also converts values to other types if specified.
+         * @param message ActivityUpgradeData
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ActivityUpgradeData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ActivityUpgradeData to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    namespace ActivityUpgradeData {
+
+        /** Properties of a LevelGroup. */
+        interface ILevelGroup {
+
+            /** LevelGroup group_id */
+            group_id?: (number|null);
+
+            /** LevelGroup level */
+            level?: (number|null);
+        }
+
+        /** Represents a LevelGroup. */
+        class LevelGroup implements ILevelGroup {
+
+            /**
+             * Constructs a new LevelGroup.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.ActivityUpgradeData.ILevelGroup);
+
+            /** LevelGroup group_id. */
+            public group_id: number;
+
+            /** LevelGroup level. */
+            public level: number;
+
+            /**
+             * Creates a new LevelGroup instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns LevelGroup instance
+             */
+            public static create(properties?: lq.ActivityUpgradeData.ILevelGroup): lq.ActivityUpgradeData.LevelGroup;
+
+            /**
+             * Encodes the specified LevelGroup message. Does not implicitly {@link lq.ActivityUpgradeData.LevelGroup.verify|verify} messages.
+             * @param message LevelGroup message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.ActivityUpgradeData.ILevelGroup, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified LevelGroup message, length delimited. Does not implicitly {@link lq.ActivityUpgradeData.LevelGroup.verify|verify} messages.
+             * @param message LevelGroup message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.ActivityUpgradeData.ILevelGroup, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a LevelGroup message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns LevelGroup
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ActivityUpgradeData.LevelGroup;
+
+            /**
+             * Decodes a LevelGroup message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns LevelGroup
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ActivityUpgradeData.LevelGroup;
+
+            /**
+             * Verifies a LevelGroup message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a LevelGroup message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns LevelGroup
+             */
+            public static fromObject(object: { [k: string]: any }): lq.ActivityUpgradeData.LevelGroup;
+
+            /**
+             * Creates a plain object from a LevelGroup message. Also converts values to other types if specified.
+             * @param message LevelGroup
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.ActivityUpgradeData.LevelGroup, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this LevelGroup to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+    }
+
+    /** Properties of a GachaRecord. */
+    interface IGachaRecord {
+
+        /** GachaRecord id */
+        id?: (number|null);
+
+        /** GachaRecord count */
+        count?: (number|null);
+    }
+
+    /** Represents a GachaRecord. */
+    class GachaRecord implements IGachaRecord {
+
+        /**
+         * Constructs a new GachaRecord.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IGachaRecord);
+
+        /** GachaRecord id. */
+        public id: number;
+
+        /** GachaRecord count. */
+        public count: number;
+
+        /**
+         * Creates a new GachaRecord instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns GachaRecord instance
+         */
+        public static create(properties?: lq.IGachaRecord): lq.GachaRecord;
+
+        /**
+         * Encodes the specified GachaRecord message. Does not implicitly {@link lq.GachaRecord.verify|verify} messages.
+         * @param message GachaRecord message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IGachaRecord, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified GachaRecord message, length delimited. Does not implicitly {@link lq.GachaRecord.verify|verify} messages.
+         * @param message GachaRecord message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IGachaRecord, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a GachaRecord message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns GachaRecord
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.GachaRecord;
+
+        /**
+         * Decodes a GachaRecord message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns GachaRecord
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.GachaRecord;
+
+        /**
+         * Verifies a GachaRecord message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a GachaRecord message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns GachaRecord
+         */
+        public static fromObject(object: { [k: string]: any }): lq.GachaRecord;
+
+        /**
+         * Creates a plain object from a GachaRecord message. Also converts values to other types if specified.
+         * @param message GachaRecord
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.GachaRecord, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this GachaRecord to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of an ActivityGachaData. */
+    interface IActivityGachaData {
+
+        /** ActivityGachaData activity_id */
+        activity_id?: (number|null);
+
+        /** ActivityGachaData gained */
+        gained?: (lq.IGachaRecord[]|null);
+    }
+
+    /** Represents an ActivityGachaData. */
+    class ActivityGachaData implements IActivityGachaData {
+
+        /**
+         * Constructs a new ActivityGachaData.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IActivityGachaData);
+
+        /** ActivityGachaData activity_id. */
+        public activity_id: number;
+
+        /** ActivityGachaData gained. */
+        public gained: lq.IGachaRecord[];
+
+        /**
+         * Creates a new ActivityGachaData instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ActivityGachaData instance
+         */
+        public static create(properties?: lq.IActivityGachaData): lq.ActivityGachaData;
+
+        /**
+         * Encodes the specified ActivityGachaData message. Does not implicitly {@link lq.ActivityGachaData.verify|verify} messages.
+         * @param message ActivityGachaData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IActivityGachaData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ActivityGachaData message, length delimited. Does not implicitly {@link lq.ActivityGachaData.verify|verify} messages.
+         * @param message ActivityGachaData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IActivityGachaData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an ActivityGachaData message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ActivityGachaData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ActivityGachaData;
+
+        /**
+         * Decodes an ActivityGachaData message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ActivityGachaData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ActivityGachaData;
+
+        /**
+         * Verifies an ActivityGachaData message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an ActivityGachaData message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ActivityGachaData
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ActivityGachaData;
+
+        /**
+         * Creates a plain object from an ActivityGachaData message. Also converts values to other types if specified.
+         * @param message ActivityGachaData
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ActivityGachaData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ActivityGachaData to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of an ActivityGachaUpdateData. */
+    interface IActivityGachaUpdateData {
+
+        /** ActivityGachaUpdateData activity_id */
+        activity_id?: (number|null);
+
+        /** ActivityGachaUpdateData gained */
+        gained?: (lq.IGachaRecord[]|null);
+
+        /** ActivityGachaUpdateData remain_count */
+        remain_count?: (number|null);
+    }
+
+    /** Represents an ActivityGachaUpdateData. */
+    class ActivityGachaUpdateData implements IActivityGachaUpdateData {
+
+        /**
+         * Constructs a new ActivityGachaUpdateData.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IActivityGachaUpdateData);
+
+        /** ActivityGachaUpdateData activity_id. */
+        public activity_id: number;
+
+        /** ActivityGachaUpdateData gained. */
+        public gained: lq.IGachaRecord[];
+
+        /** ActivityGachaUpdateData remain_count. */
+        public remain_count: number;
+
+        /**
+         * Creates a new ActivityGachaUpdateData instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ActivityGachaUpdateData instance
+         */
+        public static create(properties?: lq.IActivityGachaUpdateData): lq.ActivityGachaUpdateData;
+
+        /**
+         * Encodes the specified ActivityGachaUpdateData message. Does not implicitly {@link lq.ActivityGachaUpdateData.verify|verify} messages.
+         * @param message ActivityGachaUpdateData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IActivityGachaUpdateData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ActivityGachaUpdateData message, length delimited. Does not implicitly {@link lq.ActivityGachaUpdateData.verify|verify} messages.
+         * @param message ActivityGachaUpdateData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IActivityGachaUpdateData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an ActivityGachaUpdateData message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ActivityGachaUpdateData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ActivityGachaUpdateData;
+
+        /**
+         * Decodes an ActivityGachaUpdateData message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ActivityGachaUpdateData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ActivityGachaUpdateData;
+
+        /**
+         * Verifies an ActivityGachaUpdateData message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an ActivityGachaUpdateData message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ActivityGachaUpdateData
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ActivityGachaUpdateData;
+
+        /**
+         * Creates a plain object from an ActivityGachaUpdateData message. Also converts values to other types if specified.
+         * @param message ActivityGachaUpdateData
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ActivityGachaUpdateData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ActivityGachaUpdateData to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of an ActivitySpotData. */
+    interface IActivitySpotData {
+
+        /** ActivitySpotData activity_id */
+        activity_id?: (number|null);
+
+        /** ActivitySpotData spots */
+        spots?: (lq.ActivitySpotData.ISpotData[]|null);
+    }
+
+    /** Represents an ActivitySpotData. */
+    class ActivitySpotData implements IActivitySpotData {
+
+        /**
+         * Constructs a new ActivitySpotData.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IActivitySpotData);
+
+        /** ActivitySpotData activity_id. */
+        public activity_id: number;
+
+        /** ActivitySpotData spots. */
+        public spots: lq.ActivitySpotData.ISpotData[];
+
+        /**
+         * Creates a new ActivitySpotData instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ActivitySpotData instance
+         */
+        public static create(properties?: lq.IActivitySpotData): lq.ActivitySpotData;
+
+        /**
+         * Encodes the specified ActivitySpotData message. Does not implicitly {@link lq.ActivitySpotData.verify|verify} messages.
+         * @param message ActivitySpotData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IActivitySpotData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ActivitySpotData message, length delimited. Does not implicitly {@link lq.ActivitySpotData.verify|verify} messages.
+         * @param message ActivitySpotData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IActivitySpotData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an ActivitySpotData message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ActivitySpotData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ActivitySpotData;
+
+        /**
+         * Decodes an ActivitySpotData message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ActivitySpotData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ActivitySpotData;
+
+        /**
+         * Verifies an ActivitySpotData message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an ActivitySpotData message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ActivitySpotData
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ActivitySpotData;
+
+        /**
+         * Creates a plain object from an ActivitySpotData message. Also converts values to other types if specified.
+         * @param message ActivitySpotData
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ActivitySpotData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ActivitySpotData to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    namespace ActivitySpotData {
+
+        /** Properties of a SpotData. */
+        interface ISpotData {
+
+            /** SpotData unique_id */
+            unique_id?: (number|null);
+
+            /** SpotData rewarded */
+            rewarded?: (number|null);
+
+            /** SpotData unlocked_ending */
+            unlocked_ending?: (number[]|null);
+        }
+
+        /** Represents a SpotData. */
+        class SpotData implements ISpotData {
+
+            /**
+             * Constructs a new SpotData.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.ActivitySpotData.ISpotData);
+
+            /** SpotData unique_id. */
+            public unique_id: number;
+
+            /** SpotData rewarded. */
+            public rewarded: number;
+
+            /** SpotData unlocked_ending. */
+            public unlocked_ending: number[];
+
+            /**
+             * Creates a new SpotData instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns SpotData instance
+             */
+            public static create(properties?: lq.ActivitySpotData.ISpotData): lq.ActivitySpotData.SpotData;
+
+            /**
+             * Encodes the specified SpotData message. Does not implicitly {@link lq.ActivitySpotData.SpotData.verify|verify} messages.
+             * @param message SpotData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.ActivitySpotData.ISpotData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified SpotData message, length delimited. Does not implicitly {@link lq.ActivitySpotData.SpotData.verify|verify} messages.
+             * @param message SpotData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.ActivitySpotData.ISpotData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a SpotData message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns SpotData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ActivitySpotData.SpotData;
+
+            /**
+             * Decodes a SpotData message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns SpotData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ActivitySpotData.SpotData;
+
+            /**
+             * Verifies a SpotData message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a SpotData message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns SpotData
+             */
+            public static fromObject(object: { [k: string]: any }): lq.ActivitySpotData.SpotData;
+
+            /**
+             * Creates a plain object from a SpotData message. Also converts values to other types if specified.
+             * @param message SpotData
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.ActivitySpotData.SpotData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this SpotData to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
     }
 
     /** Properties of an AccountActiveState. */
@@ -16200,6 +19077,9 @@ export namespace lq {
 
         /** Character extra_emoji */
         extra_emoji?: (number[]|null);
+
+        /** Character rewarded_level */
+        rewarded_level?: (number[]|null);
     }
 
     /** Represents a Character. */
@@ -16231,6 +19111,9 @@ export namespace lq {
 
         /** Character extra_emoji. */
         public extra_emoji: number[];
+
+        /** Character rewarded_level. */
+        public rewarded_level: number[];
 
         /**
          * Creates a new Character instance using the specified properties.
@@ -17336,6 +20219,9 @@ export namespace lq {
 
             /** PaymentSettingUnit enable_for_frozen_account */
             enable_for_frozen_account?: (boolean|null);
+
+            /** PaymentSettingUnit extra_data */
+            extra_data?: (string|null);
         }
 
         /** Represents a PaymentSettingUnit. */
@@ -17364,6 +20250,9 @@ export namespace lq {
 
             /** PaymentSettingUnit enable_for_frozen_account. */
             public enable_for_frozen_account: boolean;
+
+            /** PaymentSettingUnit extra_data. */
+            public extra_data: string;
 
             /**
              * Creates a new PaymentSettingUnit instance using the specified properties.
@@ -17967,6 +20856,9 @@ export namespace lq {
 
         /** ChestDataV2 face_black_count */
         face_black_count?: (number|null);
+
+        /** ChestDataV2 ticket_face_black_count */
+        ticket_face_black_count?: (number|null);
     }
 
     /** Represents a ChestDataV2. */
@@ -17986,6 +20878,9 @@ export namespace lq {
 
         /** ChestDataV2 face_black_count. */
         public face_black_count: number;
+
+        /** ChestDataV2 ticket_face_black_count. */
+        public ticket_face_black_count: number;
 
         /**
          * Creates a new ChestDataV2 instance using the specified properties.
@@ -18438,6 +21333,9 @@ export namespace lq {
 
         /** CustomizedContestAbstract public_notice */
         public_notice?: (string|null);
+
+        /** CustomizedContestAbstract contest_type */
+        contest_type?: (number|null);
     }
 
     /** Represents a CustomizedContestAbstract. */
@@ -18478,6 +21376,9 @@ export namespace lq {
 
         /** CustomizedContestAbstract public_notice. */
         public public_notice: string;
+
+        /** CustomizedContestAbstract contest_type. */
+        public contest_type: number;
 
         /**
          * Creates a new CustomizedContestAbstract instance using the specified properties.
@@ -18597,6 +21498,9 @@ export namespace lq {
 
         /** CustomizedContestDetail contest_type */
         contest_type?: (number|null);
+
+        /** CustomizedContestDetail disable_broadcast */
+        disable_broadcast?: (number|null);
     }
 
     /** Represents a CustomizedContestDetail. */
@@ -18652,6 +21556,9 @@ export namespace lq {
 
         /** CustomizedContestDetail contest_type. */
         public contest_type: number;
+
+        /** CustomizedContestDetail disable_broadcast. */
+        public disable_broadcast: number;
 
         /**
          * Creates a new CustomizedContestDetail instance using the specified properties.
@@ -21447,6 +24354,45 @@ export namespace lq {
 
         /** ContestDetailRule disable_leijiyiman */
         disable_leijiyiman?: (boolean|null);
+
+        /** ContestDetailRule dora3_mode */
+        dora3_mode?: (number|null);
+
+        /** ContestDetailRule xuezhandaodi */
+        xuezhandaodi?: (number|null);
+
+        /** ContestDetailRule huansanzhang */
+        huansanzhang?: (number|null);
+
+        /** ContestDetailRule chuanma */
+        chuanma?: (number|null);
+
+        /** ContestDetailRule disable_double_yakuman */
+        disable_double_yakuman?: (number|null);
+
+        /** ContestDetailRule disable_composite_yakuman */
+        disable_composite_yakuman?: (number|null);
+
+        /** ContestDetailRule enable_shiti */
+        enable_shiti?: (number|null);
+
+        /** ContestDetailRule enable_nontsumo_liqi */
+        enable_nontsumo_liqi?: (number|null);
+
+        /** ContestDetailRule disable_double_wind_four_fu */
+        disable_double_wind_four_fu?: (number|null);
+
+        /** ContestDetailRule disable_angang_guoshi */
+        disable_angang_guoshi?: (number|null);
+
+        /** ContestDetailRule enable_renhe */
+        enable_renhe?: (number|null);
+
+        /** ContestDetailRule enable_baopai_extend_settings */
+        enable_baopai_extend_settings?: (number|null);
+
+        /** ContestDetailRule fanfu */
+        fanfu?: (number|null);
     }
 
     /** Represents a ContestDetailRule. */
@@ -21571,6 +24517,45 @@ export namespace lq {
 
         /** ContestDetailRule disable_leijiyiman. */
         public disable_leijiyiman: boolean;
+
+        /** ContestDetailRule dora3_mode. */
+        public dora3_mode: number;
+
+        /** ContestDetailRule xuezhandaodi. */
+        public xuezhandaodi: number;
+
+        /** ContestDetailRule huansanzhang. */
+        public huansanzhang: number;
+
+        /** ContestDetailRule chuanma. */
+        public chuanma: number;
+
+        /** ContestDetailRule disable_double_yakuman. */
+        public disable_double_yakuman: number;
+
+        /** ContestDetailRule disable_composite_yakuman. */
+        public disable_composite_yakuman: number;
+
+        /** ContestDetailRule enable_shiti. */
+        public enable_shiti: number;
+
+        /** ContestDetailRule enable_nontsumo_liqi. */
+        public enable_nontsumo_liqi: number;
+
+        /** ContestDetailRule disable_double_wind_four_fu. */
+        public disable_double_wind_four_fu: number;
+
+        /** ContestDetailRule disable_angang_guoshi. */
+        public disable_angang_guoshi: number;
+
+        /** ContestDetailRule enable_renhe. */
+        public enable_renhe: number;
+
+        /** ContestDetailRule enable_baopai_extend_settings. */
+        public enable_baopai_extend_settings: number;
+
+        /** ContestDetailRule fanfu. */
+        public fanfu: number;
 
         /**
          * Creates a new ContestDetailRule instance using the specified properties.
@@ -22269,6 +25254,9 @@ export namespace lq {
 
         /** RecordHuleInfo ting_type */
         ting_type?: (number|null);
+
+        /** RecordHuleInfo ting_mian */
+        ting_mian?: (number|null);
     }
 
     /** Represents a RecordHuleInfo. */
@@ -22342,6 +25330,9 @@ export namespace lq {
 
         /** RecordHuleInfo ting_type. */
         public ting_type: number;
+
+        /** RecordHuleInfo ting_mian. */
+        public ting_mian: number;
 
         /**
          * Creates a new RecordHuleInfo instance using the specified properties.
@@ -23491,6 +26482,2409 @@ export namespace lq {
         public toJSON(): { [k: string]: any };
     }
 
+    /** Properties of a VoteData. */
+    interface IVoteData {
+
+        /** VoteData activity_id */
+        activity_id?: (number|null);
+
+        /** VoteData vote */
+        vote?: (number|null);
+
+        /** VoteData count */
+        count?: (number|null);
+    }
+
+    /** Represents a VoteData. */
+    class VoteData implements IVoteData {
+
+        /**
+         * Constructs a new VoteData.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IVoteData);
+
+        /** VoteData activity_id. */
+        public activity_id: number;
+
+        /** VoteData vote. */
+        public vote: number;
+
+        /** VoteData count. */
+        public count: number;
+
+        /**
+         * Creates a new VoteData instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns VoteData instance
+         */
+        public static create(properties?: lq.IVoteData): lq.VoteData;
+
+        /**
+         * Encodes the specified VoteData message. Does not implicitly {@link lq.VoteData.verify|verify} messages.
+         * @param message VoteData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IVoteData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified VoteData message, length delimited. Does not implicitly {@link lq.VoteData.verify|verify} messages.
+         * @param message VoteData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IVoteData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a VoteData message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns VoteData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.VoteData;
+
+        /**
+         * Decodes a VoteData message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns VoteData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.VoteData;
+
+        /**
+         * Verifies a VoteData message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a VoteData message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns VoteData
+         */
+        public static fromObject(object: { [k: string]: any }): lq.VoteData;
+
+        /**
+         * Creates a plain object from a VoteData message. Also converts values to other types if specified.
+         * @param message VoteData
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.VoteData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this VoteData to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of an ActivityBuffData. */
+    interface IActivityBuffData {
+
+        /** ActivityBuffData buff_id */
+        buff_id?: (number|null);
+
+        /** ActivityBuffData level */
+        level?: (number|null);
+    }
+
+    /** Represents an ActivityBuffData. */
+    class ActivityBuffData implements IActivityBuffData {
+
+        /**
+         * Constructs a new ActivityBuffData.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IActivityBuffData);
+
+        /** ActivityBuffData buff_id. */
+        public buff_id: number;
+
+        /** ActivityBuffData level. */
+        public level: number;
+
+        /**
+         * Creates a new ActivityBuffData instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ActivityBuffData instance
+         */
+        public static create(properties?: lq.IActivityBuffData): lq.ActivityBuffData;
+
+        /**
+         * Encodes the specified ActivityBuffData message. Does not implicitly {@link lq.ActivityBuffData.verify|verify} messages.
+         * @param message ActivityBuffData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IActivityBuffData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ActivityBuffData message, length delimited. Does not implicitly {@link lq.ActivityBuffData.verify|verify} messages.
+         * @param message ActivityBuffData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IActivityBuffData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an ActivityBuffData message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ActivityBuffData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ActivityBuffData;
+
+        /**
+         * Decodes an ActivityBuffData message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ActivityBuffData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ActivityBuffData;
+
+        /**
+         * Verifies an ActivityBuffData message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an ActivityBuffData message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ActivityBuffData
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ActivityBuffData;
+
+        /**
+         * Creates a plain object from an ActivityBuffData message. Also converts values to other types if specified.
+         * @param message ActivityBuffData
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ActivityBuffData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ActivityBuffData to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of an AccountResourceSnapshot. */
+    interface IAccountResourceSnapshot {
+
+        /** AccountResourceSnapshot bag_item */
+        bag_item?: (lq.AccountResourceSnapshot.IBagItemSnapshot[]|null);
+
+        /** AccountResourceSnapshot currency */
+        currency?: (lq.AccountResourceSnapshot.ICurrencySnapshot[]|null);
+
+        /** AccountResourceSnapshot title */
+        title?: (lq.AccountResourceSnapshot.ITitleSnapshot|null);
+
+        /** AccountResourceSnapshot used_title */
+        used_title?: (lq.AccountResourceSnapshot.IUsedTitleSnapshot|null);
+    }
+
+    /** Represents an AccountResourceSnapshot. */
+    class AccountResourceSnapshot implements IAccountResourceSnapshot {
+
+        /**
+         * Constructs a new AccountResourceSnapshot.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IAccountResourceSnapshot);
+
+        /** AccountResourceSnapshot bag_item. */
+        public bag_item: lq.AccountResourceSnapshot.IBagItemSnapshot[];
+
+        /** AccountResourceSnapshot currency. */
+        public currency: lq.AccountResourceSnapshot.ICurrencySnapshot[];
+
+        /** AccountResourceSnapshot title. */
+        public title?: (lq.AccountResourceSnapshot.ITitleSnapshot|null);
+
+        /** AccountResourceSnapshot used_title. */
+        public used_title?: (lq.AccountResourceSnapshot.IUsedTitleSnapshot|null);
+
+        /**
+         * Creates a new AccountResourceSnapshot instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns AccountResourceSnapshot instance
+         */
+        public static create(properties?: lq.IAccountResourceSnapshot): lq.AccountResourceSnapshot;
+
+        /**
+         * Encodes the specified AccountResourceSnapshot message. Does not implicitly {@link lq.AccountResourceSnapshot.verify|verify} messages.
+         * @param message AccountResourceSnapshot message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IAccountResourceSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified AccountResourceSnapshot message, length delimited. Does not implicitly {@link lq.AccountResourceSnapshot.verify|verify} messages.
+         * @param message AccountResourceSnapshot message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IAccountResourceSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an AccountResourceSnapshot message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns AccountResourceSnapshot
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.AccountResourceSnapshot;
+
+        /**
+         * Decodes an AccountResourceSnapshot message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns AccountResourceSnapshot
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.AccountResourceSnapshot;
+
+        /**
+         * Verifies an AccountResourceSnapshot message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an AccountResourceSnapshot message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns AccountResourceSnapshot
+         */
+        public static fromObject(object: { [k: string]: any }): lq.AccountResourceSnapshot;
+
+        /**
+         * Creates a plain object from an AccountResourceSnapshot message. Also converts values to other types if specified.
+         * @param message AccountResourceSnapshot
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.AccountResourceSnapshot, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this AccountResourceSnapshot to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    namespace AccountResourceSnapshot {
+
+        /** Properties of a BagItemSnapshot. */
+        interface IBagItemSnapshot {
+
+            /** BagItemSnapshot resource_id */
+            resource_id?: (number|null);
+
+            /** BagItemSnapshot resource_count */
+            resource_count?: (number|null);
+
+            /** BagItemSnapshot resource_version */
+            resource_version?: (number|null);
+        }
+
+        /** Represents a BagItemSnapshot. */
+        class BagItemSnapshot implements IBagItemSnapshot {
+
+            /**
+             * Constructs a new BagItemSnapshot.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.AccountResourceSnapshot.IBagItemSnapshot);
+
+            /** BagItemSnapshot resource_id. */
+            public resource_id: number;
+
+            /** BagItemSnapshot resource_count. */
+            public resource_count: number;
+
+            /** BagItemSnapshot resource_version. */
+            public resource_version: number;
+
+            /**
+             * Creates a new BagItemSnapshot instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns BagItemSnapshot instance
+             */
+            public static create(properties?: lq.AccountResourceSnapshot.IBagItemSnapshot): lq.AccountResourceSnapshot.BagItemSnapshot;
+
+            /**
+             * Encodes the specified BagItemSnapshot message. Does not implicitly {@link lq.AccountResourceSnapshot.BagItemSnapshot.verify|verify} messages.
+             * @param message BagItemSnapshot message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.AccountResourceSnapshot.IBagItemSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified BagItemSnapshot message, length delimited. Does not implicitly {@link lq.AccountResourceSnapshot.BagItemSnapshot.verify|verify} messages.
+             * @param message BagItemSnapshot message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.AccountResourceSnapshot.IBagItemSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a BagItemSnapshot message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns BagItemSnapshot
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.AccountResourceSnapshot.BagItemSnapshot;
+
+            /**
+             * Decodes a BagItemSnapshot message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns BagItemSnapshot
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.AccountResourceSnapshot.BagItemSnapshot;
+
+            /**
+             * Verifies a BagItemSnapshot message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a BagItemSnapshot message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns BagItemSnapshot
+             */
+            public static fromObject(object: { [k: string]: any }): lq.AccountResourceSnapshot.BagItemSnapshot;
+
+            /**
+             * Creates a plain object from a BagItemSnapshot message. Also converts values to other types if specified.
+             * @param message BagItemSnapshot
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.AccountResourceSnapshot.BagItemSnapshot, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this BagItemSnapshot to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+
+        /** Properties of a CurrencySnapshot. */
+        interface ICurrencySnapshot {
+
+            /** CurrencySnapshot currency_id */
+            currency_id?: (number|null);
+
+            /** CurrencySnapshot currency_count */
+            currency_count?: (number|null);
+        }
+
+        /** Represents a CurrencySnapshot. */
+        class CurrencySnapshot implements ICurrencySnapshot {
+
+            /**
+             * Constructs a new CurrencySnapshot.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.AccountResourceSnapshot.ICurrencySnapshot);
+
+            /** CurrencySnapshot currency_id. */
+            public currency_id: number;
+
+            /** CurrencySnapshot currency_count. */
+            public currency_count: number;
+
+            /**
+             * Creates a new CurrencySnapshot instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns CurrencySnapshot instance
+             */
+            public static create(properties?: lq.AccountResourceSnapshot.ICurrencySnapshot): lq.AccountResourceSnapshot.CurrencySnapshot;
+
+            /**
+             * Encodes the specified CurrencySnapshot message. Does not implicitly {@link lq.AccountResourceSnapshot.CurrencySnapshot.verify|verify} messages.
+             * @param message CurrencySnapshot message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.AccountResourceSnapshot.ICurrencySnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified CurrencySnapshot message, length delimited. Does not implicitly {@link lq.AccountResourceSnapshot.CurrencySnapshot.verify|verify} messages.
+             * @param message CurrencySnapshot message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.AccountResourceSnapshot.ICurrencySnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a CurrencySnapshot message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns CurrencySnapshot
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.AccountResourceSnapshot.CurrencySnapshot;
+
+            /**
+             * Decodes a CurrencySnapshot message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns CurrencySnapshot
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.AccountResourceSnapshot.CurrencySnapshot;
+
+            /**
+             * Verifies a CurrencySnapshot message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a CurrencySnapshot message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns CurrencySnapshot
+             */
+            public static fromObject(object: { [k: string]: any }): lq.AccountResourceSnapshot.CurrencySnapshot;
+
+            /**
+             * Creates a plain object from a CurrencySnapshot message. Also converts values to other types if specified.
+             * @param message CurrencySnapshot
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.AccountResourceSnapshot.CurrencySnapshot, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this CurrencySnapshot to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+
+        /** Properties of a TitleSnapshot. */
+        interface ITitleSnapshot {
+
+            /** TitleSnapshot title_list */
+            title_list?: (number[]|null);
+        }
+
+        /** Represents a TitleSnapshot. */
+        class TitleSnapshot implements ITitleSnapshot {
+
+            /**
+             * Constructs a new TitleSnapshot.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.AccountResourceSnapshot.ITitleSnapshot);
+
+            /** TitleSnapshot title_list. */
+            public title_list: number[];
+
+            /**
+             * Creates a new TitleSnapshot instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns TitleSnapshot instance
+             */
+            public static create(properties?: lq.AccountResourceSnapshot.ITitleSnapshot): lq.AccountResourceSnapshot.TitleSnapshot;
+
+            /**
+             * Encodes the specified TitleSnapshot message. Does not implicitly {@link lq.AccountResourceSnapshot.TitleSnapshot.verify|verify} messages.
+             * @param message TitleSnapshot message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.AccountResourceSnapshot.ITitleSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified TitleSnapshot message, length delimited. Does not implicitly {@link lq.AccountResourceSnapshot.TitleSnapshot.verify|verify} messages.
+             * @param message TitleSnapshot message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.AccountResourceSnapshot.ITitleSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a TitleSnapshot message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns TitleSnapshot
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.AccountResourceSnapshot.TitleSnapshot;
+
+            /**
+             * Decodes a TitleSnapshot message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns TitleSnapshot
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.AccountResourceSnapshot.TitleSnapshot;
+
+            /**
+             * Verifies a TitleSnapshot message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a TitleSnapshot message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns TitleSnapshot
+             */
+            public static fromObject(object: { [k: string]: any }): lq.AccountResourceSnapshot.TitleSnapshot;
+
+            /**
+             * Creates a plain object from a TitleSnapshot message. Also converts values to other types if specified.
+             * @param message TitleSnapshot
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.AccountResourceSnapshot.TitleSnapshot, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this TitleSnapshot to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+
+        /** Properties of a UsedTitleSnapshot. */
+        interface IUsedTitleSnapshot {
+
+            /** UsedTitleSnapshot title_id */
+            title_id?: (number|null);
+        }
+
+        /** Represents a UsedTitleSnapshot. */
+        class UsedTitleSnapshot implements IUsedTitleSnapshot {
+
+            /**
+             * Constructs a new UsedTitleSnapshot.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.AccountResourceSnapshot.IUsedTitleSnapshot);
+
+            /** UsedTitleSnapshot title_id. */
+            public title_id: number;
+
+            /**
+             * Creates a new UsedTitleSnapshot instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns UsedTitleSnapshot instance
+             */
+            public static create(properties?: lq.AccountResourceSnapshot.IUsedTitleSnapshot): lq.AccountResourceSnapshot.UsedTitleSnapshot;
+
+            /**
+             * Encodes the specified UsedTitleSnapshot message. Does not implicitly {@link lq.AccountResourceSnapshot.UsedTitleSnapshot.verify|verify} messages.
+             * @param message UsedTitleSnapshot message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.AccountResourceSnapshot.IUsedTitleSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified UsedTitleSnapshot message, length delimited. Does not implicitly {@link lq.AccountResourceSnapshot.UsedTitleSnapshot.verify|verify} messages.
+             * @param message UsedTitleSnapshot message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.AccountResourceSnapshot.IUsedTitleSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a UsedTitleSnapshot message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns UsedTitleSnapshot
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.AccountResourceSnapshot.UsedTitleSnapshot;
+
+            /**
+             * Decodes a UsedTitleSnapshot message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns UsedTitleSnapshot
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.AccountResourceSnapshot.UsedTitleSnapshot;
+
+            /**
+             * Verifies a UsedTitleSnapshot message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a UsedTitleSnapshot message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns UsedTitleSnapshot
+             */
+            public static fromObject(object: { [k: string]: any }): lq.AccountResourceSnapshot.UsedTitleSnapshot;
+
+            /**
+             * Creates a plain object from a UsedTitleSnapshot message. Also converts values to other types if specified.
+             * @param message UsedTitleSnapshot
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.AccountResourceSnapshot.UsedTitleSnapshot, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this UsedTitleSnapshot to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+    }
+
+    /** Properties of an AccountCharacterSnapshot. */
+    interface IAccountCharacterSnapshot {
+
+        /** AccountCharacterSnapshot created_characters */
+        created_characters?: (number[]|null);
+
+        /** AccountCharacterSnapshot removed_characters */
+        removed_characters?: (lq.ICharacter[]|null);
+
+        /** AccountCharacterSnapshot modified_characters */
+        modified_characters?: (lq.ICharacter[]|null);
+
+        /** AccountCharacterSnapshot main_character */
+        main_character?: (lq.AccountCharacterSnapshot.IMainCharacterSnapshot|null);
+
+        /** AccountCharacterSnapshot skins */
+        skins?: (lq.AccountCharacterSnapshot.ISkinsSnapshot|null);
+
+        /** AccountCharacterSnapshot hidden_characters */
+        hidden_characters?: (lq.AccountCharacterSnapshot.IHiddenCharacter|null);
+    }
+
+    /** Represents an AccountCharacterSnapshot. */
+    class AccountCharacterSnapshot implements IAccountCharacterSnapshot {
+
+        /**
+         * Constructs a new AccountCharacterSnapshot.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IAccountCharacterSnapshot);
+
+        /** AccountCharacterSnapshot created_characters. */
+        public created_characters: number[];
+
+        /** AccountCharacterSnapshot removed_characters. */
+        public removed_characters: lq.ICharacter[];
+
+        /** AccountCharacterSnapshot modified_characters. */
+        public modified_characters: lq.ICharacter[];
+
+        /** AccountCharacterSnapshot main_character. */
+        public main_character?: (lq.AccountCharacterSnapshot.IMainCharacterSnapshot|null);
+
+        /** AccountCharacterSnapshot skins. */
+        public skins?: (lq.AccountCharacterSnapshot.ISkinsSnapshot|null);
+
+        /** AccountCharacterSnapshot hidden_characters. */
+        public hidden_characters?: (lq.AccountCharacterSnapshot.IHiddenCharacter|null);
+
+        /**
+         * Creates a new AccountCharacterSnapshot instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns AccountCharacterSnapshot instance
+         */
+        public static create(properties?: lq.IAccountCharacterSnapshot): lq.AccountCharacterSnapshot;
+
+        /**
+         * Encodes the specified AccountCharacterSnapshot message. Does not implicitly {@link lq.AccountCharacterSnapshot.verify|verify} messages.
+         * @param message AccountCharacterSnapshot message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IAccountCharacterSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified AccountCharacterSnapshot message, length delimited. Does not implicitly {@link lq.AccountCharacterSnapshot.verify|verify} messages.
+         * @param message AccountCharacterSnapshot message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IAccountCharacterSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an AccountCharacterSnapshot message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns AccountCharacterSnapshot
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.AccountCharacterSnapshot;
+
+        /**
+         * Decodes an AccountCharacterSnapshot message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns AccountCharacterSnapshot
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.AccountCharacterSnapshot;
+
+        /**
+         * Verifies an AccountCharacterSnapshot message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an AccountCharacterSnapshot message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns AccountCharacterSnapshot
+         */
+        public static fromObject(object: { [k: string]: any }): lq.AccountCharacterSnapshot;
+
+        /**
+         * Creates a plain object from an AccountCharacterSnapshot message. Also converts values to other types if specified.
+         * @param message AccountCharacterSnapshot
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.AccountCharacterSnapshot, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this AccountCharacterSnapshot to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    namespace AccountCharacterSnapshot {
+
+        /** Properties of a MainCharacterSnapshot. */
+        interface IMainCharacterSnapshot {
+
+            /** MainCharacterSnapshot character_id */
+            character_id?: (number|null);
+        }
+
+        /** Represents a MainCharacterSnapshot. */
+        class MainCharacterSnapshot implements IMainCharacterSnapshot {
+
+            /**
+             * Constructs a new MainCharacterSnapshot.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.AccountCharacterSnapshot.IMainCharacterSnapshot);
+
+            /** MainCharacterSnapshot character_id. */
+            public character_id: number;
+
+            /**
+             * Creates a new MainCharacterSnapshot instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns MainCharacterSnapshot instance
+             */
+            public static create(properties?: lq.AccountCharacterSnapshot.IMainCharacterSnapshot): lq.AccountCharacterSnapshot.MainCharacterSnapshot;
+
+            /**
+             * Encodes the specified MainCharacterSnapshot message. Does not implicitly {@link lq.AccountCharacterSnapshot.MainCharacterSnapshot.verify|verify} messages.
+             * @param message MainCharacterSnapshot message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.AccountCharacterSnapshot.IMainCharacterSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified MainCharacterSnapshot message, length delimited. Does not implicitly {@link lq.AccountCharacterSnapshot.MainCharacterSnapshot.verify|verify} messages.
+             * @param message MainCharacterSnapshot message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.AccountCharacterSnapshot.IMainCharacterSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a MainCharacterSnapshot message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns MainCharacterSnapshot
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.AccountCharacterSnapshot.MainCharacterSnapshot;
+
+            /**
+             * Decodes a MainCharacterSnapshot message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns MainCharacterSnapshot
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.AccountCharacterSnapshot.MainCharacterSnapshot;
+
+            /**
+             * Verifies a MainCharacterSnapshot message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a MainCharacterSnapshot message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns MainCharacterSnapshot
+             */
+            public static fromObject(object: { [k: string]: any }): lq.AccountCharacterSnapshot.MainCharacterSnapshot;
+
+            /**
+             * Creates a plain object from a MainCharacterSnapshot message. Also converts values to other types if specified.
+             * @param message MainCharacterSnapshot
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.AccountCharacterSnapshot.MainCharacterSnapshot, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this MainCharacterSnapshot to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+
+        /** Properties of a SkinsSnapshot. */
+        interface ISkinsSnapshot {
+
+            /** SkinsSnapshot skin_list */
+            skin_list?: (number[]|null);
+        }
+
+        /** Represents a SkinsSnapshot. */
+        class SkinsSnapshot implements ISkinsSnapshot {
+
+            /**
+             * Constructs a new SkinsSnapshot.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.AccountCharacterSnapshot.ISkinsSnapshot);
+
+            /** SkinsSnapshot skin_list. */
+            public skin_list: number[];
+
+            /**
+             * Creates a new SkinsSnapshot instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns SkinsSnapshot instance
+             */
+            public static create(properties?: lq.AccountCharacterSnapshot.ISkinsSnapshot): lq.AccountCharacterSnapshot.SkinsSnapshot;
+
+            /**
+             * Encodes the specified SkinsSnapshot message. Does not implicitly {@link lq.AccountCharacterSnapshot.SkinsSnapshot.verify|verify} messages.
+             * @param message SkinsSnapshot message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.AccountCharacterSnapshot.ISkinsSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified SkinsSnapshot message, length delimited. Does not implicitly {@link lq.AccountCharacterSnapshot.SkinsSnapshot.verify|verify} messages.
+             * @param message SkinsSnapshot message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.AccountCharacterSnapshot.ISkinsSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a SkinsSnapshot message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns SkinsSnapshot
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.AccountCharacterSnapshot.SkinsSnapshot;
+
+            /**
+             * Decodes a SkinsSnapshot message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns SkinsSnapshot
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.AccountCharacterSnapshot.SkinsSnapshot;
+
+            /**
+             * Verifies a SkinsSnapshot message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a SkinsSnapshot message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns SkinsSnapshot
+             */
+            public static fromObject(object: { [k: string]: any }): lq.AccountCharacterSnapshot.SkinsSnapshot;
+
+            /**
+             * Creates a plain object from a SkinsSnapshot message. Also converts values to other types if specified.
+             * @param message SkinsSnapshot
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.AccountCharacterSnapshot.SkinsSnapshot, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this SkinsSnapshot to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+
+        /** Properties of a HiddenCharacter. */
+        interface IHiddenCharacter {
+
+            /** HiddenCharacter hidden_list */
+            hidden_list?: (number[]|null);
+        }
+
+        /** Represents a HiddenCharacter. */
+        class HiddenCharacter implements IHiddenCharacter {
+
+            /**
+             * Constructs a new HiddenCharacter.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.AccountCharacterSnapshot.IHiddenCharacter);
+
+            /** HiddenCharacter hidden_list. */
+            public hidden_list: number[];
+
+            /**
+             * Creates a new HiddenCharacter instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns HiddenCharacter instance
+             */
+            public static create(properties?: lq.AccountCharacterSnapshot.IHiddenCharacter): lq.AccountCharacterSnapshot.HiddenCharacter;
+
+            /**
+             * Encodes the specified HiddenCharacter message. Does not implicitly {@link lq.AccountCharacterSnapshot.HiddenCharacter.verify|verify} messages.
+             * @param message HiddenCharacter message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.AccountCharacterSnapshot.IHiddenCharacter, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified HiddenCharacter message, length delimited. Does not implicitly {@link lq.AccountCharacterSnapshot.HiddenCharacter.verify|verify} messages.
+             * @param message HiddenCharacter message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.AccountCharacterSnapshot.IHiddenCharacter, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a HiddenCharacter message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns HiddenCharacter
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.AccountCharacterSnapshot.HiddenCharacter;
+
+            /**
+             * Decodes a HiddenCharacter message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns HiddenCharacter
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.AccountCharacterSnapshot.HiddenCharacter;
+
+            /**
+             * Verifies a HiddenCharacter message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a HiddenCharacter message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns HiddenCharacter
+             */
+            public static fromObject(object: { [k: string]: any }): lq.AccountCharacterSnapshot.HiddenCharacter;
+
+            /**
+             * Creates a plain object from a HiddenCharacter message. Also converts values to other types if specified.
+             * @param message HiddenCharacter
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.AccountCharacterSnapshot.HiddenCharacter, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this HiddenCharacter to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+    }
+
+    /** Properties of an AccountMailRecord. */
+    interface IAccountMailRecord {
+
+        /** AccountMailRecord created_mails */
+        created_mails?: (number[]|null);
+
+        /** AccountMailRecord removed_mails */
+        removed_mails?: (lq.AccountMailRecord.IMailSnapshot[]|null);
+
+        /** AccountMailRecord modified_mails */
+        modified_mails?: (lq.AccountMailRecord.IMailSnapshot[]|null);
+    }
+
+    /** Represents an AccountMailRecord. */
+    class AccountMailRecord implements IAccountMailRecord {
+
+        /**
+         * Constructs a new AccountMailRecord.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IAccountMailRecord);
+
+        /** AccountMailRecord created_mails. */
+        public created_mails: number[];
+
+        /** AccountMailRecord removed_mails. */
+        public removed_mails: lq.AccountMailRecord.IMailSnapshot[];
+
+        /** AccountMailRecord modified_mails. */
+        public modified_mails: lq.AccountMailRecord.IMailSnapshot[];
+
+        /**
+         * Creates a new AccountMailRecord instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns AccountMailRecord instance
+         */
+        public static create(properties?: lq.IAccountMailRecord): lq.AccountMailRecord;
+
+        /**
+         * Encodes the specified AccountMailRecord message. Does not implicitly {@link lq.AccountMailRecord.verify|verify} messages.
+         * @param message AccountMailRecord message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IAccountMailRecord, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified AccountMailRecord message, length delimited. Does not implicitly {@link lq.AccountMailRecord.verify|verify} messages.
+         * @param message AccountMailRecord message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IAccountMailRecord, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an AccountMailRecord message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns AccountMailRecord
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.AccountMailRecord;
+
+        /**
+         * Decodes an AccountMailRecord message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns AccountMailRecord
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.AccountMailRecord;
+
+        /**
+         * Verifies an AccountMailRecord message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an AccountMailRecord message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns AccountMailRecord
+         */
+        public static fromObject(object: { [k: string]: any }): lq.AccountMailRecord;
+
+        /**
+         * Creates a plain object from an AccountMailRecord message. Also converts values to other types if specified.
+         * @param message AccountMailRecord
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.AccountMailRecord, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this AccountMailRecord to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    namespace AccountMailRecord {
+
+        /** Properties of a MailSnapshot. */
+        interface IMailSnapshot {
+
+            /** MailSnapshot mail_id */
+            mail_id?: (number|null);
+
+            /** MailSnapshot reference_id */
+            reference_id?: (number|null);
+
+            /** MailSnapshot create_time */
+            create_time?: (number|null);
+
+            /** MailSnapshot expire_time */
+            expire_time?: (number|null);
+
+            /** MailSnapshot take_attachment */
+            take_attachment?: (number|null);
+
+            /** MailSnapshot attachments */
+            attachments?: (lq.IRewardSlot[]|null);
+        }
+
+        /** Represents a MailSnapshot. */
+        class MailSnapshot implements IMailSnapshot {
+
+            /**
+             * Constructs a new MailSnapshot.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.AccountMailRecord.IMailSnapshot);
+
+            /** MailSnapshot mail_id. */
+            public mail_id: number;
+
+            /** MailSnapshot reference_id. */
+            public reference_id: number;
+
+            /** MailSnapshot create_time. */
+            public create_time: number;
+
+            /** MailSnapshot expire_time. */
+            public expire_time: number;
+
+            /** MailSnapshot take_attachment. */
+            public take_attachment: number;
+
+            /** MailSnapshot attachments. */
+            public attachments: lq.IRewardSlot[];
+
+            /**
+             * Creates a new MailSnapshot instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns MailSnapshot instance
+             */
+            public static create(properties?: lq.AccountMailRecord.IMailSnapshot): lq.AccountMailRecord.MailSnapshot;
+
+            /**
+             * Encodes the specified MailSnapshot message. Does not implicitly {@link lq.AccountMailRecord.MailSnapshot.verify|verify} messages.
+             * @param message MailSnapshot message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.AccountMailRecord.IMailSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified MailSnapshot message, length delimited. Does not implicitly {@link lq.AccountMailRecord.MailSnapshot.verify|verify} messages.
+             * @param message MailSnapshot message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.AccountMailRecord.IMailSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a MailSnapshot message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns MailSnapshot
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.AccountMailRecord.MailSnapshot;
+
+            /**
+             * Decodes a MailSnapshot message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns MailSnapshot
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.AccountMailRecord.MailSnapshot;
+
+            /**
+             * Verifies a MailSnapshot message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a MailSnapshot message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns MailSnapshot
+             */
+            public static fromObject(object: { [k: string]: any }): lq.AccountMailRecord.MailSnapshot;
+
+            /**
+             * Creates a plain object from a MailSnapshot message. Also converts values to other types if specified.
+             * @param message MailSnapshot
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.AccountMailRecord.MailSnapshot, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this MailSnapshot to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+    }
+
+    /** Properties of an AccountAchievementSnapshot. */
+    interface IAccountAchievementSnapshot {
+
+        /** AccountAchievementSnapshot achievements */
+        achievements?: (lq.IAchievementProgress[]|null);
+
+        /** AccountAchievementSnapshot rewarded_group */
+        rewarded_group?: (lq.AccountAchievementSnapshot.IRewardedGroupSnapshot|null);
+
+        /** AccountAchievementSnapshot version */
+        version?: (lq.AccountAchievementSnapshot.IAchievementVersion|null);
+    }
+
+    /** Represents an AccountAchievementSnapshot. */
+    class AccountAchievementSnapshot implements IAccountAchievementSnapshot {
+
+        /**
+         * Constructs a new AccountAchievementSnapshot.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IAccountAchievementSnapshot);
+
+        /** AccountAchievementSnapshot achievements. */
+        public achievements: lq.IAchievementProgress[];
+
+        /** AccountAchievementSnapshot rewarded_group. */
+        public rewarded_group?: (lq.AccountAchievementSnapshot.IRewardedGroupSnapshot|null);
+
+        /** AccountAchievementSnapshot version. */
+        public version?: (lq.AccountAchievementSnapshot.IAchievementVersion|null);
+
+        /**
+         * Creates a new AccountAchievementSnapshot instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns AccountAchievementSnapshot instance
+         */
+        public static create(properties?: lq.IAccountAchievementSnapshot): lq.AccountAchievementSnapshot;
+
+        /**
+         * Encodes the specified AccountAchievementSnapshot message. Does not implicitly {@link lq.AccountAchievementSnapshot.verify|verify} messages.
+         * @param message AccountAchievementSnapshot message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IAccountAchievementSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified AccountAchievementSnapshot message, length delimited. Does not implicitly {@link lq.AccountAchievementSnapshot.verify|verify} messages.
+         * @param message AccountAchievementSnapshot message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IAccountAchievementSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an AccountAchievementSnapshot message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns AccountAchievementSnapshot
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.AccountAchievementSnapshot;
+
+        /**
+         * Decodes an AccountAchievementSnapshot message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns AccountAchievementSnapshot
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.AccountAchievementSnapshot;
+
+        /**
+         * Verifies an AccountAchievementSnapshot message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an AccountAchievementSnapshot message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns AccountAchievementSnapshot
+         */
+        public static fromObject(object: { [k: string]: any }): lq.AccountAchievementSnapshot;
+
+        /**
+         * Creates a plain object from an AccountAchievementSnapshot message. Also converts values to other types if specified.
+         * @param message AccountAchievementSnapshot
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.AccountAchievementSnapshot, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this AccountAchievementSnapshot to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    namespace AccountAchievementSnapshot {
+
+        /** Properties of a RewardedGroupSnapshot. */
+        interface IRewardedGroupSnapshot {
+
+            /** RewardedGroupSnapshot rewarded_id */
+            rewarded_id?: (number|null);
+        }
+
+        /** Represents a RewardedGroupSnapshot. */
+        class RewardedGroupSnapshot implements IRewardedGroupSnapshot {
+
+            /**
+             * Constructs a new RewardedGroupSnapshot.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.AccountAchievementSnapshot.IRewardedGroupSnapshot);
+
+            /** RewardedGroupSnapshot rewarded_id. */
+            public rewarded_id: number;
+
+            /**
+             * Creates a new RewardedGroupSnapshot instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns RewardedGroupSnapshot instance
+             */
+            public static create(properties?: lq.AccountAchievementSnapshot.IRewardedGroupSnapshot): lq.AccountAchievementSnapshot.RewardedGroupSnapshot;
+
+            /**
+             * Encodes the specified RewardedGroupSnapshot message. Does not implicitly {@link lq.AccountAchievementSnapshot.RewardedGroupSnapshot.verify|verify} messages.
+             * @param message RewardedGroupSnapshot message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.AccountAchievementSnapshot.IRewardedGroupSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified RewardedGroupSnapshot message, length delimited. Does not implicitly {@link lq.AccountAchievementSnapshot.RewardedGroupSnapshot.verify|verify} messages.
+             * @param message RewardedGroupSnapshot message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.AccountAchievementSnapshot.IRewardedGroupSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a RewardedGroupSnapshot message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns RewardedGroupSnapshot
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.AccountAchievementSnapshot.RewardedGroupSnapshot;
+
+            /**
+             * Decodes a RewardedGroupSnapshot message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns RewardedGroupSnapshot
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.AccountAchievementSnapshot.RewardedGroupSnapshot;
+
+            /**
+             * Verifies a RewardedGroupSnapshot message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a RewardedGroupSnapshot message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns RewardedGroupSnapshot
+             */
+            public static fromObject(object: { [k: string]: any }): lq.AccountAchievementSnapshot.RewardedGroupSnapshot;
+
+            /**
+             * Creates a plain object from a RewardedGroupSnapshot message. Also converts values to other types if specified.
+             * @param message RewardedGroupSnapshot
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.AccountAchievementSnapshot.RewardedGroupSnapshot, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this RewardedGroupSnapshot to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+
+        /** Properties of an AchievementVersion. */
+        interface IAchievementVersion {
+
+            /** AchievementVersion version */
+            version?: (number|null);
+        }
+
+        /** Represents an AchievementVersion. */
+        class AchievementVersion implements IAchievementVersion {
+
+            /**
+             * Constructs a new AchievementVersion.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.AccountAchievementSnapshot.IAchievementVersion);
+
+            /** AchievementVersion version. */
+            public version: number;
+
+            /**
+             * Creates a new AchievementVersion instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns AchievementVersion instance
+             */
+            public static create(properties?: lq.AccountAchievementSnapshot.IAchievementVersion): lq.AccountAchievementSnapshot.AchievementVersion;
+
+            /**
+             * Encodes the specified AchievementVersion message. Does not implicitly {@link lq.AccountAchievementSnapshot.AchievementVersion.verify|verify} messages.
+             * @param message AchievementVersion message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.AccountAchievementSnapshot.IAchievementVersion, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified AchievementVersion message, length delimited. Does not implicitly {@link lq.AccountAchievementSnapshot.AchievementVersion.verify|verify} messages.
+             * @param message AchievementVersion message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.AccountAchievementSnapshot.IAchievementVersion, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes an AchievementVersion message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns AchievementVersion
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.AccountAchievementSnapshot.AchievementVersion;
+
+            /**
+             * Decodes an AchievementVersion message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns AchievementVersion
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.AccountAchievementSnapshot.AchievementVersion;
+
+            /**
+             * Verifies an AchievementVersion message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates an AchievementVersion message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns AchievementVersion
+             */
+            public static fromObject(object: { [k: string]: any }): lq.AccountAchievementSnapshot.AchievementVersion;
+
+            /**
+             * Creates a plain object from an AchievementVersion message. Also converts values to other types if specified.
+             * @param message AchievementVersion
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.AccountAchievementSnapshot.AchievementVersion, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this AchievementVersion to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+    }
+
+    /** Properties of an AccountMiscSnapshot. */
+    interface IAccountMiscSnapshot {
+
+        /** AccountMiscSnapshot faith_data */
+        faith_data?: (lq.IFaithData|null);
+
+        /** AccountMiscSnapshot vip_reward_gained */
+        vip_reward_gained?: (lq.AccountMiscSnapshot.IAccountVIPRewardSnapshot|null);
+
+        /** AccountMiscSnapshot vip */
+        vip?: (lq.AccountMiscSnapshot.IAccountVIP|null);
+
+        /** AccountMiscSnapshot shop_info */
+        shop_info?: (lq.IShopInfo|null);
+
+        /** AccountMiscSnapshot month_ticket */
+        month_ticket?: (lq.AccountMiscSnapshot.IAccountMonthTicketSnapshot|null);
+    }
+
+    /** Represents an AccountMiscSnapshot. */
+    class AccountMiscSnapshot implements IAccountMiscSnapshot {
+
+        /**
+         * Constructs a new AccountMiscSnapshot.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IAccountMiscSnapshot);
+
+        /** AccountMiscSnapshot faith_data. */
+        public faith_data?: (lq.IFaithData|null);
+
+        /** AccountMiscSnapshot vip_reward_gained. */
+        public vip_reward_gained?: (lq.AccountMiscSnapshot.IAccountVIPRewardSnapshot|null);
+
+        /** AccountMiscSnapshot vip. */
+        public vip?: (lq.AccountMiscSnapshot.IAccountVIP|null);
+
+        /** AccountMiscSnapshot shop_info. */
+        public shop_info?: (lq.IShopInfo|null);
+
+        /** AccountMiscSnapshot month_ticket. */
+        public month_ticket?: (lq.AccountMiscSnapshot.IAccountMonthTicketSnapshot|null);
+
+        /**
+         * Creates a new AccountMiscSnapshot instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns AccountMiscSnapshot instance
+         */
+        public static create(properties?: lq.IAccountMiscSnapshot): lq.AccountMiscSnapshot;
+
+        /**
+         * Encodes the specified AccountMiscSnapshot message. Does not implicitly {@link lq.AccountMiscSnapshot.verify|verify} messages.
+         * @param message AccountMiscSnapshot message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IAccountMiscSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified AccountMiscSnapshot message, length delimited. Does not implicitly {@link lq.AccountMiscSnapshot.verify|verify} messages.
+         * @param message AccountMiscSnapshot message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IAccountMiscSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an AccountMiscSnapshot message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns AccountMiscSnapshot
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.AccountMiscSnapshot;
+
+        /**
+         * Decodes an AccountMiscSnapshot message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns AccountMiscSnapshot
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.AccountMiscSnapshot;
+
+        /**
+         * Verifies an AccountMiscSnapshot message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an AccountMiscSnapshot message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns AccountMiscSnapshot
+         */
+        public static fromObject(object: { [k: string]: any }): lq.AccountMiscSnapshot;
+
+        /**
+         * Creates a plain object from an AccountMiscSnapshot message. Also converts values to other types if specified.
+         * @param message AccountMiscSnapshot
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.AccountMiscSnapshot, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this AccountMiscSnapshot to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    namespace AccountMiscSnapshot {
+
+        /** Properties of an AccountVIPRewardSnapshot. */
+        interface IAccountVIPRewardSnapshot {
+
+            /** AccountVIPRewardSnapshot rewarded */
+            rewarded?: (number[]|null);
+        }
+
+        /** Represents an AccountVIPRewardSnapshot. */
+        class AccountVIPRewardSnapshot implements IAccountVIPRewardSnapshot {
+
+            /**
+             * Constructs a new AccountVIPRewardSnapshot.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.AccountMiscSnapshot.IAccountVIPRewardSnapshot);
+
+            /** AccountVIPRewardSnapshot rewarded. */
+            public rewarded: number[];
+
+            /**
+             * Creates a new AccountVIPRewardSnapshot instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns AccountVIPRewardSnapshot instance
+             */
+            public static create(properties?: lq.AccountMiscSnapshot.IAccountVIPRewardSnapshot): lq.AccountMiscSnapshot.AccountVIPRewardSnapshot;
+
+            /**
+             * Encodes the specified AccountVIPRewardSnapshot message. Does not implicitly {@link lq.AccountMiscSnapshot.AccountVIPRewardSnapshot.verify|verify} messages.
+             * @param message AccountVIPRewardSnapshot message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.AccountMiscSnapshot.IAccountVIPRewardSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified AccountVIPRewardSnapshot message, length delimited. Does not implicitly {@link lq.AccountMiscSnapshot.AccountVIPRewardSnapshot.verify|verify} messages.
+             * @param message AccountVIPRewardSnapshot message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.AccountMiscSnapshot.IAccountVIPRewardSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes an AccountVIPRewardSnapshot message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns AccountVIPRewardSnapshot
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.AccountMiscSnapshot.AccountVIPRewardSnapshot;
+
+            /**
+             * Decodes an AccountVIPRewardSnapshot message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns AccountVIPRewardSnapshot
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.AccountMiscSnapshot.AccountVIPRewardSnapshot;
+
+            /**
+             * Verifies an AccountVIPRewardSnapshot message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates an AccountVIPRewardSnapshot message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns AccountVIPRewardSnapshot
+             */
+            public static fromObject(object: { [k: string]: any }): lq.AccountMiscSnapshot.AccountVIPRewardSnapshot;
+
+            /**
+             * Creates a plain object from an AccountVIPRewardSnapshot message. Also converts values to other types if specified.
+             * @param message AccountVIPRewardSnapshot
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.AccountMiscSnapshot.AccountVIPRewardSnapshot, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this AccountVIPRewardSnapshot to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+
+        /** Properties of a MonthTicketInfo. */
+        interface IMonthTicketInfo {
+
+            /** MonthTicketInfo id */
+            id?: (number|null);
+
+            /** MonthTicketInfo end_time */
+            end_time?: (number|null);
+
+            /** MonthTicketInfo last_pay_time */
+            last_pay_time?: (number|null);
+
+            /** MonthTicketInfo record_start_time */
+            record_start_time?: (number|null);
+
+            /** MonthTicketInfo history */
+            history?: (number[]|null);
+        }
+
+        /** Represents a MonthTicketInfo. */
+        class MonthTicketInfo implements IMonthTicketInfo {
+
+            /**
+             * Constructs a new MonthTicketInfo.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.AccountMiscSnapshot.IMonthTicketInfo);
+
+            /** MonthTicketInfo id. */
+            public id: number;
+
+            /** MonthTicketInfo end_time. */
+            public end_time: number;
+
+            /** MonthTicketInfo last_pay_time. */
+            public last_pay_time: number;
+
+            /** MonthTicketInfo record_start_time. */
+            public record_start_time: number;
+
+            /** MonthTicketInfo history. */
+            public history: number[];
+
+            /**
+             * Creates a new MonthTicketInfo instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns MonthTicketInfo instance
+             */
+            public static create(properties?: lq.AccountMiscSnapshot.IMonthTicketInfo): lq.AccountMiscSnapshot.MonthTicketInfo;
+
+            /**
+             * Encodes the specified MonthTicketInfo message. Does not implicitly {@link lq.AccountMiscSnapshot.MonthTicketInfo.verify|verify} messages.
+             * @param message MonthTicketInfo message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.AccountMiscSnapshot.IMonthTicketInfo, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified MonthTicketInfo message, length delimited. Does not implicitly {@link lq.AccountMiscSnapshot.MonthTicketInfo.verify|verify} messages.
+             * @param message MonthTicketInfo message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.AccountMiscSnapshot.IMonthTicketInfo, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a MonthTicketInfo message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns MonthTicketInfo
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.AccountMiscSnapshot.MonthTicketInfo;
+
+            /**
+             * Decodes a MonthTicketInfo message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns MonthTicketInfo
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.AccountMiscSnapshot.MonthTicketInfo;
+
+            /**
+             * Verifies a MonthTicketInfo message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a MonthTicketInfo message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns MonthTicketInfo
+             */
+            public static fromObject(object: { [k: string]: any }): lq.AccountMiscSnapshot.MonthTicketInfo;
+
+            /**
+             * Creates a plain object from a MonthTicketInfo message. Also converts values to other types if specified.
+             * @param message MonthTicketInfo
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.AccountMiscSnapshot.MonthTicketInfo, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this MonthTicketInfo to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+
+        /** Properties of an AccountMonthTicketSnapshot. */
+        interface IAccountMonthTicketSnapshot {
+
+            /** AccountMonthTicketSnapshot tickets */
+            tickets?: (lq.AccountMiscSnapshot.IMonthTicketInfo[]|null);
+        }
+
+        /** Represents an AccountMonthTicketSnapshot. */
+        class AccountMonthTicketSnapshot implements IAccountMonthTicketSnapshot {
+
+            /**
+             * Constructs a new AccountMonthTicketSnapshot.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.AccountMiscSnapshot.IAccountMonthTicketSnapshot);
+
+            /** AccountMonthTicketSnapshot tickets. */
+            public tickets: lq.AccountMiscSnapshot.IMonthTicketInfo[];
+
+            /**
+             * Creates a new AccountMonthTicketSnapshot instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns AccountMonthTicketSnapshot instance
+             */
+            public static create(properties?: lq.AccountMiscSnapshot.IAccountMonthTicketSnapshot): lq.AccountMiscSnapshot.AccountMonthTicketSnapshot;
+
+            /**
+             * Encodes the specified AccountMonthTicketSnapshot message. Does not implicitly {@link lq.AccountMiscSnapshot.AccountMonthTicketSnapshot.verify|verify} messages.
+             * @param message AccountMonthTicketSnapshot message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.AccountMiscSnapshot.IAccountMonthTicketSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified AccountMonthTicketSnapshot message, length delimited. Does not implicitly {@link lq.AccountMiscSnapshot.AccountMonthTicketSnapshot.verify|verify} messages.
+             * @param message AccountMonthTicketSnapshot message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.AccountMiscSnapshot.IAccountMonthTicketSnapshot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes an AccountMonthTicketSnapshot message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns AccountMonthTicketSnapshot
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.AccountMiscSnapshot.AccountMonthTicketSnapshot;
+
+            /**
+             * Decodes an AccountMonthTicketSnapshot message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns AccountMonthTicketSnapshot
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.AccountMiscSnapshot.AccountMonthTicketSnapshot;
+
+            /**
+             * Verifies an AccountMonthTicketSnapshot message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates an AccountMonthTicketSnapshot message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns AccountMonthTicketSnapshot
+             */
+            public static fromObject(object: { [k: string]: any }): lq.AccountMiscSnapshot.AccountMonthTicketSnapshot;
+
+            /**
+             * Creates a plain object from an AccountMonthTicketSnapshot message. Also converts values to other types if specified.
+             * @param message AccountMonthTicketSnapshot
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.AccountMiscSnapshot.AccountMonthTicketSnapshot, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this AccountMonthTicketSnapshot to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+
+        /** Properties of an AccountVIP. */
+        interface IAccountVIP {
+
+            /** AccountVIP vip */
+            vip?: (number|null);
+        }
+
+        /** Represents an AccountVIP. */
+        class AccountVIP implements IAccountVIP {
+
+            /**
+             * Constructs a new AccountVIP.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.AccountMiscSnapshot.IAccountVIP);
+
+            /** AccountVIP vip. */
+            public vip: number;
+
+            /**
+             * Creates a new AccountVIP instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns AccountVIP instance
+             */
+            public static create(properties?: lq.AccountMiscSnapshot.IAccountVIP): lq.AccountMiscSnapshot.AccountVIP;
+
+            /**
+             * Encodes the specified AccountVIP message. Does not implicitly {@link lq.AccountMiscSnapshot.AccountVIP.verify|verify} messages.
+             * @param message AccountVIP message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.AccountMiscSnapshot.IAccountVIP, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified AccountVIP message, length delimited. Does not implicitly {@link lq.AccountMiscSnapshot.AccountVIP.verify|verify} messages.
+             * @param message AccountVIP message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.AccountMiscSnapshot.IAccountVIP, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes an AccountVIP message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns AccountVIP
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.AccountMiscSnapshot.AccountVIP;
+
+            /**
+             * Decodes an AccountVIP message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns AccountVIP
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.AccountMiscSnapshot.AccountVIP;
+
+            /**
+             * Verifies an AccountVIP message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates an AccountVIP message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns AccountVIP
+             */
+            public static fromObject(object: { [k: string]: any }): lq.AccountMiscSnapshot.AccountVIP;
+
+            /**
+             * Creates a plain object from an AccountVIP message. Also converts values to other types if specified.
+             * @param message AccountVIP
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.AccountMiscSnapshot.AccountVIP, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this AccountVIP to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+    }
+
+    /** Properties of an AccountGiftCodeRecord. */
+    interface IAccountGiftCodeRecord {
+
+        /** AccountGiftCodeRecord used_gift_code */
+        used_gift_code?: (string[]|null);
+    }
+
+    /** Represents an AccountGiftCodeRecord. */
+    class AccountGiftCodeRecord implements IAccountGiftCodeRecord {
+
+        /**
+         * Constructs a new AccountGiftCodeRecord.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IAccountGiftCodeRecord);
+
+        /** AccountGiftCodeRecord used_gift_code. */
+        public used_gift_code: string[];
+
+        /**
+         * Creates a new AccountGiftCodeRecord instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns AccountGiftCodeRecord instance
+         */
+        public static create(properties?: lq.IAccountGiftCodeRecord): lq.AccountGiftCodeRecord;
+
+        /**
+         * Encodes the specified AccountGiftCodeRecord message. Does not implicitly {@link lq.AccountGiftCodeRecord.verify|verify} messages.
+         * @param message AccountGiftCodeRecord message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IAccountGiftCodeRecord, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified AccountGiftCodeRecord message, length delimited. Does not implicitly {@link lq.AccountGiftCodeRecord.verify|verify} messages.
+         * @param message AccountGiftCodeRecord message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IAccountGiftCodeRecord, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an AccountGiftCodeRecord message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns AccountGiftCodeRecord
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.AccountGiftCodeRecord;
+
+        /**
+         * Decodes an AccountGiftCodeRecord message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns AccountGiftCodeRecord
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.AccountGiftCodeRecord;
+
+        /**
+         * Verifies an AccountGiftCodeRecord message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an AccountGiftCodeRecord message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns AccountGiftCodeRecord
+         */
+        public static fromObject(object: { [k: string]: any }): lq.AccountGiftCodeRecord;
+
+        /**
+         * Creates a plain object from an AccountGiftCodeRecord message. Also converts values to other types if specified.
+         * @param message AccountGiftCodeRecord
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.AccountGiftCodeRecord, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this AccountGiftCodeRecord to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of an AccSn. */
+    interface IAccSn {
+
+        /** AccSn resource */
+        resource?: (lq.IAccountResourceSnapshot|null);
+
+        /** AccSn character */
+        character?: (lq.IAccountCharacterSnapshot|null);
+
+        /** AccSn mail */
+        mail?: (lq.IAccountMailRecord|null);
+
+        /** AccSn achievement */
+        achievement?: (lq.IAccountAchievementSnapshot|null);
+
+        /** AccSn misc */
+        misc?: (lq.IAccountMiscSnapshot|null);
+
+        /** AccSn gift_code */
+        gift_code?: (lq.IAccountGiftCodeRecord|null);
+    }
+
+    /** Represents an AccSn. */
+    class AccSn implements IAccSn {
+
+        /**
+         * Constructs a new AccSn.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IAccSn);
+
+        /** AccSn resource. */
+        public resource?: (lq.IAccountResourceSnapshot|null);
+
+        /** AccSn character. */
+        public character?: (lq.IAccountCharacterSnapshot|null);
+
+        /** AccSn mail. */
+        public mail?: (lq.IAccountMailRecord|null);
+
+        /** AccSn achievement. */
+        public achievement?: (lq.IAccountAchievementSnapshot|null);
+
+        /** AccSn misc. */
+        public misc?: (lq.IAccountMiscSnapshot|null);
+
+        /** AccSn gift_code. */
+        public gift_code?: (lq.IAccountGiftCodeRecord|null);
+
+        /**
+         * Creates a new AccSn instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns AccSn instance
+         */
+        public static create(properties?: lq.IAccSn): lq.AccSn;
+
+        /**
+         * Encodes the specified AccSn message. Does not implicitly {@link lq.AccSn.verify|verify} messages.
+         * @param message AccSn message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IAccSn, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified AccSn message, length delimited. Does not implicitly {@link lq.AccSn.verify|verify} messages.
+         * @param message AccSn message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IAccSn, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an AccSn message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns AccSn
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.AccSn;
+
+        /**
+         * Decodes an AccSn message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns AccSn
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.AccSn;
+
+        /**
+         * Verifies an AccSn message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an AccSn message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns AccSn
+         */
+        public static fromObject(object: { [k: string]: any }): lq.AccSn;
+
+        /**
+         * Creates a plain object from an AccSn message. Also converts values to other types if specified.
+         * @param message AccSn
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.AccSn, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this AccSn to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of an AccSnDa. */
+    interface IAccSnDa {
+
+        /** AccSnDa account_id */
+        account_id?: (number|null);
+
+        /** AccSnDa time */
+        time?: (number|null);
+
+        /** AccSnDa snapshot */
+        snapshot?: (Uint8Array|null);
+    }
+
+    /** Represents an AccSnDa. */
+    class AccSnDa implements IAccSnDa {
+
+        /**
+         * Constructs a new AccSnDa.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IAccSnDa);
+
+        /** AccSnDa account_id. */
+        public account_id: number;
+
+        /** AccSnDa time. */
+        public time: number;
+
+        /** AccSnDa snapshot. */
+        public snapshot: Uint8Array;
+
+        /**
+         * Creates a new AccSnDa instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns AccSnDa instance
+         */
+        public static create(properties?: lq.IAccSnDa): lq.AccSnDa;
+
+        /**
+         * Encodes the specified AccSnDa message. Does not implicitly {@link lq.AccSnDa.verify|verify} messages.
+         * @param message AccSnDa message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IAccSnDa, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified AccSnDa message, length delimited. Does not implicitly {@link lq.AccSnDa.verify|verify} messages.
+         * @param message AccSnDa message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IAccSnDa, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an AccSnDa message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns AccSnDa
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.AccSnDa;
+
+        /**
+         * Decodes an AccSnDa message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns AccSnDa
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.AccSnDa;
+
+        /**
+         * Verifies an AccSnDa message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an AccSnDa message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns AccSnDa
+         */
+        public static fromObject(object: { [k: string]: any }): lq.AccSnDa;
+
+        /**
+         * Creates a plain object from an AccSnDa message. Also converts values to other types if specified.
+         * @param message AccSnDa
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.AccSnDa, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this AccSnDa to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
     /** Represents a Lobby */
     class Lobby extends $protobuf.rpc.Service {
 
@@ -23524,6 +28918,48 @@ export namespace lq {
          * @returns Promise
          */
         public fetchConnectionInfo(request: lq.IReqCommon): Promise<lq.ResConnectionInfo>;
+
+        /**
+         * Calls fetchQueueInfo.
+         * @param request ReqCommon message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResFetchQueueInfo
+         */
+        public fetchQueueInfo(request: lq.IReqCommon, callback: lq.Lobby.fetchQueueInfoCallback): void;
+
+        /**
+         * Calls fetchQueueInfo.
+         * @param request ReqCommon message or plain object
+         * @returns Promise
+         */
+        public fetchQueueInfo(request: lq.IReqCommon): Promise<lq.ResFetchQueueInfo>;
+
+        /**
+         * Calls cancelQueue.
+         * @param request ReqCommon message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResCommon
+         */
+        public cancelQueue(request: lq.IReqCommon, callback: lq.Lobby.cancelQueueCallback): void;
+
+        /**
+         * Calls cancelQueue.
+         * @param request ReqCommon message or plain object
+         * @returns Promise
+         */
+        public cancelQueue(request: lq.IReqCommon): Promise<lq.ResCommon>;
+
+        /**
+         * Calls openidCheck.
+         * @param request ReqOpenidCheck message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResOauth2Check
+         */
+        public openidCheck(request: lq.IReqOpenidCheck, callback: lq.Lobby.openidCheckCallback): void;
+
+        /**
+         * Calls openidCheck.
+         * @param request ReqOpenidCheck message or plain object
+         * @returns Promise
+         */
+        public openidCheck(request: lq.IReqOpenidCheck): Promise<lq.ResOauth2Check>;
 
         /**
          * Calls signup.
@@ -25206,6 +30642,20 @@ export namespace lq {
         public changeCharacterView(request: lq.IReqChangeCharacterView): Promise<lq.ResCommon>;
 
         /**
+         * Calls setHiddenCharacter.
+         * @param request ReqSetHiddenCharacter message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResSetHiddenCharacter
+         */
+        public setHiddenCharacter(request: lq.IReqSetHiddenCharacter, callback: lq.Lobby.setHiddenCharacterCallback): void;
+
+        /**
+         * Calls setHiddenCharacter.
+         * @param request ReqSetHiddenCharacter message or plain object
+         * @returns Promise
+         */
+        public setHiddenCharacter(request: lq.IReqSetHiddenCharacter): Promise<lq.ResSetHiddenCharacter>;
+
+        /**
          * Calls sendGiftToCharacter.
          * @param request ReqSendGiftToCharacter message or plain object
          * @param callback Node-style callback called with the error, if any, and ResSendGiftToCharacter
@@ -25710,6 +31160,34 @@ export namespace lq {
         public createJPSoftbankOrder(request: lq.IReqCreateJPSoftbankOrder): Promise<lq.ResCreateJPSoftbankOrder>;
 
         /**
+         * Calls createJPPayPayOrder.
+         * @param request ReqCreateJPPayPayOrder message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResCreateJPPayPayOrder
+         */
+        public createJPPayPayOrder(request: lq.IReqCreateJPPayPayOrder, callback: lq.Lobby.createJPPayPayOrderCallback): void;
+
+        /**
+         * Calls createJPPayPayOrder.
+         * @param request ReqCreateJPPayPayOrder message or plain object
+         * @returns Promise
+         */
+        public createJPPayPayOrder(request: lq.IReqCreateJPPayPayOrder): Promise<lq.ResCreateJPPayPayOrder>;
+
+        /**
+         * Calls fetchJPCommonCreditCardOrder.
+         * @param request ReqFetchJPCommonCreditCardOrder message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResFetchJPCommonCreditCardOrder
+         */
+        public fetchJPCommonCreditCardOrder(request: lq.IReqFetchJPCommonCreditCardOrder, callback: lq.Lobby.fetchJPCommonCreditCardOrderCallback): void;
+
+        /**
+         * Calls fetchJPCommonCreditCardOrder.
+         * @param request ReqFetchJPCommonCreditCardOrder message or plain object
+         * @returns Promise
+         */
+        public fetchJPCommonCreditCardOrder(request: lq.IReqFetchJPCommonCreditCardOrder): Promise<lq.ResFetchJPCommonCreditCardOrder>;
+
+        /**
          * Calls createENPaypalOrder.
          * @param request ReqCreateENPaypalOrder message or plain object
          * @param callback Node-style callback called with the error, if any, and ResCreateENPaypalOrder
@@ -25778,6 +31256,76 @@ export namespace lq {
          * @returns Promise
          */
         public createENAlipayOrder(request: lq.IReqCreateENAlipayOrder): Promise<lq.ResCreateENAlipayOrder>;
+
+        /**
+         * Calls createKRPaypalOrder.
+         * @param request ReqCreateKRPaypalOrder message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResCreateKRPaypalOrder
+         */
+        public createKRPaypalOrder(request: lq.IReqCreateKRPaypalOrder, callback: lq.Lobby.createKRPaypalOrderCallback): void;
+
+        /**
+         * Calls createKRPaypalOrder.
+         * @param request ReqCreateKRPaypalOrder message or plain object
+         * @returns Promise
+         */
+        public createKRPaypalOrder(request: lq.IReqCreateKRPaypalOrder): Promise<lq.ResCreateKRPaypalOrder>;
+
+        /**
+         * Calls createKRMasterCardOrder.
+         * @param request ReqCreateKRMasterCardOrder message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResCreateKRMasterCardOrder
+         */
+        public createKRMasterCardOrder(request: lq.IReqCreateKRMasterCardOrder, callback: lq.Lobby.createKRMasterCardOrderCallback): void;
+
+        /**
+         * Calls createKRMasterCardOrder.
+         * @param request ReqCreateKRMasterCardOrder message or plain object
+         * @returns Promise
+         */
+        public createKRMasterCardOrder(request: lq.IReqCreateKRMasterCardOrder): Promise<lq.ResCreateKRMasterCardOrder>;
+
+        /**
+         * Calls createKRVisaOrder.
+         * @param request ReqCreateKRVisaOrder message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResCreateKRVisaOrder
+         */
+        public createKRVisaOrder(request: lq.IReqCreateKRVisaOrder, callback: lq.Lobby.createKRVisaOrderCallback): void;
+
+        /**
+         * Calls createKRVisaOrder.
+         * @param request ReqCreateKRVisaOrder message or plain object
+         * @returns Promise
+         */
+        public createKRVisaOrder(request: lq.IReqCreateKRVisaOrder): Promise<lq.ResCreateKRVisaOrder>;
+
+        /**
+         * Calls createKRJCBOrder.
+         * @param request ReqCreateKRJCBOrder message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResCreateKRJCBOrder
+         */
+        public createKRJCBOrder(request: lq.IReqCreateKRJCBOrder, callback: lq.Lobby.createKRJCBOrderCallback): void;
+
+        /**
+         * Calls createKRJCBOrder.
+         * @param request ReqCreateKRJCBOrder message or plain object
+         * @returns Promise
+         */
+        public createKRJCBOrder(request: lq.IReqCreateKRJCBOrder): Promise<lq.ResCreateKRJCBOrder>;
+
+        /**
+         * Calls createKRAlipayOrder.
+         * @param request ReqCreateKRAlipayOrder message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResCreateKRAlipayOrder
+         */
+        public createKRAlipayOrder(request: lq.IReqCreateKRAlipayOrder, callback: lq.Lobby.createKRAlipayOrderCallback): void;
+
+        /**
+         * Calls createKRAlipayOrder.
+         * @param request ReqCreateKRAlipayOrder message or plain object
+         * @returns Promise
+         */
+        public createKRAlipayOrder(request: lq.IReqCreateKRAlipayOrder): Promise<lq.ResCreateKRAlipayOrder>;
 
         /**
          * Calls createDMMOrder.
@@ -25974,6 +31522,20 @@ export namespace lq {
          * @returns Promise
          */
         public solveGooglePayOrderV3(request: lq.IReqSolveGooglePlayOrderV3): Promise<lq.ResCommon>;
+
+        /**
+         * Calls deliverAA32Order.
+         * @param request ReqDeliverAA32Order message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResCommon
+         */
+        public deliverAA32Order(request: lq.IReqDeliverAA32Order, callback: lq.Lobby.deliverAA32OrderCallback): void;
+
+        /**
+         * Calls deliverAA32Order.
+         * @param request ReqDeliverAA32Order message or plain object
+         * @returns Promise
+         */
+        public deliverAA32Order(request: lq.IReqDeliverAA32Order): Promise<lq.ResCommon>;
 
         /**
          * Calls fetchMisc.
@@ -26382,6 +31944,20 @@ export namespace lq {
         public completePeriodActivityTask(request: lq.IReqCompleteActivityTask): Promise<lq.ResCommon>;
 
         /**
+         * Calls completePeriodActivityTaskBatch.
+         * @param request ReqCompletePeriodActivityTaskBatch message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResCommon
+         */
+        public completePeriodActivityTaskBatch(request: lq.IReqCompletePeriodActivityTaskBatch, callback: lq.Lobby.completePeriodActivityTaskBatchCallback): void;
+
+        /**
+         * Calls completePeriodActivityTaskBatch.
+         * @param request ReqCompletePeriodActivityTaskBatch message or plain object
+         * @returns Promise
+         */
+        public completePeriodActivityTaskBatch(request: lq.IReqCompletePeriodActivityTaskBatch): Promise<lq.ResCommon>;
+
+        /**
          * Calls completeRandomActivityTask.
          * @param request ReqCompleteActivityTask message or plain object
          * @param callback Node-style callback called with the error, if any, and ResCommon
@@ -26408,6 +31984,20 @@ export namespace lq {
          * @returns Promise
          */
         public receiveActivityFlipTask(request: lq.IReqReceiveActivityFlipTask): Promise<lq.ResReceiveActivityFlipTask>;
+
+        /**
+         * Calls completeSegmentTaskReward.
+         * @param request ReqCompleteSegmentTaskReward message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResCompleteSegmentTaskReward
+         */
+        public completeSegmentTaskReward(request: lq.IReqCompleteSegmentTaskReward, callback: lq.Lobby.completeSegmentTaskRewardCallback): void;
+
+        /**
+         * Calls completeSegmentTaskReward.
+         * @param request ReqCompleteSegmentTaskReward message or plain object
+         * @returns Promise
+         */
+        public completeSegmentTaskReward(request: lq.IReqCompleteSegmentTaskReward): Promise<lq.ResCompleteSegmentTaskReward>;
 
         /**
          * Calls fetchActivityFlipInfo.
@@ -26576,6 +32166,34 @@ export namespace lq {
          * @returns Promise
          */
         public upgradeActivityBuff(request: lq.IReqUpgradeActivityBuff): Promise<lq.ResActivityBuff>;
+
+        /**
+         * Calls upgradeActivityLevel.
+         * @param request ReqUpgradeActivityLevel message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResUpgradeActivityLevel
+         */
+        public upgradeActivityLevel(request: lq.IReqUpgradeActivityLevel, callback: lq.Lobby.upgradeActivityLevelCallback): void;
+
+        /**
+         * Calls upgradeActivityLevel.
+         * @param request ReqUpgradeActivityLevel message or plain object
+         * @returns Promise
+         */
+        public upgradeActivityLevel(request: lq.IReqUpgradeActivityLevel): Promise<lq.ResUpgradeActivityLevel>;
+
+        /**
+         * Calls receiveUpgradeActivityReward.
+         * @param request ReqReceiveUpgradeActivityReward message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResReceiveUpgradeActivityReward
+         */
+        public receiveUpgradeActivityReward(request: lq.IReqReceiveUpgradeActivityReward, callback: lq.Lobby.receiveUpgradeActivityRewardCallback): void;
+
+        /**
+         * Calls receiveUpgradeActivityReward.
+         * @param request ReqReceiveUpgradeActivityReward message or plain object
+         * @returns Promise
+         */
+        public receiveUpgradeActivityReward(request: lq.IReqReceiveUpgradeActivityReward): Promise<lq.ResReceiveUpgradeActivityReward>;
 
         /**
          * Calls upgradeChallenge.
@@ -26886,6 +32504,20 @@ export namespace lq {
         public fetchRPGBattleHistory(request: lq.IReqFetchRPGBattleHistory): Promise<lq.ResFetchRPGBattleHistory>;
 
         /**
+         * Calls fetchRPGBattleHistoryV2.
+         * @param request ReqFetchRPGBattleHistory message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResFetchRPGBattleHistoryV2
+         */
+        public fetchRPGBattleHistoryV2(request: lq.IReqFetchRPGBattleHistory, callback: lq.Lobby.fetchRPGBattleHistoryV2Callback): void;
+
+        /**
+         * Calls fetchRPGBattleHistoryV2.
+         * @param request ReqFetchRPGBattleHistory message or plain object
+         * @returns Promise
+         */
+        public fetchRPGBattleHistoryV2(request: lq.IReqFetchRPGBattleHistory): Promise<lq.ResFetchRPGBattleHistoryV2>;
+
+        /**
          * Calls receiveRPGRewards.
          * @param request ReqReceiveRPGRewards message or plain object
          * @param callback Node-style callback called with the error, if any, and ResReceiveRPGRewards
@@ -26898,6 +32530,20 @@ export namespace lq {
          * @returns Promise
          */
         public receiveRPGRewards(request: lq.IReqReceiveRPGRewards): Promise<lq.ResReceiveRPGRewards>;
+
+        /**
+         * Calls receiveRPGReward.
+         * @param request ReqReceiveRPGReward message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResReceiveRPGRewards
+         */
+        public receiveRPGReward(request: lq.IReqReceiveRPGReward, callback: lq.Lobby.receiveRPGRewardCallback): void;
+
+        /**
+         * Calls receiveRPGReward.
+         * @param request ReqReceiveRPGReward message or plain object
+         * @returns Promise
+         */
+        public receiveRPGReward(request: lq.IReqReceiveRPGReward): Promise<lq.ResReceiveRPGRewards>;
 
         /**
          * Calls buyArenaTicket.
@@ -26940,6 +32586,314 @@ export namespace lq {
          * @returns Promise
          */
         public receiveArenaReward(request: lq.IReqArenaReward): Promise<lq.ResArenaReward>;
+
+        /**
+         * Calls fetchOBToken.
+         * @param request ReqFetchOBToken message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResFetchOBToken
+         */
+        public fetchOBToken(request: lq.IReqFetchOBToken, callback: lq.Lobby.fetchOBTokenCallback): void;
+
+        /**
+         * Calls fetchOBToken.
+         * @param request ReqFetchOBToken message or plain object
+         * @returns Promise
+         */
+        public fetchOBToken(request: lq.IReqFetchOBToken): Promise<lq.ResFetchOBToken>;
+
+        /**
+         * Calls receiveCharacterRewards.
+         * @param request ReqReceiveCharacterRewards message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResReceiveCharacterRewards
+         */
+        public receiveCharacterRewards(request: lq.IReqReceiveCharacterRewards, callback: lq.Lobby.receiveCharacterRewardsCallback): void;
+
+        /**
+         * Calls receiveCharacterRewards.
+         * @param request ReqReceiveCharacterRewards message or plain object
+         * @returns Promise
+         */
+        public receiveCharacterRewards(request: lq.IReqReceiveCharacterRewards): Promise<lq.ResReceiveCharacterRewards>;
+
+        /**
+         * Calls feedActivityFeed.
+         * @param request ReqFeedActivityFeed message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResFeedActivityFeed
+         */
+        public feedActivityFeed(request: lq.IReqFeedActivityFeed, callback: lq.Lobby.feedActivityFeedCallback): void;
+
+        /**
+         * Calls feedActivityFeed.
+         * @param request ReqFeedActivityFeed message or plain object
+         * @returns Promise
+         */
+        public feedActivityFeed(request: lq.IReqFeedActivityFeed): Promise<lq.ResFeedActivityFeed>;
+
+        /**
+         * Calls sendActivityGiftToFriend.
+         * @param request ReqSendActivityGiftToFriend message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResSendActivityGiftToFriend
+         */
+        public sendActivityGiftToFriend(request: lq.IReqSendActivityGiftToFriend, callback: lq.Lobby.sendActivityGiftToFriendCallback): void;
+
+        /**
+         * Calls sendActivityGiftToFriend.
+         * @param request ReqSendActivityGiftToFriend message or plain object
+         * @returns Promise
+         */
+        public sendActivityGiftToFriend(request: lq.IReqSendActivityGiftToFriend): Promise<lq.ResSendActivityGiftToFriend>;
+
+        /**
+         * Calls receiveActivityGift.
+         * @param request ReqReceiveActivityGift message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResCommon
+         */
+        public receiveActivityGift(request: lq.IReqReceiveActivityGift, callback: lq.Lobby.receiveActivityGiftCallback): void;
+
+        /**
+         * Calls receiveActivityGift.
+         * @param request ReqReceiveActivityGift message or plain object
+         * @returns Promise
+         */
+        public receiveActivityGift(request: lq.IReqReceiveActivityGift): Promise<lq.ResCommon>;
+
+        /**
+         * Calls receiveAllActivityGift.
+         * @param request ReqReceiveAllActivityGift message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResReceiveAllActivityGift
+         */
+        public receiveAllActivityGift(request: lq.IReqReceiveAllActivityGift, callback: lq.Lobby.receiveAllActivityGiftCallback): void;
+
+        /**
+         * Calls receiveAllActivityGift.
+         * @param request ReqReceiveAllActivityGift message or plain object
+         * @returns Promise
+         */
+        public receiveAllActivityGift(request: lq.IReqReceiveAllActivityGift): Promise<lq.ResReceiveAllActivityGift>;
+
+        /**
+         * Calls fetchFriendGiftActivityData.
+         * @param request ReqFetchFriendGiftActivityData message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResFetchFriendGiftActivityData
+         */
+        public fetchFriendGiftActivityData(request: lq.IReqFetchFriendGiftActivityData, callback: lq.Lobby.fetchFriendGiftActivityDataCallback): void;
+
+        /**
+         * Calls fetchFriendGiftActivityData.
+         * @param request ReqFetchFriendGiftActivityData message or plain object
+         * @returns Promise
+         */
+        public fetchFriendGiftActivityData(request: lq.IReqFetchFriendGiftActivityData): Promise<lq.ResFetchFriendGiftActivityData>;
+
+        /**
+         * Calls openPreChestItem.
+         * @param request ReqOpenPreChestItem message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResOpenPreChestItem
+         */
+        public openPreChestItem(request: lq.IReqOpenPreChestItem, callback: lq.Lobby.openPreChestItemCallback): void;
+
+        /**
+         * Calls openPreChestItem.
+         * @param request ReqOpenPreChestItem message or plain object
+         * @returns Promise
+         */
+        public openPreChestItem(request: lq.IReqOpenPreChestItem): Promise<lq.ResOpenPreChestItem>;
+
+        /**
+         * Calls fetchVoteActivity.
+         * @param request ReqFetchVoteActivity message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResFetchVoteActivity
+         */
+        public fetchVoteActivity(request: lq.IReqFetchVoteActivity, callback: lq.Lobby.fetchVoteActivityCallback): void;
+
+        /**
+         * Calls fetchVoteActivity.
+         * @param request ReqFetchVoteActivity message or plain object
+         * @returns Promise
+         */
+        public fetchVoteActivity(request: lq.IReqFetchVoteActivity): Promise<lq.ResFetchVoteActivity>;
+
+        /**
+         * Calls voteActivity.
+         * @param request ReqVoteActivity message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResVoteActivity
+         */
+        public voteActivity(request: lq.IReqVoteActivity, callback: lq.Lobby.voteActivityCallback): void;
+
+        /**
+         * Calls voteActivity.
+         * @param request ReqVoteActivity message or plain object
+         * @returns Promise
+         */
+        public voteActivity(request: lq.IReqVoteActivity): Promise<lq.ResVoteActivity>;
+
+        /**
+         * Calls unlockActivitySpot.
+         * @param request ReqUnlockActivitySpot message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResCommon
+         */
+        public unlockActivitySpot(request: lq.IReqUnlockActivitySpot, callback: lq.Lobby.unlockActivitySpotCallback): void;
+
+        /**
+         * Calls unlockActivitySpot.
+         * @param request ReqUnlockActivitySpot message or plain object
+         * @returns Promise
+         */
+        public unlockActivitySpot(request: lq.IReqUnlockActivitySpot): Promise<lq.ResCommon>;
+
+        /**
+         * Calls receiveActivitySpotReward.
+         * @param request ReqReceiveActivitySpotReward message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResReceiveActivitySpotReward
+         */
+        public receiveActivitySpotReward(request: lq.IReqReceiveActivitySpotReward, callback: lq.Lobby.receiveActivitySpotRewardCallback): void;
+
+        /**
+         * Calls receiveActivitySpotReward.
+         * @param request ReqReceiveActivitySpotReward message or plain object
+         * @returns Promise
+         */
+        public receiveActivitySpotReward(request: lq.IReqReceiveActivitySpotReward): Promise<lq.ResReceiveActivitySpotReward>;
+
+        /**
+         * Calls deleteAccount.
+         * @param request ReqCommon message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResDeleteAccount
+         */
+        public deleteAccount(request: lq.IReqCommon, callback: lq.Lobby.deleteAccountCallback): void;
+
+        /**
+         * Calls deleteAccount.
+         * @param request ReqCommon message or plain object
+         * @returns Promise
+         */
+        public deleteAccount(request: lq.IReqCommon): Promise<lq.ResDeleteAccount>;
+
+        /**
+         * Calls cancelDeleteAccount.
+         * @param request ReqCommon message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResCommon
+         */
+        public cancelDeleteAccount(request: lq.IReqCommon, callback: lq.Lobby.cancelDeleteAccountCallback): void;
+
+        /**
+         * Calls cancelDeleteAccount.
+         * @param request ReqCommon message or plain object
+         * @returns Promise
+         */
+        public cancelDeleteAccount(request: lq.IReqCommon): Promise<lq.ResCommon>;
+
+        /**
+         * Calls logReport.
+         * @param request ReqLogReport message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResCommon
+         */
+        public logReport(request: lq.IReqLogReport, callback: lq.Lobby.logReportCallback): void;
+
+        /**
+         * Calls logReport.
+         * @param request ReqLogReport message or plain object
+         * @returns Promise
+         */
+        public logReport(request: lq.IReqLogReport): Promise<lq.ResCommon>;
+
+        /**
+         * Calls bindOauth2.
+         * @param request ReqBindOauth2 message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResCommon
+         */
+        public bindOauth2(request: lq.IReqBindOauth2, callback: lq.Lobby.bindOauth2Callback): void;
+
+        /**
+         * Calls bindOauth2.
+         * @param request ReqBindOauth2 message or plain object
+         * @returns Promise
+         */
+        public bindOauth2(request: lq.IReqBindOauth2): Promise<lq.ResCommon>;
+
+        /**
+         * Calls fetchOauth2Info.
+         * @param request ReqFetchOauth2 message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResFetchOauth2
+         */
+        public fetchOauth2Info(request: lq.IReqFetchOauth2, callback: lq.Lobby.fetchOauth2InfoCallback): void;
+
+        /**
+         * Calls fetchOauth2Info.
+         * @param request ReqFetchOauth2 message or plain object
+         * @returns Promise
+         */
+        public fetchOauth2Info(request: lq.IReqFetchOauth2): Promise<lq.ResFetchOauth2>;
+
+        /**
+         * Calls setLoadingImage.
+         * @param request ReqSetLoadingImage message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResCommon
+         */
+        public setLoadingImage(request: lq.IReqSetLoadingImage, callback: lq.Lobby.setLoadingImageCallback): void;
+
+        /**
+         * Calls setLoadingImage.
+         * @param request ReqSetLoadingImage message or plain object
+         * @returns Promise
+         */
+        public setLoadingImage(request: lq.IReqSetLoadingImage): Promise<lq.ResCommon>;
+
+        /**
+         * Calls fetchShopInterval.
+         * @param request ReqCommon message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResFetchShopInterval
+         */
+        public fetchShopInterval(request: lq.IReqCommon, callback: lq.Lobby.fetchShopIntervalCallback): void;
+
+        /**
+         * Calls fetchShopInterval.
+         * @param request ReqCommon message or plain object
+         * @returns Promise
+         */
+        public fetchShopInterval(request: lq.IReqCommon): Promise<lq.ResFetchShopInterval>;
+
+        /**
+         * Calls fetchActivityInterval.
+         * @param request ReqCommon message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResFetchActivityInterval
+         */
+        public fetchActivityInterval(request: lq.IReqCommon, callback: lq.Lobby.fetchActivityIntervalCallback): void;
+
+        /**
+         * Calls fetchActivityInterval.
+         * @param request ReqCommon message or plain object
+         * @returns Promise
+         */
+        public fetchActivityInterval(request: lq.IReqCommon): Promise<lq.ResFetchActivityInterval>;
+
+        /**
+         * Calls fetchRecentFriend.
+         * @param request ReqCommon message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResFetchrecentFriend
+         */
+        public fetchRecentFriend(request: lq.IReqCommon, callback: lq.Lobby.fetchRecentFriendCallback): void;
+
+        /**
+         * Calls fetchRecentFriend.
+         * @param request ReqCommon message or plain object
+         * @returns Promise
+         */
+        public fetchRecentFriend(request: lq.IReqCommon): Promise<lq.ResFetchrecentFriend>;
+
+        /**
+         * Calls openGacha.
+         * @param request ReqOpenGacha message or plain object
+         * @param callback Node-style callback called with the error, if any, and ResOpenGacha
+         */
+        public openGacha(request: lq.IReqOpenGacha, callback: lq.Lobby.openGachaCallback): void;
+
+        /**
+         * Calls openGacha.
+         * @param request ReqOpenGacha message or plain object
+         * @returns Promise
+         */
+        public openGacha(request: lq.IReqOpenGacha): Promise<lq.ResOpenGacha>;
     }
 
     namespace Lobby {
@@ -26950,6 +32904,27 @@ export namespace lq {
          * @param [response] ResConnectionInfo
          */
         type fetchConnectionInfoCallback = (error: (Error|null), response?: lq.ResConnectionInfo) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#fetchQueueInfo}.
+         * @param error Error, if any
+         * @param [response] ResFetchQueueInfo
+         */
+        type fetchQueueInfoCallback = (error: (Error|null), response?: lq.ResFetchQueueInfo) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#cancelQueue}.
+         * @param error Error, if any
+         * @param [response] ResCommon
+         */
+        type cancelQueueCallback = (error: (Error|null), response?: lq.ResCommon) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#openidCheck}.
+         * @param error Error, if any
+         * @param [response] ResOauth2Check
+         */
+        type openidCheckCallback = (error: (Error|null), response?: lq.ResOauth2Check) => void;
 
         /**
          * Callback as used by {@link lq.Lobby#signup}.
@@ -27792,6 +33767,13 @@ export namespace lq {
         type changeCharacterViewCallback = (error: (Error|null), response?: lq.ResCommon) => void;
 
         /**
+         * Callback as used by {@link lq.Lobby#setHiddenCharacter}.
+         * @param error Error, if any
+         * @param [response] ResSetHiddenCharacter
+         */
+        type setHiddenCharacterCallback = (error: (Error|null), response?: lq.ResSetHiddenCharacter) => void;
+
+        /**
          * Callback as used by {@link lq.Lobby#sendGiftToCharacter}.
          * @param error Error, if any
          * @param [response] ResSendGiftToCharacter
@@ -28044,6 +34026,20 @@ export namespace lq {
         type createJPSoftbankOrderCallback = (error: (Error|null), response?: lq.ResCreateJPSoftbankOrder) => void;
 
         /**
+         * Callback as used by {@link lq.Lobby#createJPPayPayOrder}.
+         * @param error Error, if any
+         * @param [response] ResCreateJPPayPayOrder
+         */
+        type createJPPayPayOrderCallback = (error: (Error|null), response?: lq.ResCreateJPPayPayOrder) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#fetchJPCommonCreditCardOrder}.
+         * @param error Error, if any
+         * @param [response] ResFetchJPCommonCreditCardOrder
+         */
+        type fetchJPCommonCreditCardOrderCallback = (error: (Error|null), response?: lq.ResFetchJPCommonCreditCardOrder) => void;
+
+        /**
          * Callback as used by {@link lq.Lobby#createENPaypalOrder}.
          * @param error Error, if any
          * @param [response] ResCreateENPaypalOrder
@@ -28077,6 +34073,41 @@ export namespace lq {
          * @param [response] ResCreateENAlipayOrder
          */
         type createENAlipayOrderCallback = (error: (Error|null), response?: lq.ResCreateENAlipayOrder) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#createKRPaypalOrder}.
+         * @param error Error, if any
+         * @param [response] ResCreateKRPaypalOrder
+         */
+        type createKRPaypalOrderCallback = (error: (Error|null), response?: lq.ResCreateKRPaypalOrder) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#createKRMasterCardOrder}.
+         * @param error Error, if any
+         * @param [response] ResCreateKRMasterCardOrder
+         */
+        type createKRMasterCardOrderCallback = (error: (Error|null), response?: lq.ResCreateKRMasterCardOrder) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#createKRVisaOrder}.
+         * @param error Error, if any
+         * @param [response] ResCreateKRVisaOrder
+         */
+        type createKRVisaOrderCallback = (error: (Error|null), response?: lq.ResCreateKRVisaOrder) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#createKRJCBOrder}.
+         * @param error Error, if any
+         * @param [response] ResCreateKRJCBOrder
+         */
+        type createKRJCBOrderCallback = (error: (Error|null), response?: lq.ResCreateKRJCBOrder) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#createKRAlipayOrder}.
+         * @param error Error, if any
+         * @param [response] ResCreateKRAlipayOrder
+         */
+        type createKRAlipayOrderCallback = (error: (Error|null), response?: lq.ResCreateKRAlipayOrder) => void;
 
         /**
          * Callback as used by {@link lq.Lobby#createDMMOrder}.
@@ -28175,6 +34206,13 @@ export namespace lq {
          * @param [response] ResCommon
          */
         type solveGooglePayOrderV3Callback = (error: (Error|null), response?: lq.ResCommon) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#deliverAA32Order}.
+         * @param error Error, if any
+         * @param [response] ResCommon
+         */
+        type deliverAA32OrderCallback = (error: (Error|null), response?: lq.ResCommon) => void;
 
         /**
          * Callback as used by {@link lq.Lobby#fetchMisc}.
@@ -28380,6 +34418,13 @@ export namespace lq {
         type completePeriodActivityTaskCallback = (error: (Error|null), response?: lq.ResCommon) => void;
 
         /**
+         * Callback as used by {@link lq.Lobby#completePeriodActivityTaskBatch}.
+         * @param error Error, if any
+         * @param [response] ResCommon
+         */
+        type completePeriodActivityTaskBatchCallback = (error: (Error|null), response?: lq.ResCommon) => void;
+
+        /**
          * Callback as used by {@link lq.Lobby#completeRandomActivityTask}.
          * @param error Error, if any
          * @param [response] ResCommon
@@ -28392,6 +34437,13 @@ export namespace lq {
          * @param [response] ResReceiveActivityFlipTask
          */
         type receiveActivityFlipTaskCallback = (error: (Error|null), response?: lq.ResReceiveActivityFlipTask) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#completeSegmentTaskReward}.
+         * @param error Error, if any
+         * @param [response] ResCompleteSegmentTaskReward
+         */
+        type completeSegmentTaskRewardCallback = (error: (Error|null), response?: lq.ResCompleteSegmentTaskReward) => void;
 
         /**
          * Callback as used by {@link lq.Lobby#fetchActivityFlipInfo}.
@@ -28476,6 +34528,20 @@ export namespace lq {
          * @param [response] ResActivityBuff
          */
         type upgradeActivityBuffCallback = (error: (Error|null), response?: lq.ResActivityBuff) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#upgradeActivityLevel}.
+         * @param error Error, if any
+         * @param [response] ResUpgradeActivityLevel
+         */
+        type upgradeActivityLevelCallback = (error: (Error|null), response?: lq.ResUpgradeActivityLevel) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#receiveUpgradeActivityReward}.
+         * @param error Error, if any
+         * @param [response] ResReceiveUpgradeActivityReward
+         */
+        type receiveUpgradeActivityRewardCallback = (error: (Error|null), response?: lq.ResReceiveUpgradeActivityReward) => void;
 
         /**
          * Callback as used by {@link lq.Lobby#upgradeChallenge}.
@@ -28632,11 +34698,25 @@ export namespace lq {
         type fetchRPGBattleHistoryCallback = (error: (Error|null), response?: lq.ResFetchRPGBattleHistory) => void;
 
         /**
+         * Callback as used by {@link lq.Lobby#fetchRPGBattleHistoryV2}.
+         * @param error Error, if any
+         * @param [response] ResFetchRPGBattleHistoryV2
+         */
+        type fetchRPGBattleHistoryV2Callback = (error: (Error|null), response?: lq.ResFetchRPGBattleHistoryV2) => void;
+
+        /**
          * Callback as used by {@link lq.Lobby#receiveRPGRewards}.
          * @param error Error, if any
          * @param [response] ResReceiveRPGRewards
          */
         type receiveRPGRewardsCallback = (error: (Error|null), response?: lq.ResReceiveRPGRewards) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#receiveRPGReward}.
+         * @param error Error, if any
+         * @param [response] ResReceiveRPGRewards
+         */
+        type receiveRPGRewardCallback = (error: (Error|null), response?: lq.ResReceiveRPGRewards) => void;
 
         /**
          * Callback as used by {@link lq.Lobby#buyArenaTicket}.
@@ -28658,6 +34738,160 @@ export namespace lq {
          * @param [response] ResArenaReward
          */
         type receiveArenaRewardCallback = (error: (Error|null), response?: lq.ResArenaReward) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#fetchOBToken}.
+         * @param error Error, if any
+         * @param [response] ResFetchOBToken
+         */
+        type fetchOBTokenCallback = (error: (Error|null), response?: lq.ResFetchOBToken) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#receiveCharacterRewards}.
+         * @param error Error, if any
+         * @param [response] ResReceiveCharacterRewards
+         */
+        type receiveCharacterRewardsCallback = (error: (Error|null), response?: lq.ResReceiveCharacterRewards) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#feedActivityFeed}.
+         * @param error Error, if any
+         * @param [response] ResFeedActivityFeed
+         */
+        type feedActivityFeedCallback = (error: (Error|null), response?: lq.ResFeedActivityFeed) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#sendActivityGiftToFriend}.
+         * @param error Error, if any
+         * @param [response] ResSendActivityGiftToFriend
+         */
+        type sendActivityGiftToFriendCallback = (error: (Error|null), response?: lq.ResSendActivityGiftToFriend) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#receiveActivityGift}.
+         * @param error Error, if any
+         * @param [response] ResCommon
+         */
+        type receiveActivityGiftCallback = (error: (Error|null), response?: lq.ResCommon) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#receiveAllActivityGift}.
+         * @param error Error, if any
+         * @param [response] ResReceiveAllActivityGift
+         */
+        type receiveAllActivityGiftCallback = (error: (Error|null), response?: lq.ResReceiveAllActivityGift) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#fetchFriendGiftActivityData}.
+         * @param error Error, if any
+         * @param [response] ResFetchFriendGiftActivityData
+         */
+        type fetchFriendGiftActivityDataCallback = (error: (Error|null), response?: lq.ResFetchFriendGiftActivityData) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#openPreChestItem}.
+         * @param error Error, if any
+         * @param [response] ResOpenPreChestItem
+         */
+        type openPreChestItemCallback = (error: (Error|null), response?: lq.ResOpenPreChestItem) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#fetchVoteActivity}.
+         * @param error Error, if any
+         * @param [response] ResFetchVoteActivity
+         */
+        type fetchVoteActivityCallback = (error: (Error|null), response?: lq.ResFetchVoteActivity) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#voteActivity}.
+         * @param error Error, if any
+         * @param [response] ResVoteActivity
+         */
+        type voteActivityCallback = (error: (Error|null), response?: lq.ResVoteActivity) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#unlockActivitySpot}.
+         * @param error Error, if any
+         * @param [response] ResCommon
+         */
+        type unlockActivitySpotCallback = (error: (Error|null), response?: lq.ResCommon) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#receiveActivitySpotReward}.
+         * @param error Error, if any
+         * @param [response] ResReceiveActivitySpotReward
+         */
+        type receiveActivitySpotRewardCallback = (error: (Error|null), response?: lq.ResReceiveActivitySpotReward) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#deleteAccount}.
+         * @param error Error, if any
+         * @param [response] ResDeleteAccount
+         */
+        type deleteAccountCallback = (error: (Error|null), response?: lq.ResDeleteAccount) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#cancelDeleteAccount}.
+         * @param error Error, if any
+         * @param [response] ResCommon
+         */
+        type cancelDeleteAccountCallback = (error: (Error|null), response?: lq.ResCommon) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#logReport}.
+         * @param error Error, if any
+         * @param [response] ResCommon
+         */
+        type logReportCallback = (error: (Error|null), response?: lq.ResCommon) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#bindOauth2}.
+         * @param error Error, if any
+         * @param [response] ResCommon
+         */
+        type bindOauth2Callback = (error: (Error|null), response?: lq.ResCommon) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#fetchOauth2Info}.
+         * @param error Error, if any
+         * @param [response] ResFetchOauth2
+         */
+        type fetchOauth2InfoCallback = (error: (Error|null), response?: lq.ResFetchOauth2) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#setLoadingImage}.
+         * @param error Error, if any
+         * @param [response] ResCommon
+         */
+        type setLoadingImageCallback = (error: (Error|null), response?: lq.ResCommon) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#fetchShopInterval}.
+         * @param error Error, if any
+         * @param [response] ResFetchShopInterval
+         */
+        type fetchShopIntervalCallback = (error: (Error|null), response?: lq.ResFetchShopInterval) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#fetchActivityInterval}.
+         * @param error Error, if any
+         * @param [response] ResFetchActivityInterval
+         */
+        type fetchActivityIntervalCallback = (error: (Error|null), response?: lq.ResFetchActivityInterval) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#fetchRecentFriend}.
+         * @param error Error, if any
+         * @param [response] ResFetchrecentFriend
+         */
+        type fetchRecentFriendCallback = (error: (Error|null), response?: lq.ResFetchrecentFriend) => void;
+
+        /**
+         * Callback as used by {@link lq.Lobby#openGacha}.
+         * @param error Error, if any
+         * @param [response] ResOpenGacha
+         */
+        type openGachaCallback = (error: (Error|null), response?: lq.ResOpenGacha) => void;
     }
 
     /** Properties of a ResConnectionInfo. */
@@ -28756,6 +34990,204 @@ export namespace lq {
         public toJSON(): { [k: string]: any };
     }
 
+    /** Properties of a ResFetchQueueInfo. */
+    interface IResFetchQueueInfo {
+
+        /** ResFetchQueueInfo error */
+        error?: (lq.IError|null);
+
+        /** ResFetchQueueInfo remain */
+        remain?: (number|null);
+
+        /** ResFetchQueueInfo rank */
+        rank?: (number|null);
+    }
+
+    /** Represents a ResFetchQueueInfo. */
+    class ResFetchQueueInfo implements IResFetchQueueInfo {
+
+        /**
+         * Constructs a new ResFetchQueueInfo.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResFetchQueueInfo);
+
+        /** ResFetchQueueInfo error. */
+        public error?: (lq.IError|null);
+
+        /** ResFetchQueueInfo remain. */
+        public remain: number;
+
+        /** ResFetchQueueInfo rank. */
+        public rank: number;
+
+        /**
+         * Creates a new ResFetchQueueInfo instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResFetchQueueInfo instance
+         */
+        public static create(properties?: lq.IResFetchQueueInfo): lq.ResFetchQueueInfo;
+
+        /**
+         * Encodes the specified ResFetchQueueInfo message. Does not implicitly {@link lq.ResFetchQueueInfo.verify|verify} messages.
+         * @param message ResFetchQueueInfo message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResFetchQueueInfo, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResFetchQueueInfo message, length delimited. Does not implicitly {@link lq.ResFetchQueueInfo.verify|verify} messages.
+         * @param message ResFetchQueueInfo message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResFetchQueueInfo, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResFetchQueueInfo message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResFetchQueueInfo
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResFetchQueueInfo;
+
+        /**
+         * Decodes a ResFetchQueueInfo message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResFetchQueueInfo
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResFetchQueueInfo;
+
+        /**
+         * Verifies a ResFetchQueueInfo message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResFetchQueueInfo message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResFetchQueueInfo
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResFetchQueueInfo;
+
+        /**
+         * Creates a plain object from a ResFetchQueueInfo message. Also converts values to other types if specified.
+         * @param message ResFetchQueueInfo
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResFetchQueueInfo, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResFetchQueueInfo to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ReqOpenidCheck. */
+    interface IReqOpenidCheck {
+
+        /** ReqOpenidCheck type */
+        type?: (number|null);
+
+        /** ReqOpenidCheck token */
+        token?: (string|null);
+    }
+
+    /** Represents a ReqOpenidCheck. */
+    class ReqOpenidCheck implements IReqOpenidCheck {
+
+        /**
+         * Constructs a new ReqOpenidCheck.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqOpenidCheck);
+
+        /** ReqOpenidCheck type. */
+        public type: number;
+
+        /** ReqOpenidCheck token. */
+        public token: string;
+
+        /**
+         * Creates a new ReqOpenidCheck instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqOpenidCheck instance
+         */
+        public static create(properties?: lq.IReqOpenidCheck): lq.ReqOpenidCheck;
+
+        /**
+         * Encodes the specified ReqOpenidCheck message. Does not implicitly {@link lq.ReqOpenidCheck.verify|verify} messages.
+         * @param message ReqOpenidCheck message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqOpenidCheck, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqOpenidCheck message, length delimited. Does not implicitly {@link lq.ReqOpenidCheck.verify|verify} messages.
+         * @param message ReqOpenidCheck message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqOpenidCheck, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqOpenidCheck message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqOpenidCheck
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqOpenidCheck;
+
+        /**
+         * Decodes a ReqOpenidCheck message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqOpenidCheck
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqOpenidCheck;
+
+        /**
+         * Verifies a ReqOpenidCheck message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqOpenidCheck message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqOpenidCheck
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqOpenidCheck;
+
+        /**
+         * Creates a plain object from a ReqOpenidCheck message. Also converts values to other types if specified.
+         * @param message ReqOpenidCheck
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqOpenidCheck, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqOpenidCheck to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
     /** Properties of a ReqSignupAccount. */
     interface IReqSignupAccount {
 
@@ -28776,6 +35208,9 @@ export namespace lq {
 
         /** ReqSignupAccount client_version_string */
         client_version_string?: (string|null);
+
+        /** ReqSignupAccount tag */
+        tag?: (string|null);
     }
 
     /** Represents a ReqSignupAccount. */
@@ -28804,6 +35239,9 @@ export namespace lq {
 
         /** ReqSignupAccount client_version_string. */
         public client_version_string: string;
+
+        /** ReqSignupAccount tag. */
+        public tag: string;
 
         /**
          * Creates a new ReqSignupAccount instance using the specified properties.
@@ -29001,6 +35439,9 @@ export namespace lq {
 
         /** ReqLogin client_version_string */
         client_version_string?: (string|null);
+
+        /** ReqLogin tag */
+        tag?: (string|null);
     }
 
     /** Represents a ReqLogin. */
@@ -29044,6 +35485,9 @@ export namespace lq {
 
         /** ReqLogin client_version_string. */
         public client_version_string: string;
+
+        /** ReqLogin tag. */
+        public tag: string;
 
         /**
          * Creates a new ReqLogin instance using the specified properties.
@@ -30897,6 +37341,9 @@ export namespace lq {
 
         /** ReqOauth2Signup client_version_string */
         client_version_string?: (string|null);
+
+        /** ReqOauth2Signup tag */
+        tag?: (string|null);
     }
 
     /** Represents a ReqOauth2Signup. */
@@ -30928,6 +37375,9 @@ export namespace lq {
 
         /** ReqOauth2Signup client_version_string. */
         public client_version_string: string;
+
+        /** ReqOauth2Signup tag. */
+        public tag: string;
 
         /**
          * Creates a new ReqOauth2Signup instance using the specified properties.
@@ -31122,6 +37572,9 @@ export namespace lq {
 
         /** ReqOauth2Login client_version_string */
         client_version_string?: (string|null);
+
+        /** ReqOauth2Login tag */
+        tag?: (string|null);
     }
 
     /** Represents a ReqOauth2Login. */
@@ -31162,6 +37615,9 @@ export namespace lq {
 
         /** ReqOauth2Login client_version_string. */
         public client_version_string: string;
+
+        /** ReqOauth2Login tag. */
+        public tag: string;
 
         /**
          * Creates a new ReqOauth2Login instance using the specified properties.
@@ -32160,6 +38616,9 @@ export namespace lq {
 
         /** ReqCreateNickname advertise_str */
         advertise_str?: (string|null);
+
+        /** ReqCreateNickname tag */
+        tag?: (string|null);
     }
 
     /** Represents a ReqCreateNickname. */
@@ -32176,6 +38635,9 @@ export namespace lq {
 
         /** ReqCreateNickname advertise_str. */
         public advertise_str: string;
+
+        /** ReqCreateNickname tag. */
+        public tag: string;
 
         /**
          * Creates a new ReqCreateNickname instance using the specified properties.
@@ -38376,6 +44838,9 @@ export namespace lq {
 
         /** ReqFetchAnnouncement lang */
         lang?: (string|null);
+
+        /** ReqFetchAnnouncement platform */
+        platform?: (string|null);
     }
 
     /** Represents a ReqFetchAnnouncement. */
@@ -38389,6 +44854,9 @@ export namespace lq {
 
         /** ReqFetchAnnouncement lang. */
         public lang: string;
+
+        /** ReqFetchAnnouncement platform. */
+        public platform: string;
 
         /**
          * Creates a new ReqFetchAnnouncement instance using the specified properties.
@@ -43368,6 +49836,9 @@ export namespace lq {
 
         /** ReqCreateBillingOrder account_id */
         account_id?: (number|null);
+
+        /** ReqCreateBillingOrder client_version_string */
+        client_version_string?: (string|null);
     }
 
     /** Represents a ReqCreateBillingOrder. */
@@ -43390,6 +49861,9 @@ export namespace lq {
 
         /** ReqCreateBillingOrder account_id. */
         public account_id: number;
+
+        /** ReqCreateBillingOrder client_version_string. */
+        public client_version_string: string;
 
         /**
          * Creates a new ReqCreateBillingOrder instance using the specified properties.
@@ -43866,6 +50340,9 @@ export namespace lq {
 
         /** ReqCreateWechatNativeOrder account_ip */
         account_ip?: (string|null);
+
+        /** ReqCreateWechatNativeOrder client_version_string */
+        client_version_string?: (string|null);
     }
 
     /** Represents a ReqCreateWechatNativeOrder. */
@@ -43888,6 +50365,9 @@ export namespace lq {
 
         /** ReqCreateWechatNativeOrder account_ip. */
         public account_ip: string;
+
+        /** ReqCreateWechatNativeOrder client_version_string. */
+        public client_version_string: string;
 
         /**
          * Creates a new ReqCreateWechatNativeOrder instance using the specified properties.
@@ -44076,6 +50556,9 @@ export namespace lq {
 
         /** ReqCreateWechatAppOrder account_ip */
         account_ip?: (string|null);
+
+        /** ReqCreateWechatAppOrder client_version_string */
+        client_version_string?: (string|null);
     }
 
     /** Represents a ReqCreateWechatAppOrder. */
@@ -44098,6 +50581,9 @@ export namespace lq {
 
         /** ReqCreateWechatAppOrder account_ip. */
         public account_ip: string;
+
+        /** ReqCreateWechatAppOrder client_version_string. */
+        public client_version_string: string;
 
         /**
          * Creates a new ReqCreateWechatAppOrder instance using the specified properties.
@@ -44412,6 +50898,9 @@ export namespace lq {
 
         /** ReqCreateAlipayOrder return_url */
         return_url?: (string|null);
+
+        /** ReqCreateAlipayOrder client_version_string */
+        client_version_string?: (string|null);
     }
 
     /** Represents a ReqCreateAlipayOrder. */
@@ -44437,6 +50926,9 @@ export namespace lq {
 
         /** ReqCreateAlipayOrder return_url. */
         public return_url: string;
+
+        /** ReqCreateAlipayOrder client_version_string. */
+        public client_version_string: string;
 
         /**
          * Creates a new ReqCreateAlipayOrder instance using the specified properties.
@@ -44616,6 +51108,9 @@ export namespace lq {
 
         /** ReqCreateAlipayScanOrder account_id */
         account_id?: (number|null);
+
+        /** ReqCreateAlipayScanOrder client_version_string */
+        client_version_string?: (string|null);
     }
 
     /** Represents a ReqCreateAlipayScanOrder. */
@@ -44635,6 +51130,9 @@ export namespace lq {
 
         /** ReqCreateAlipayScanOrder account_id. */
         public account_id: number;
+
+        /** ReqCreateAlipayScanOrder client_version_string. */
+        public client_version_string: string;
 
         /**
          * Creates a new ReqCreateAlipayScanOrder instance using the specified properties.
@@ -44826,6 +51324,9 @@ export namespace lq {
 
         /** ReqCreateAlipayAppOrder account_id */
         account_id?: (number|null);
+
+        /** ReqCreateAlipayAppOrder client_version_string */
+        client_version_string?: (string|null);
     }
 
     /** Represents a ReqCreateAlipayAppOrder. */
@@ -44845,6 +51346,9 @@ export namespace lq {
 
         /** ReqCreateAlipayAppOrder account_id. */
         public account_id: number;
+
+        /** ReqCreateAlipayAppOrder client_version_string. */
+        public client_version_string: string;
 
         /**
          * Creates a new ReqCreateAlipayAppOrder instance using the specified properties.
@@ -45030,6 +51534,9 @@ export namespace lq {
 
         /** ReqCreateJPCreditCardOrder access_token */
         access_token?: (string|null);
+
+        /** ReqCreateJPCreditCardOrder client_version_string */
+        client_version_string?: (string|null);
     }
 
     /** Represents a ReqCreateJPCreditCardOrder. */
@@ -45055,6 +51562,9 @@ export namespace lq {
 
         /** ReqCreateJPCreditCardOrder access_token. */
         public access_token: string;
+
+        /** ReqCreateJPCreditCardOrder client_version_string. */
+        public client_version_string: string;
 
         /**
          * Creates a new ReqCreateJPCreditCardOrder instance using the specified properties.
@@ -45240,6 +51750,9 @@ export namespace lq {
 
         /** ReqCreateJPPaypalOrder access_token */
         access_token?: (string|null);
+
+        /** ReqCreateJPPaypalOrder client_version_string */
+        client_version_string?: (string|null);
     }
 
     /** Represents a ReqCreateJPPaypalOrder. */
@@ -45265,6 +51778,9 @@ export namespace lq {
 
         /** ReqCreateJPPaypalOrder access_token. */
         public access_token: string;
+
+        /** ReqCreateJPPaypalOrder client_version_string. */
+        public client_version_string: string;
 
         /**
          * Creates a new ReqCreateJPPaypalOrder instance using the specified properties.
@@ -45450,6 +51966,9 @@ export namespace lq {
 
         /** ReqCreateJPAuOrder access_token */
         access_token?: (string|null);
+
+        /** ReqCreateJPAuOrder client_version_string */
+        client_version_string?: (string|null);
     }
 
     /** Represents a ReqCreateJPAuOrder. */
@@ -45475,6 +51994,9 @@ export namespace lq {
 
         /** ReqCreateJPAuOrder access_token. */
         public access_token: string;
+
+        /** ReqCreateJPAuOrder client_version_string. */
+        public client_version_string: string;
 
         /**
          * Creates a new ReqCreateJPAuOrder instance using the specified properties.
@@ -45660,6 +52182,9 @@ export namespace lq {
 
         /** ReqCreateJPDocomoOrder access_token */
         access_token?: (string|null);
+
+        /** ReqCreateJPDocomoOrder client_version_string */
+        client_version_string?: (string|null);
     }
 
     /** Represents a ReqCreateJPDocomoOrder. */
@@ -45685,6 +52210,9 @@ export namespace lq {
 
         /** ReqCreateJPDocomoOrder access_token. */
         public access_token: string;
+
+        /** ReqCreateJPDocomoOrder client_version_string. */
+        public client_version_string: string;
 
         /**
          * Creates a new ReqCreateJPDocomoOrder instance using the specified properties.
@@ -45870,6 +52398,9 @@ export namespace lq {
 
         /** ReqCreateJPWebMoneyOrder access_token */
         access_token?: (string|null);
+
+        /** ReqCreateJPWebMoneyOrder client_version_string */
+        client_version_string?: (string|null);
     }
 
     /** Represents a ReqCreateJPWebMoneyOrder. */
@@ -45895,6 +52426,9 @@ export namespace lq {
 
         /** ReqCreateJPWebMoneyOrder access_token. */
         public access_token: string;
+
+        /** ReqCreateJPWebMoneyOrder client_version_string. */
+        public client_version_string: string;
 
         /**
          * Creates a new ReqCreateJPWebMoneyOrder instance using the specified properties.
@@ -46080,6 +52614,9 @@ export namespace lq {
 
         /** ReqCreateJPSoftbankOrder access_token */
         access_token?: (string|null);
+
+        /** ReqCreateJPSoftbankOrder client_version_string */
+        client_version_string?: (string|null);
     }
 
     /** Represents a ReqCreateJPSoftbankOrder. */
@@ -46105,6 +52642,9 @@ export namespace lq {
 
         /** ReqCreateJPSoftbankOrder access_token. */
         public access_token: string;
+
+        /** ReqCreateJPSoftbankOrder client_version_string. */
+        public client_version_string: string;
 
         /**
          * Creates a new ReqCreateJPSoftbankOrder instance using the specified properties.
@@ -46273,6 +52813,408 @@ export namespace lq {
         public toJSON(): { [k: string]: any };
     }
 
+    /** Properties of a ReqCreateJPPayPayOrder. */
+    interface IReqCreateJPPayPayOrder {
+
+        /** ReqCreateJPPayPayOrder goods_id */
+        goods_id?: (number|null);
+
+        /** ReqCreateJPPayPayOrder client_type */
+        client_type?: (number|null);
+
+        /** ReqCreateJPPayPayOrder account_id */
+        account_id?: (number|null);
+
+        /** ReqCreateJPPayPayOrder return_url */
+        return_url?: (string|null);
+
+        /** ReqCreateJPPayPayOrder access_token */
+        access_token?: (string|null);
+
+        /** ReqCreateJPPayPayOrder client_version_string */
+        client_version_string?: (string|null);
+    }
+
+    /** Represents a ReqCreateJPPayPayOrder. */
+    class ReqCreateJPPayPayOrder implements IReqCreateJPPayPayOrder {
+
+        /**
+         * Constructs a new ReqCreateJPPayPayOrder.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqCreateJPPayPayOrder);
+
+        /** ReqCreateJPPayPayOrder goods_id. */
+        public goods_id: number;
+
+        /** ReqCreateJPPayPayOrder client_type. */
+        public client_type: number;
+
+        /** ReqCreateJPPayPayOrder account_id. */
+        public account_id: number;
+
+        /** ReqCreateJPPayPayOrder return_url. */
+        public return_url: string;
+
+        /** ReqCreateJPPayPayOrder access_token. */
+        public access_token: string;
+
+        /** ReqCreateJPPayPayOrder client_version_string. */
+        public client_version_string: string;
+
+        /**
+         * Creates a new ReqCreateJPPayPayOrder instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqCreateJPPayPayOrder instance
+         */
+        public static create(properties?: lq.IReqCreateJPPayPayOrder): lq.ReqCreateJPPayPayOrder;
+
+        /**
+         * Encodes the specified ReqCreateJPPayPayOrder message. Does not implicitly {@link lq.ReqCreateJPPayPayOrder.verify|verify} messages.
+         * @param message ReqCreateJPPayPayOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqCreateJPPayPayOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqCreateJPPayPayOrder message, length delimited. Does not implicitly {@link lq.ReqCreateJPPayPayOrder.verify|verify} messages.
+         * @param message ReqCreateJPPayPayOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqCreateJPPayPayOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqCreateJPPayPayOrder message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqCreateJPPayPayOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqCreateJPPayPayOrder;
+
+        /**
+         * Decodes a ReqCreateJPPayPayOrder message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqCreateJPPayPayOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqCreateJPPayPayOrder;
+
+        /**
+         * Verifies a ReqCreateJPPayPayOrder message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqCreateJPPayPayOrder message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqCreateJPPayPayOrder
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqCreateJPPayPayOrder;
+
+        /**
+         * Creates a plain object from a ReqCreateJPPayPayOrder message. Also converts values to other types if specified.
+         * @param message ReqCreateJPPayPayOrder
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqCreateJPPayPayOrder, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqCreateJPPayPayOrder to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ResCreateJPPayPayOrder. */
+    interface IResCreateJPPayPayOrder {
+
+        /** ResCreateJPPayPayOrder error */
+        error?: (lq.IError|null);
+
+        /** ResCreateJPPayPayOrder order_id */
+        order_id?: (string|null);
+    }
+
+    /** Represents a ResCreateJPPayPayOrder. */
+    class ResCreateJPPayPayOrder implements IResCreateJPPayPayOrder {
+
+        /**
+         * Constructs a new ResCreateJPPayPayOrder.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResCreateJPPayPayOrder);
+
+        /** ResCreateJPPayPayOrder error. */
+        public error?: (lq.IError|null);
+
+        /** ResCreateJPPayPayOrder order_id. */
+        public order_id: string;
+
+        /**
+         * Creates a new ResCreateJPPayPayOrder instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResCreateJPPayPayOrder instance
+         */
+        public static create(properties?: lq.IResCreateJPPayPayOrder): lq.ResCreateJPPayPayOrder;
+
+        /**
+         * Encodes the specified ResCreateJPPayPayOrder message. Does not implicitly {@link lq.ResCreateJPPayPayOrder.verify|verify} messages.
+         * @param message ResCreateJPPayPayOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResCreateJPPayPayOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResCreateJPPayPayOrder message, length delimited. Does not implicitly {@link lq.ResCreateJPPayPayOrder.verify|verify} messages.
+         * @param message ResCreateJPPayPayOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResCreateJPPayPayOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResCreateJPPayPayOrder message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResCreateJPPayPayOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResCreateJPPayPayOrder;
+
+        /**
+         * Decodes a ResCreateJPPayPayOrder message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResCreateJPPayPayOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResCreateJPPayPayOrder;
+
+        /**
+         * Verifies a ResCreateJPPayPayOrder message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResCreateJPPayPayOrder message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResCreateJPPayPayOrder
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResCreateJPPayPayOrder;
+
+        /**
+         * Creates a plain object from a ResCreateJPPayPayOrder message. Also converts values to other types if specified.
+         * @param message ResCreateJPPayPayOrder
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResCreateJPPayPayOrder, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResCreateJPPayPayOrder to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ReqFetchJPCommonCreditCardOrder. */
+    interface IReqFetchJPCommonCreditCardOrder {
+
+        /** ReqFetchJPCommonCreditCardOrder order_id */
+        order_id?: (string|null);
+
+        /** ReqFetchJPCommonCreditCardOrder account_id */
+        account_id?: (number|null);
+    }
+
+    /** Represents a ReqFetchJPCommonCreditCardOrder. */
+    class ReqFetchJPCommonCreditCardOrder implements IReqFetchJPCommonCreditCardOrder {
+
+        /**
+         * Constructs a new ReqFetchJPCommonCreditCardOrder.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqFetchJPCommonCreditCardOrder);
+
+        /** ReqFetchJPCommonCreditCardOrder order_id. */
+        public order_id: string;
+
+        /** ReqFetchJPCommonCreditCardOrder account_id. */
+        public account_id: number;
+
+        /**
+         * Creates a new ReqFetchJPCommonCreditCardOrder instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqFetchJPCommonCreditCardOrder instance
+         */
+        public static create(properties?: lq.IReqFetchJPCommonCreditCardOrder): lq.ReqFetchJPCommonCreditCardOrder;
+
+        /**
+         * Encodes the specified ReqFetchJPCommonCreditCardOrder message. Does not implicitly {@link lq.ReqFetchJPCommonCreditCardOrder.verify|verify} messages.
+         * @param message ReqFetchJPCommonCreditCardOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqFetchJPCommonCreditCardOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqFetchJPCommonCreditCardOrder message, length delimited. Does not implicitly {@link lq.ReqFetchJPCommonCreditCardOrder.verify|verify} messages.
+         * @param message ReqFetchJPCommonCreditCardOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqFetchJPCommonCreditCardOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqFetchJPCommonCreditCardOrder message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqFetchJPCommonCreditCardOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqFetchJPCommonCreditCardOrder;
+
+        /**
+         * Decodes a ReqFetchJPCommonCreditCardOrder message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqFetchJPCommonCreditCardOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqFetchJPCommonCreditCardOrder;
+
+        /**
+         * Verifies a ReqFetchJPCommonCreditCardOrder message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqFetchJPCommonCreditCardOrder message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqFetchJPCommonCreditCardOrder
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqFetchJPCommonCreditCardOrder;
+
+        /**
+         * Creates a plain object from a ReqFetchJPCommonCreditCardOrder message. Also converts values to other types if specified.
+         * @param message ReqFetchJPCommonCreditCardOrder
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqFetchJPCommonCreditCardOrder, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqFetchJPCommonCreditCardOrder to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ResFetchJPCommonCreditCardOrder. */
+    interface IResFetchJPCommonCreditCardOrder {
+
+        /** ResFetchJPCommonCreditCardOrder error */
+        error?: (lq.IError|null);
+    }
+
+    /** Represents a ResFetchJPCommonCreditCardOrder. */
+    class ResFetchJPCommonCreditCardOrder implements IResFetchJPCommonCreditCardOrder {
+
+        /**
+         * Constructs a new ResFetchJPCommonCreditCardOrder.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResFetchJPCommonCreditCardOrder);
+
+        /** ResFetchJPCommonCreditCardOrder error. */
+        public error?: (lq.IError|null);
+
+        /**
+         * Creates a new ResFetchJPCommonCreditCardOrder instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResFetchJPCommonCreditCardOrder instance
+         */
+        public static create(properties?: lq.IResFetchJPCommonCreditCardOrder): lq.ResFetchJPCommonCreditCardOrder;
+
+        /**
+         * Encodes the specified ResFetchJPCommonCreditCardOrder message. Does not implicitly {@link lq.ResFetchJPCommonCreditCardOrder.verify|verify} messages.
+         * @param message ResFetchJPCommonCreditCardOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResFetchJPCommonCreditCardOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResFetchJPCommonCreditCardOrder message, length delimited. Does not implicitly {@link lq.ResFetchJPCommonCreditCardOrder.verify|verify} messages.
+         * @param message ResFetchJPCommonCreditCardOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResFetchJPCommonCreditCardOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResFetchJPCommonCreditCardOrder message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResFetchJPCommonCreditCardOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResFetchJPCommonCreditCardOrder;
+
+        /**
+         * Decodes a ResFetchJPCommonCreditCardOrder message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResFetchJPCommonCreditCardOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResFetchJPCommonCreditCardOrder;
+
+        /**
+         * Verifies a ResFetchJPCommonCreditCardOrder message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResFetchJPCommonCreditCardOrder message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResFetchJPCommonCreditCardOrder
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResFetchJPCommonCreditCardOrder;
+
+        /**
+         * Creates a plain object from a ResFetchJPCommonCreditCardOrder message. Also converts values to other types if specified.
+         * @param message ResFetchJPCommonCreditCardOrder
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResFetchJPCommonCreditCardOrder, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResFetchJPCommonCreditCardOrder to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
     /** Properties of a ReqCreateYostarOrder. */
     interface IReqCreateYostarOrder {
 
@@ -46287,6 +53229,9 @@ export namespace lq {
 
         /** ReqCreateYostarOrder order_type */
         order_type?: (number|null);
+
+        /** ReqCreateYostarOrder client_version_string */
+        client_version_string?: (string|null);
     }
 
     /** Represents a ReqCreateYostarOrder. */
@@ -46309,6 +53254,9 @@ export namespace lq {
 
         /** ReqCreateYostarOrder order_type. */
         public order_type: number;
+
+        /** ReqCreateYostarOrder client_version_string. */
+        public client_version_string: string;
 
         /**
          * Creates a new ReqCreateYostarOrder instance using the specified properties.
@@ -46494,6 +53442,9 @@ export namespace lq {
 
         /** ReqCreateENPaypalOrder access_token */
         access_token?: (string|null);
+
+        /** ReqCreateENPaypalOrder client_version_string */
+        client_version_string?: (string|null);
     }
 
     /** Represents a ReqCreateENPaypalOrder. */
@@ -46519,6 +53470,9 @@ export namespace lq {
 
         /** ReqCreateENPaypalOrder access_token. */
         public access_token: string;
+
+        /** ReqCreateENPaypalOrder client_version_string. */
+        public client_version_string: string;
 
         /**
          * Creates a new ReqCreateENPaypalOrder instance using the specified properties.
@@ -46704,6 +53658,9 @@ export namespace lq {
 
         /** ReqCreateENJCBOrder access_token */
         access_token?: (string|null);
+
+        /** ReqCreateENJCBOrder client_version_string */
+        client_version_string?: (string|null);
     }
 
     /** Represents a ReqCreateENJCBOrder. */
@@ -46729,6 +53686,9 @@ export namespace lq {
 
         /** ReqCreateENJCBOrder access_token. */
         public access_token: string;
+
+        /** ReqCreateENJCBOrder client_version_string. */
+        public client_version_string: string;
 
         /**
          * Creates a new ReqCreateENJCBOrder instance using the specified properties.
@@ -46914,6 +53874,9 @@ export namespace lq {
 
         /** ReqCreateENMasterCardOrder access_token */
         access_token?: (string|null);
+
+        /** ReqCreateENMasterCardOrder client_version_string */
+        client_version_string?: (string|null);
     }
 
     /** Represents a ReqCreateENMasterCardOrder. */
@@ -46939,6 +53902,9 @@ export namespace lq {
 
         /** ReqCreateENMasterCardOrder access_token. */
         public access_token: string;
+
+        /** ReqCreateENMasterCardOrder client_version_string. */
+        public client_version_string: string;
 
         /**
          * Creates a new ReqCreateENMasterCardOrder instance using the specified properties.
@@ -47124,6 +54090,9 @@ export namespace lq {
 
         /** ReqCreateENVisaOrder access_token */
         access_token?: (string|null);
+
+        /** ReqCreateENVisaOrder client_version_string */
+        client_version_string?: (string|null);
     }
 
     /** Represents a ReqCreateENVisaOrder. */
@@ -47149,6 +54118,9 @@ export namespace lq {
 
         /** ReqCreateENVisaOrder access_token. */
         public access_token: string;
+
+        /** ReqCreateENVisaOrder client_version_string. */
+        public client_version_string: string;
 
         /**
          * Creates a new ReqCreateENVisaOrder instance using the specified properties.
@@ -47334,6 +54306,9 @@ export namespace lq {
 
         /** ReqCreateENAlipayOrder access_token */
         access_token?: (string|null);
+
+        /** ReqCreateENAlipayOrder client_version_string */
+        client_version_string?: (string|null);
     }
 
     /** Represents a ReqCreateENAlipayOrder. */
@@ -47359,6 +54334,9 @@ export namespace lq {
 
         /** ReqCreateENAlipayOrder access_token. */
         public access_token: string;
+
+        /** ReqCreateENAlipayOrder client_version_string. */
+        public client_version_string: string;
 
         /**
          * Creates a new ReqCreateENAlipayOrder instance using the specified properties.
@@ -47527,6 +54505,1086 @@ export namespace lq {
         public toJSON(): { [k: string]: any };
     }
 
+    /** Properties of a ReqCreateKRPaypalOrder. */
+    interface IReqCreateKRPaypalOrder {
+
+        /** ReqCreateKRPaypalOrder goods_id */
+        goods_id?: (number|null);
+
+        /** ReqCreateKRPaypalOrder client_type */
+        client_type?: (number|null);
+
+        /** ReqCreateKRPaypalOrder account_id */
+        account_id?: (number|null);
+
+        /** ReqCreateKRPaypalOrder return_url */
+        return_url?: (string|null);
+
+        /** ReqCreateKRPaypalOrder access_token */
+        access_token?: (string|null);
+
+        /** ReqCreateKRPaypalOrder client_version_string */
+        client_version_string?: (string|null);
+    }
+
+    /** Represents a ReqCreateKRPaypalOrder. */
+    class ReqCreateKRPaypalOrder implements IReqCreateKRPaypalOrder {
+
+        /**
+         * Constructs a new ReqCreateKRPaypalOrder.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqCreateKRPaypalOrder);
+
+        /** ReqCreateKRPaypalOrder goods_id. */
+        public goods_id: number;
+
+        /** ReqCreateKRPaypalOrder client_type. */
+        public client_type: number;
+
+        /** ReqCreateKRPaypalOrder account_id. */
+        public account_id: number;
+
+        /** ReqCreateKRPaypalOrder return_url. */
+        public return_url: string;
+
+        /** ReqCreateKRPaypalOrder access_token. */
+        public access_token: string;
+
+        /** ReqCreateKRPaypalOrder client_version_string. */
+        public client_version_string: string;
+
+        /**
+         * Creates a new ReqCreateKRPaypalOrder instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqCreateKRPaypalOrder instance
+         */
+        public static create(properties?: lq.IReqCreateKRPaypalOrder): lq.ReqCreateKRPaypalOrder;
+
+        /**
+         * Encodes the specified ReqCreateKRPaypalOrder message. Does not implicitly {@link lq.ReqCreateKRPaypalOrder.verify|verify} messages.
+         * @param message ReqCreateKRPaypalOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqCreateKRPaypalOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqCreateKRPaypalOrder message, length delimited. Does not implicitly {@link lq.ReqCreateKRPaypalOrder.verify|verify} messages.
+         * @param message ReqCreateKRPaypalOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqCreateKRPaypalOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqCreateKRPaypalOrder message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqCreateKRPaypalOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqCreateKRPaypalOrder;
+
+        /**
+         * Decodes a ReqCreateKRPaypalOrder message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqCreateKRPaypalOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqCreateKRPaypalOrder;
+
+        /**
+         * Verifies a ReqCreateKRPaypalOrder message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqCreateKRPaypalOrder message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqCreateKRPaypalOrder
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqCreateKRPaypalOrder;
+
+        /**
+         * Creates a plain object from a ReqCreateKRPaypalOrder message. Also converts values to other types if specified.
+         * @param message ReqCreateKRPaypalOrder
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqCreateKRPaypalOrder, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqCreateKRPaypalOrder to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ResCreateKRPaypalOrder. */
+    interface IResCreateKRPaypalOrder {
+
+        /** ResCreateKRPaypalOrder error */
+        error?: (lq.IError|null);
+
+        /** ResCreateKRPaypalOrder order_id */
+        order_id?: (string|null);
+    }
+
+    /** Represents a ResCreateKRPaypalOrder. */
+    class ResCreateKRPaypalOrder implements IResCreateKRPaypalOrder {
+
+        /**
+         * Constructs a new ResCreateKRPaypalOrder.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResCreateKRPaypalOrder);
+
+        /** ResCreateKRPaypalOrder error. */
+        public error?: (lq.IError|null);
+
+        /** ResCreateKRPaypalOrder order_id. */
+        public order_id: string;
+
+        /**
+         * Creates a new ResCreateKRPaypalOrder instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResCreateKRPaypalOrder instance
+         */
+        public static create(properties?: lq.IResCreateKRPaypalOrder): lq.ResCreateKRPaypalOrder;
+
+        /**
+         * Encodes the specified ResCreateKRPaypalOrder message. Does not implicitly {@link lq.ResCreateKRPaypalOrder.verify|verify} messages.
+         * @param message ResCreateKRPaypalOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResCreateKRPaypalOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResCreateKRPaypalOrder message, length delimited. Does not implicitly {@link lq.ResCreateKRPaypalOrder.verify|verify} messages.
+         * @param message ResCreateKRPaypalOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResCreateKRPaypalOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResCreateKRPaypalOrder message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResCreateKRPaypalOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResCreateKRPaypalOrder;
+
+        /**
+         * Decodes a ResCreateKRPaypalOrder message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResCreateKRPaypalOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResCreateKRPaypalOrder;
+
+        /**
+         * Verifies a ResCreateKRPaypalOrder message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResCreateKRPaypalOrder message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResCreateKRPaypalOrder
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResCreateKRPaypalOrder;
+
+        /**
+         * Creates a plain object from a ResCreateKRPaypalOrder message. Also converts values to other types if specified.
+         * @param message ResCreateKRPaypalOrder
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResCreateKRPaypalOrder, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResCreateKRPaypalOrder to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ReqCreateKRJCBOrder. */
+    interface IReqCreateKRJCBOrder {
+
+        /** ReqCreateKRJCBOrder goods_id */
+        goods_id?: (number|null);
+
+        /** ReqCreateKRJCBOrder client_type */
+        client_type?: (number|null);
+
+        /** ReqCreateKRJCBOrder account_id */
+        account_id?: (number|null);
+
+        /** ReqCreateKRJCBOrder return_url */
+        return_url?: (string|null);
+
+        /** ReqCreateKRJCBOrder access_token */
+        access_token?: (string|null);
+
+        /** ReqCreateKRJCBOrder client_version_string */
+        client_version_string?: (string|null);
+    }
+
+    /** Represents a ReqCreateKRJCBOrder. */
+    class ReqCreateKRJCBOrder implements IReqCreateKRJCBOrder {
+
+        /**
+         * Constructs a new ReqCreateKRJCBOrder.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqCreateKRJCBOrder);
+
+        /** ReqCreateKRJCBOrder goods_id. */
+        public goods_id: number;
+
+        /** ReqCreateKRJCBOrder client_type. */
+        public client_type: number;
+
+        /** ReqCreateKRJCBOrder account_id. */
+        public account_id: number;
+
+        /** ReqCreateKRJCBOrder return_url. */
+        public return_url: string;
+
+        /** ReqCreateKRJCBOrder access_token. */
+        public access_token: string;
+
+        /** ReqCreateKRJCBOrder client_version_string. */
+        public client_version_string: string;
+
+        /**
+         * Creates a new ReqCreateKRJCBOrder instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqCreateKRJCBOrder instance
+         */
+        public static create(properties?: lq.IReqCreateKRJCBOrder): lq.ReqCreateKRJCBOrder;
+
+        /**
+         * Encodes the specified ReqCreateKRJCBOrder message. Does not implicitly {@link lq.ReqCreateKRJCBOrder.verify|verify} messages.
+         * @param message ReqCreateKRJCBOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqCreateKRJCBOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqCreateKRJCBOrder message, length delimited. Does not implicitly {@link lq.ReqCreateKRJCBOrder.verify|verify} messages.
+         * @param message ReqCreateKRJCBOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqCreateKRJCBOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqCreateKRJCBOrder message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqCreateKRJCBOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqCreateKRJCBOrder;
+
+        /**
+         * Decodes a ReqCreateKRJCBOrder message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqCreateKRJCBOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqCreateKRJCBOrder;
+
+        /**
+         * Verifies a ReqCreateKRJCBOrder message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqCreateKRJCBOrder message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqCreateKRJCBOrder
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqCreateKRJCBOrder;
+
+        /**
+         * Creates a plain object from a ReqCreateKRJCBOrder message. Also converts values to other types if specified.
+         * @param message ReqCreateKRJCBOrder
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqCreateKRJCBOrder, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqCreateKRJCBOrder to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ResCreateKRJCBOrder. */
+    interface IResCreateKRJCBOrder {
+
+        /** ResCreateKRJCBOrder error */
+        error?: (lq.IError|null);
+
+        /** ResCreateKRJCBOrder order_id */
+        order_id?: (string|null);
+    }
+
+    /** Represents a ResCreateKRJCBOrder. */
+    class ResCreateKRJCBOrder implements IResCreateKRJCBOrder {
+
+        /**
+         * Constructs a new ResCreateKRJCBOrder.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResCreateKRJCBOrder);
+
+        /** ResCreateKRJCBOrder error. */
+        public error?: (lq.IError|null);
+
+        /** ResCreateKRJCBOrder order_id. */
+        public order_id: string;
+
+        /**
+         * Creates a new ResCreateKRJCBOrder instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResCreateKRJCBOrder instance
+         */
+        public static create(properties?: lq.IResCreateKRJCBOrder): lq.ResCreateKRJCBOrder;
+
+        /**
+         * Encodes the specified ResCreateKRJCBOrder message. Does not implicitly {@link lq.ResCreateKRJCBOrder.verify|verify} messages.
+         * @param message ResCreateKRJCBOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResCreateKRJCBOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResCreateKRJCBOrder message, length delimited. Does not implicitly {@link lq.ResCreateKRJCBOrder.verify|verify} messages.
+         * @param message ResCreateKRJCBOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResCreateKRJCBOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResCreateKRJCBOrder message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResCreateKRJCBOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResCreateKRJCBOrder;
+
+        /**
+         * Decodes a ResCreateKRJCBOrder message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResCreateKRJCBOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResCreateKRJCBOrder;
+
+        /**
+         * Verifies a ResCreateKRJCBOrder message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResCreateKRJCBOrder message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResCreateKRJCBOrder
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResCreateKRJCBOrder;
+
+        /**
+         * Creates a plain object from a ResCreateKRJCBOrder message. Also converts values to other types if specified.
+         * @param message ResCreateKRJCBOrder
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResCreateKRJCBOrder, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResCreateKRJCBOrder to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ReqCreateKRMasterCardOrder. */
+    interface IReqCreateKRMasterCardOrder {
+
+        /** ReqCreateKRMasterCardOrder goods_id */
+        goods_id?: (number|null);
+
+        /** ReqCreateKRMasterCardOrder client_type */
+        client_type?: (number|null);
+
+        /** ReqCreateKRMasterCardOrder account_id */
+        account_id?: (number|null);
+
+        /** ReqCreateKRMasterCardOrder return_url */
+        return_url?: (string|null);
+
+        /** ReqCreateKRMasterCardOrder access_token */
+        access_token?: (string|null);
+
+        /** ReqCreateKRMasterCardOrder client_version_string */
+        client_version_string?: (string|null);
+    }
+
+    /** Represents a ReqCreateKRMasterCardOrder. */
+    class ReqCreateKRMasterCardOrder implements IReqCreateKRMasterCardOrder {
+
+        /**
+         * Constructs a new ReqCreateKRMasterCardOrder.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqCreateKRMasterCardOrder);
+
+        /** ReqCreateKRMasterCardOrder goods_id. */
+        public goods_id: number;
+
+        /** ReqCreateKRMasterCardOrder client_type. */
+        public client_type: number;
+
+        /** ReqCreateKRMasterCardOrder account_id. */
+        public account_id: number;
+
+        /** ReqCreateKRMasterCardOrder return_url. */
+        public return_url: string;
+
+        /** ReqCreateKRMasterCardOrder access_token. */
+        public access_token: string;
+
+        /** ReqCreateKRMasterCardOrder client_version_string. */
+        public client_version_string: string;
+
+        /**
+         * Creates a new ReqCreateKRMasterCardOrder instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqCreateKRMasterCardOrder instance
+         */
+        public static create(properties?: lq.IReqCreateKRMasterCardOrder): lq.ReqCreateKRMasterCardOrder;
+
+        /**
+         * Encodes the specified ReqCreateKRMasterCardOrder message. Does not implicitly {@link lq.ReqCreateKRMasterCardOrder.verify|verify} messages.
+         * @param message ReqCreateKRMasterCardOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqCreateKRMasterCardOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqCreateKRMasterCardOrder message, length delimited. Does not implicitly {@link lq.ReqCreateKRMasterCardOrder.verify|verify} messages.
+         * @param message ReqCreateKRMasterCardOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqCreateKRMasterCardOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqCreateKRMasterCardOrder message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqCreateKRMasterCardOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqCreateKRMasterCardOrder;
+
+        /**
+         * Decodes a ReqCreateKRMasterCardOrder message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqCreateKRMasterCardOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqCreateKRMasterCardOrder;
+
+        /**
+         * Verifies a ReqCreateKRMasterCardOrder message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqCreateKRMasterCardOrder message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqCreateKRMasterCardOrder
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqCreateKRMasterCardOrder;
+
+        /**
+         * Creates a plain object from a ReqCreateKRMasterCardOrder message. Also converts values to other types if specified.
+         * @param message ReqCreateKRMasterCardOrder
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqCreateKRMasterCardOrder, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqCreateKRMasterCardOrder to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ResCreateKRMasterCardOrder. */
+    interface IResCreateKRMasterCardOrder {
+
+        /** ResCreateKRMasterCardOrder error */
+        error?: (lq.IError|null);
+
+        /** ResCreateKRMasterCardOrder order_id */
+        order_id?: (string|null);
+    }
+
+    /** Represents a ResCreateKRMasterCardOrder. */
+    class ResCreateKRMasterCardOrder implements IResCreateKRMasterCardOrder {
+
+        /**
+         * Constructs a new ResCreateKRMasterCardOrder.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResCreateKRMasterCardOrder);
+
+        /** ResCreateKRMasterCardOrder error. */
+        public error?: (lq.IError|null);
+
+        /** ResCreateKRMasterCardOrder order_id. */
+        public order_id: string;
+
+        /**
+         * Creates a new ResCreateKRMasterCardOrder instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResCreateKRMasterCardOrder instance
+         */
+        public static create(properties?: lq.IResCreateKRMasterCardOrder): lq.ResCreateKRMasterCardOrder;
+
+        /**
+         * Encodes the specified ResCreateKRMasterCardOrder message. Does not implicitly {@link lq.ResCreateKRMasterCardOrder.verify|verify} messages.
+         * @param message ResCreateKRMasterCardOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResCreateKRMasterCardOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResCreateKRMasterCardOrder message, length delimited. Does not implicitly {@link lq.ResCreateKRMasterCardOrder.verify|verify} messages.
+         * @param message ResCreateKRMasterCardOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResCreateKRMasterCardOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResCreateKRMasterCardOrder message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResCreateKRMasterCardOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResCreateKRMasterCardOrder;
+
+        /**
+         * Decodes a ResCreateKRMasterCardOrder message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResCreateKRMasterCardOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResCreateKRMasterCardOrder;
+
+        /**
+         * Verifies a ResCreateKRMasterCardOrder message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResCreateKRMasterCardOrder message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResCreateKRMasterCardOrder
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResCreateKRMasterCardOrder;
+
+        /**
+         * Creates a plain object from a ResCreateKRMasterCardOrder message. Also converts values to other types if specified.
+         * @param message ResCreateKRMasterCardOrder
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResCreateKRMasterCardOrder, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResCreateKRMasterCardOrder to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ReqCreateKRVisaOrder. */
+    interface IReqCreateKRVisaOrder {
+
+        /** ReqCreateKRVisaOrder goods_id */
+        goods_id?: (number|null);
+
+        /** ReqCreateKRVisaOrder client_type */
+        client_type?: (number|null);
+
+        /** ReqCreateKRVisaOrder account_id */
+        account_id?: (number|null);
+
+        /** ReqCreateKRVisaOrder return_url */
+        return_url?: (string|null);
+
+        /** ReqCreateKRVisaOrder access_token */
+        access_token?: (string|null);
+
+        /** ReqCreateKRVisaOrder client_version_string */
+        client_version_string?: (string|null);
+    }
+
+    /** Represents a ReqCreateKRVisaOrder. */
+    class ReqCreateKRVisaOrder implements IReqCreateKRVisaOrder {
+
+        /**
+         * Constructs a new ReqCreateKRVisaOrder.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqCreateKRVisaOrder);
+
+        /** ReqCreateKRVisaOrder goods_id. */
+        public goods_id: number;
+
+        /** ReqCreateKRVisaOrder client_type. */
+        public client_type: number;
+
+        /** ReqCreateKRVisaOrder account_id. */
+        public account_id: number;
+
+        /** ReqCreateKRVisaOrder return_url. */
+        public return_url: string;
+
+        /** ReqCreateKRVisaOrder access_token. */
+        public access_token: string;
+
+        /** ReqCreateKRVisaOrder client_version_string. */
+        public client_version_string: string;
+
+        /**
+         * Creates a new ReqCreateKRVisaOrder instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqCreateKRVisaOrder instance
+         */
+        public static create(properties?: lq.IReqCreateKRVisaOrder): lq.ReqCreateKRVisaOrder;
+
+        /**
+         * Encodes the specified ReqCreateKRVisaOrder message. Does not implicitly {@link lq.ReqCreateKRVisaOrder.verify|verify} messages.
+         * @param message ReqCreateKRVisaOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqCreateKRVisaOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqCreateKRVisaOrder message, length delimited. Does not implicitly {@link lq.ReqCreateKRVisaOrder.verify|verify} messages.
+         * @param message ReqCreateKRVisaOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqCreateKRVisaOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqCreateKRVisaOrder message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqCreateKRVisaOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqCreateKRVisaOrder;
+
+        /**
+         * Decodes a ReqCreateKRVisaOrder message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqCreateKRVisaOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqCreateKRVisaOrder;
+
+        /**
+         * Verifies a ReqCreateKRVisaOrder message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqCreateKRVisaOrder message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqCreateKRVisaOrder
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqCreateKRVisaOrder;
+
+        /**
+         * Creates a plain object from a ReqCreateKRVisaOrder message. Also converts values to other types if specified.
+         * @param message ReqCreateKRVisaOrder
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqCreateKRVisaOrder, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqCreateKRVisaOrder to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ResCreateKRVisaOrder. */
+    interface IResCreateKRVisaOrder {
+
+        /** ResCreateKRVisaOrder error */
+        error?: (lq.IError|null);
+
+        /** ResCreateKRVisaOrder order_id */
+        order_id?: (string|null);
+    }
+
+    /** Represents a ResCreateKRVisaOrder. */
+    class ResCreateKRVisaOrder implements IResCreateKRVisaOrder {
+
+        /**
+         * Constructs a new ResCreateKRVisaOrder.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResCreateKRVisaOrder);
+
+        /** ResCreateKRVisaOrder error. */
+        public error?: (lq.IError|null);
+
+        /** ResCreateKRVisaOrder order_id. */
+        public order_id: string;
+
+        /**
+         * Creates a new ResCreateKRVisaOrder instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResCreateKRVisaOrder instance
+         */
+        public static create(properties?: lq.IResCreateKRVisaOrder): lq.ResCreateKRVisaOrder;
+
+        /**
+         * Encodes the specified ResCreateKRVisaOrder message. Does not implicitly {@link lq.ResCreateKRVisaOrder.verify|verify} messages.
+         * @param message ResCreateKRVisaOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResCreateKRVisaOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResCreateKRVisaOrder message, length delimited. Does not implicitly {@link lq.ResCreateKRVisaOrder.verify|verify} messages.
+         * @param message ResCreateKRVisaOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResCreateKRVisaOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResCreateKRVisaOrder message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResCreateKRVisaOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResCreateKRVisaOrder;
+
+        /**
+         * Decodes a ResCreateKRVisaOrder message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResCreateKRVisaOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResCreateKRVisaOrder;
+
+        /**
+         * Verifies a ResCreateKRVisaOrder message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResCreateKRVisaOrder message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResCreateKRVisaOrder
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResCreateKRVisaOrder;
+
+        /**
+         * Creates a plain object from a ResCreateKRVisaOrder message. Also converts values to other types if specified.
+         * @param message ResCreateKRVisaOrder
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResCreateKRVisaOrder, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResCreateKRVisaOrder to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ReqCreateKRAlipayOrder. */
+    interface IReqCreateKRAlipayOrder {
+
+        /** ReqCreateKRAlipayOrder goods_id */
+        goods_id?: (number|null);
+
+        /** ReqCreateKRAlipayOrder client_type */
+        client_type?: (number|null);
+
+        /** ReqCreateKRAlipayOrder account_id */
+        account_id?: (number|null);
+
+        /** ReqCreateKRAlipayOrder return_url */
+        return_url?: (string|null);
+
+        /** ReqCreateKRAlipayOrder access_token */
+        access_token?: (string|null);
+
+        /** ReqCreateKRAlipayOrder client_version_string */
+        client_version_string?: (string|null);
+    }
+
+    /** Represents a ReqCreateKRAlipayOrder. */
+    class ReqCreateKRAlipayOrder implements IReqCreateKRAlipayOrder {
+
+        /**
+         * Constructs a new ReqCreateKRAlipayOrder.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqCreateKRAlipayOrder);
+
+        /** ReqCreateKRAlipayOrder goods_id. */
+        public goods_id: number;
+
+        /** ReqCreateKRAlipayOrder client_type. */
+        public client_type: number;
+
+        /** ReqCreateKRAlipayOrder account_id. */
+        public account_id: number;
+
+        /** ReqCreateKRAlipayOrder return_url. */
+        public return_url: string;
+
+        /** ReqCreateKRAlipayOrder access_token. */
+        public access_token: string;
+
+        /** ReqCreateKRAlipayOrder client_version_string. */
+        public client_version_string: string;
+
+        /**
+         * Creates a new ReqCreateKRAlipayOrder instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqCreateKRAlipayOrder instance
+         */
+        public static create(properties?: lq.IReqCreateKRAlipayOrder): lq.ReqCreateKRAlipayOrder;
+
+        /**
+         * Encodes the specified ReqCreateKRAlipayOrder message. Does not implicitly {@link lq.ReqCreateKRAlipayOrder.verify|verify} messages.
+         * @param message ReqCreateKRAlipayOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqCreateKRAlipayOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqCreateKRAlipayOrder message, length delimited. Does not implicitly {@link lq.ReqCreateKRAlipayOrder.verify|verify} messages.
+         * @param message ReqCreateKRAlipayOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqCreateKRAlipayOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqCreateKRAlipayOrder message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqCreateKRAlipayOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqCreateKRAlipayOrder;
+
+        /**
+         * Decodes a ReqCreateKRAlipayOrder message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqCreateKRAlipayOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqCreateKRAlipayOrder;
+
+        /**
+         * Verifies a ReqCreateKRAlipayOrder message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqCreateKRAlipayOrder message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqCreateKRAlipayOrder
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqCreateKRAlipayOrder;
+
+        /**
+         * Creates a plain object from a ReqCreateKRAlipayOrder message. Also converts values to other types if specified.
+         * @param message ReqCreateKRAlipayOrder
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqCreateKRAlipayOrder, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqCreateKRAlipayOrder to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ResCreateKRAlipayOrder. */
+    interface IResCreateKRAlipayOrder {
+
+        /** ResCreateKRAlipayOrder error */
+        error?: (lq.IError|null);
+
+        /** ResCreateKRAlipayOrder order_id */
+        order_id?: (string|null);
+    }
+
+    /** Represents a ResCreateKRAlipayOrder. */
+    class ResCreateKRAlipayOrder implements IResCreateKRAlipayOrder {
+
+        /**
+         * Constructs a new ResCreateKRAlipayOrder.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResCreateKRAlipayOrder);
+
+        /** ResCreateKRAlipayOrder error. */
+        public error?: (lq.IError|null);
+
+        /** ResCreateKRAlipayOrder order_id. */
+        public order_id: string;
+
+        /**
+         * Creates a new ResCreateKRAlipayOrder instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResCreateKRAlipayOrder instance
+         */
+        public static create(properties?: lq.IResCreateKRAlipayOrder): lq.ResCreateKRAlipayOrder;
+
+        /**
+         * Encodes the specified ResCreateKRAlipayOrder message. Does not implicitly {@link lq.ResCreateKRAlipayOrder.verify|verify} messages.
+         * @param message ResCreateKRAlipayOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResCreateKRAlipayOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResCreateKRAlipayOrder message, length delimited. Does not implicitly {@link lq.ResCreateKRAlipayOrder.verify|verify} messages.
+         * @param message ResCreateKRAlipayOrder message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResCreateKRAlipayOrder, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResCreateKRAlipayOrder message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResCreateKRAlipayOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResCreateKRAlipayOrder;
+
+        /**
+         * Decodes a ResCreateKRAlipayOrder message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResCreateKRAlipayOrder
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResCreateKRAlipayOrder;
+
+        /**
+         * Verifies a ResCreateKRAlipayOrder message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResCreateKRAlipayOrder message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResCreateKRAlipayOrder
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResCreateKRAlipayOrder;
+
+        /**
+         * Creates a plain object from a ResCreateKRAlipayOrder message. Also converts values to other types if specified.
+         * @param message ResCreateKRAlipayOrder
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResCreateKRAlipayOrder, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResCreateKRAlipayOrder to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
     /** Properties of a ReqCreateDMMOrder. */
     interface IReqCreateDMMOrder {
 
@@ -47538,6 +55596,9 @@ export namespace lq {
 
         /** ReqCreateDMMOrder client_type */
         client_type?: (number|null);
+
+        /** ReqCreateDMMOrder client_version_string */
+        client_version_string?: (string|null);
     }
 
     /** Represents a ReqCreateDMMOrder. */
@@ -47557,6 +55618,9 @@ export namespace lq {
 
         /** ReqCreateDMMOrder client_type. */
         public client_type: number;
+
+        /** ReqCreateDMMOrder client_version_string. */
+        public client_version_string: string;
 
         /**
          * Creates a new ReqCreateDMMOrder instance using the specified properties.
@@ -47778,6 +55842,9 @@ export namespace lq {
 
         /** ReqCreateIAPOrder debt_order_id */
         debt_order_id?: (string|null);
+
+        /** ReqCreateIAPOrder client_version_string */
+        client_version_string?: (string|null);
     }
 
     /** Represents a ReqCreateIAPOrder. */
@@ -47803,6 +55870,9 @@ export namespace lq {
 
         /** ReqCreateIAPOrder debt_order_id. */
         public debt_order_id: string;
+
+        /** ReqCreateIAPOrder client_version_string. */
+        public client_version_string: string;
 
         /**
          * Creates a new ReqCreateIAPOrder instance using the specified properties.
@@ -48189,6 +56259,9 @@ export namespace lq {
 
         /** ReqCreateSteamOrder debt_order_id */
         debt_order_id?: (string|null);
+
+        /** ReqCreateSteamOrder client_version_string */
+        client_version_string?: (string|null);
     }
 
     /** Represents a ReqCreateSteamOrder. */
@@ -48217,6 +56290,9 @@ export namespace lq {
 
         /** ReqCreateSteamOrder debt_order_id. */
         public debt_order_id: string;
+
+        /** ReqCreateSteamOrder client_version_string. */
+        public client_version_string: string;
 
         /**
          * Creates a new ReqCreateSteamOrder instance using the specified properties.
@@ -48501,6 +56577,9 @@ export namespace lq {
 
         /** ReqCreateMyCardOrder debt_order_id */
         debt_order_id?: (string|null);
+
+        /** ReqCreateMyCardOrder client_version_string */
+        client_version_string?: (string|null);
     }
 
     /** Represents a ReqCreateMyCardOrder. */
@@ -48523,6 +56602,9 @@ export namespace lq {
 
         /** ReqCreateMyCardOrder debt_order_id. */
         public debt_order_id: string;
+
+        /** ReqCreateMyCardOrder client_version_string. */
+        public client_version_string: string;
 
         /**
          * Creates a new ReqCreateMyCardOrder instance using the specified properties.
@@ -48807,6 +56889,9 @@ export namespace lq {
 
         /** ReqCreatePaypalOrder debt_order_id */
         debt_order_id?: (string|null);
+
+        /** ReqCreatePaypalOrder client_version_string */
+        client_version_string?: (string|null);
     }
 
     /** Represents a ReqCreatePaypalOrder. */
@@ -48829,6 +56914,9 @@ export namespace lq {
 
         /** ReqCreatePaypalOrder debt_order_id. */
         public debt_order_id: string;
+
+        /** ReqCreatePaypalOrder client_version_string. */
+        public client_version_string: string;
 
         /**
          * Creates a new ReqCreatePaypalOrder instance using the specified properties.
@@ -49020,6 +57108,9 @@ export namespace lq {
 
         /** ReqCreateXsollaOrder debt_order_id */
         debt_order_id?: (string|null);
+
+        /** ReqCreateXsollaOrder client_version_string */
+        client_version_string?: (string|null);
     }
 
     /** Represents a ReqCreateXsollaOrder. */
@@ -49045,6 +57136,9 @@ export namespace lq {
 
         /** ReqCreateXsollaOrder debt_order_id. */
         public debt_order_id: string;
+
+        /** ReqCreateXsollaOrder client_version_string. */
+        public client_version_string: string;
 
         /**
          * Creates a new ReqCreateXsollaOrder instance using the specified properties.
@@ -49214,6 +57308,108 @@ export namespace lq {
 
         /**
          * Converts this ResCreateXsollaOrder to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ReqDeliverAA32Order. */
+    interface IReqDeliverAA32Order {
+
+        /** ReqDeliverAA32Order account_id */
+        account_id?: (number|null);
+
+        /** ReqDeliverAA32Order nsa_id */
+        nsa_id?: (string|null);
+
+        /** ReqDeliverAA32Order nsa_token */
+        nsa_token?: (string|null);
+    }
+
+    /** Represents a ReqDeliverAA32Order. */
+    class ReqDeliverAA32Order implements IReqDeliverAA32Order {
+
+        /**
+         * Constructs a new ReqDeliverAA32Order.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqDeliverAA32Order);
+
+        /** ReqDeliverAA32Order account_id. */
+        public account_id: number;
+
+        /** ReqDeliverAA32Order nsa_id. */
+        public nsa_id: string;
+
+        /** ReqDeliverAA32Order nsa_token. */
+        public nsa_token: string;
+
+        /**
+         * Creates a new ReqDeliverAA32Order instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqDeliverAA32Order instance
+         */
+        public static create(properties?: lq.IReqDeliverAA32Order): lq.ReqDeliverAA32Order;
+
+        /**
+         * Encodes the specified ReqDeliverAA32Order message. Does not implicitly {@link lq.ReqDeliverAA32Order.verify|verify} messages.
+         * @param message ReqDeliverAA32Order message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqDeliverAA32Order, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqDeliverAA32Order message, length delimited. Does not implicitly {@link lq.ReqDeliverAA32Order.verify|verify} messages.
+         * @param message ReqDeliverAA32Order message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqDeliverAA32Order, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqDeliverAA32Order message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqDeliverAA32Order
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqDeliverAA32Order;
+
+        /**
+         * Decodes a ReqDeliverAA32Order message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqDeliverAA32Order
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqDeliverAA32Order;
+
+        /**
+         * Verifies a ReqDeliverAA32Order message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqDeliverAA32Order message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqDeliverAA32Order
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqDeliverAA32Order;
+
+        /**
+         * Creates a plain object from a ReqDeliverAA32Order message. Also converts values to other types if specified.
+         * @param message ReqDeliverAA32Order
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqDeliverAA32Order, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqDeliverAA32Order to JSON.
          * @returns JSON object
          */
         public toJSON(): { [k: string]: any };
@@ -50154,6 +58350,9 @@ export namespace lq {
 
         /** ResCharacterInfo character_sort */
         character_sort?: (number[]|null);
+
+        /** ResCharacterInfo hidden_characters */
+        hidden_characters?: (number[]|null);
     }
 
     /** Represents a ResCharacterInfo. */
@@ -50191,6 +58390,9 @@ export namespace lq {
 
         /** ResCharacterInfo character_sort. */
         public character_sort: number[];
+
+        /** ResCharacterInfo hidden_characters. */
+        public hidden_characters: number[];
 
         /**
          * Creates a new ResCharacterInfo instance using the specified properties.
@@ -50636,6 +58838,192 @@ export namespace lq {
 
         /**
          * Converts this ReqChangeCharacterView to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ReqSetHiddenCharacter. */
+    interface IReqSetHiddenCharacter {
+
+        /** ReqSetHiddenCharacter chara_list */
+        chara_list?: (number[]|null);
+    }
+
+    /** Represents a ReqSetHiddenCharacter. */
+    class ReqSetHiddenCharacter implements IReqSetHiddenCharacter {
+
+        /**
+         * Constructs a new ReqSetHiddenCharacter.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqSetHiddenCharacter);
+
+        /** ReqSetHiddenCharacter chara_list. */
+        public chara_list: number[];
+
+        /**
+         * Creates a new ReqSetHiddenCharacter instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqSetHiddenCharacter instance
+         */
+        public static create(properties?: lq.IReqSetHiddenCharacter): lq.ReqSetHiddenCharacter;
+
+        /**
+         * Encodes the specified ReqSetHiddenCharacter message. Does not implicitly {@link lq.ReqSetHiddenCharacter.verify|verify} messages.
+         * @param message ReqSetHiddenCharacter message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqSetHiddenCharacter, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqSetHiddenCharacter message, length delimited. Does not implicitly {@link lq.ReqSetHiddenCharacter.verify|verify} messages.
+         * @param message ReqSetHiddenCharacter message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqSetHiddenCharacter, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqSetHiddenCharacter message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqSetHiddenCharacter
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqSetHiddenCharacter;
+
+        /**
+         * Decodes a ReqSetHiddenCharacter message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqSetHiddenCharacter
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqSetHiddenCharacter;
+
+        /**
+         * Verifies a ReqSetHiddenCharacter message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqSetHiddenCharacter message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqSetHiddenCharacter
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqSetHiddenCharacter;
+
+        /**
+         * Creates a plain object from a ReqSetHiddenCharacter message. Also converts values to other types if specified.
+         * @param message ReqSetHiddenCharacter
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqSetHiddenCharacter, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqSetHiddenCharacter to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ResSetHiddenCharacter. */
+    interface IResSetHiddenCharacter {
+
+        /** ResSetHiddenCharacter error */
+        error?: (lq.IError|null);
+
+        /** ResSetHiddenCharacter hidden_characters */
+        hidden_characters?: (number[]|null);
+    }
+
+    /** Represents a ResSetHiddenCharacter. */
+    class ResSetHiddenCharacter implements IResSetHiddenCharacter {
+
+        /**
+         * Constructs a new ResSetHiddenCharacter.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResSetHiddenCharacter);
+
+        /** ResSetHiddenCharacter error. */
+        public error?: (lq.IError|null);
+
+        /** ResSetHiddenCharacter hidden_characters. */
+        public hidden_characters: number[];
+
+        /**
+         * Creates a new ResSetHiddenCharacter instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResSetHiddenCharacter instance
+         */
+        public static create(properties?: lq.IResSetHiddenCharacter): lq.ResSetHiddenCharacter;
+
+        /**
+         * Encodes the specified ResSetHiddenCharacter message. Does not implicitly {@link lq.ResSetHiddenCharacter.verify|verify} messages.
+         * @param message ResSetHiddenCharacter message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResSetHiddenCharacter, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResSetHiddenCharacter message, length delimited. Does not implicitly {@link lq.ResSetHiddenCharacter.verify|verify} messages.
+         * @param message ResSetHiddenCharacter message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResSetHiddenCharacter, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResSetHiddenCharacter message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResSetHiddenCharacter
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResSetHiddenCharacter;
+
+        /**
+         * Decodes a ResSetHiddenCharacter message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResSetHiddenCharacter
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResSetHiddenCharacter;
+
+        /**
+         * Verifies a ResSetHiddenCharacter message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResSetHiddenCharacter message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResSetHiddenCharacter
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResSetHiddenCharacter;
+
+        /**
+         * Creates a plain object from a ResSetHiddenCharacter message. Also converts values to other types if specified.
+         * @param message ResSetHiddenCharacter
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResSetHiddenCharacter, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResSetHiddenCharacter to JSON.
          * @returns JSON object
          */
         public toJSON(): { [k: string]: any };
@@ -52480,11 +60868,11 @@ export namespace lq {
         /** ReqBuyFromShop count */
         count?: (number|null);
 
-        /** ReqBuyFromShop bill_short_cut */
-        bill_short_cut?: (lq.IBillShortcut[]|null);
+        /** ReqBuyFromShop ver_price */
+        ver_price?: (lq.ReqBuyFromShop.IItem[]|null);
 
-        /** ReqBuyFromShop deal_price */
-        deal_price?: (number|null);
+        /** ReqBuyFromShop ver_goods */
+        ver_goods?: (lq.ReqBuyFromShop.IItem[]|null);
     }
 
     /** Represents a ReqBuyFromShop. */
@@ -52502,11 +60890,11 @@ export namespace lq {
         /** ReqBuyFromShop count. */
         public count: number;
 
-        /** ReqBuyFromShop bill_short_cut. */
-        public bill_short_cut: lq.IBillShortcut[];
+        /** ReqBuyFromShop ver_price. */
+        public ver_price: lq.ReqBuyFromShop.IItem[];
 
-        /** ReqBuyFromShop deal_price. */
-        public deal_price: number;
+        /** ReqBuyFromShop ver_goods. */
+        public ver_goods: lq.ReqBuyFromShop.IItem[];
 
         /**
          * Creates a new ReqBuyFromShop instance using the specified properties.
@@ -52577,6 +60965,105 @@ export namespace lq {
          * @returns JSON object
          */
         public toJSON(): { [k: string]: any };
+    }
+
+    namespace ReqBuyFromShop {
+
+        /** Properties of an Item. */
+        interface IItem {
+
+            /** Item id */
+            id?: (number|null);
+
+            /** Item count */
+            count?: (number|null);
+        }
+
+        /** Represents an Item. */
+        class Item implements IItem {
+
+            /**
+             * Constructs a new Item.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.ReqBuyFromShop.IItem);
+
+            /** Item id. */
+            public id: number;
+
+            /** Item count. */
+            public count: number;
+
+            /**
+             * Creates a new Item instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns Item instance
+             */
+            public static create(properties?: lq.ReqBuyFromShop.IItem): lq.ReqBuyFromShop.Item;
+
+            /**
+             * Encodes the specified Item message. Does not implicitly {@link lq.ReqBuyFromShop.Item.verify|verify} messages.
+             * @param message Item message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.ReqBuyFromShop.IItem, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified Item message, length delimited. Does not implicitly {@link lq.ReqBuyFromShop.Item.verify|verify} messages.
+             * @param message Item message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.ReqBuyFromShop.IItem, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes an Item message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns Item
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqBuyFromShop.Item;
+
+            /**
+             * Decodes an Item message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns Item
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqBuyFromShop.Item;
+
+            /**
+             * Verifies an Item message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates an Item message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns Item
+             */
+            public static fromObject(object: { [k: string]: any }): lq.ReqBuyFromShop.Item;
+
+            /**
+             * Creates a plain object from an Item message. Also converts values to other types if specified.
+             * @param message Item
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.ReqBuyFromShop.Item, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this Item to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
     }
 
     /** Properties of a ResBuyFromShop. */
@@ -56741,13 +65228,34 @@ export namespace lq {
         sns_data?: (lq.ResAccountActivityData.IActivitySNSData|null);
 
         /** ResAccountActivityData mine_data */
-        mine_data?: (lq.ResAccountActivityData.IMineActivityData[]|null);
+        mine_data?: (lq.IMineActivityData[]|null);
 
         /** ResAccountActivityData rpg_data */
         rpg_data?: (lq.IRPGActivity[]|null);
 
         /** ResAccountActivityData arena_data */
         arena_data?: (lq.IActivityArenaData[]|null);
+
+        /** ResAccountActivityData feed_data */
+        feed_data?: (lq.IFeedActivityData[]|null);
+
+        /** ResAccountActivityData segment_task_progress_list */
+        segment_task_progress_list?: (lq.ISegmentTaskProgress[]|null);
+
+        /** ResAccountActivityData vote_records */
+        vote_records?: (lq.IVoteData[]|null);
+
+        /** ResAccountActivityData spot_data */
+        spot_data?: (lq.IActivitySpotData[]|null);
+
+        /** ResAccountActivityData friend_gift_data */
+        friend_gift_data?: (lq.IActivityFriendGiftData[]|null);
+
+        /** ResAccountActivityData upgrade_data */
+        upgrade_data?: (lq.IActivityUpgradeData[]|null);
+
+        /** ResAccountActivityData gacha_data */
+        gacha_data?: (lq.IActivityGachaUpdateData[]|null);
     }
 
     /** Represents a ResAccountActivityData. */
@@ -56796,13 +65304,34 @@ export namespace lq {
         public sns_data?: (lq.ResAccountActivityData.IActivitySNSData|null);
 
         /** ResAccountActivityData mine_data. */
-        public mine_data: lq.ResAccountActivityData.IMineActivityData[];
+        public mine_data: lq.IMineActivityData[];
 
         /** ResAccountActivityData rpg_data. */
         public rpg_data: lq.IRPGActivity[];
 
         /** ResAccountActivityData arena_data. */
         public arena_data: lq.IActivityArenaData[];
+
+        /** ResAccountActivityData feed_data. */
+        public feed_data: lq.IFeedActivityData[];
+
+        /** ResAccountActivityData segment_task_progress_list. */
+        public segment_task_progress_list: lq.ISegmentTaskProgress[];
+
+        /** ResAccountActivityData vote_records. */
+        public vote_records: lq.IVoteData[];
+
+        /** ResAccountActivityData spot_data. */
+        public spot_data: lq.IActivitySpotData[];
+
+        /** ResAccountActivityData friend_gift_data. */
+        public friend_gift_data: lq.IActivityFriendGiftData[];
+
+        /** ResAccountActivityData upgrade_data. */
+        public upgrade_data: lq.IActivityUpgradeData[];
+
+        /** ResAccountActivityData gacha_data. */
+        public gacha_data: lq.IActivityGachaUpdateData[];
 
         /**
          * Creates a new ResAccountActivityData instance using the specified properties.
@@ -57404,108 +65933,6 @@ export namespace lq {
              */
             public toJSON(): { [k: string]: any };
         }
-
-        /** Properties of a MineActivityData. */
-        interface IMineActivityData {
-
-            /** MineActivityData dig_point */
-            dig_point?: (lq.IPoint[]|null);
-
-            /** MineActivityData map */
-            map?: (lq.IMineReward[]|null);
-
-            /** MineActivityData id */
-            id?: (number|null);
-        }
-
-        /** Represents a MineActivityData. */
-        class MineActivityData implements IMineActivityData {
-
-            /**
-             * Constructs a new MineActivityData.
-             * @param [properties] Properties to set
-             */
-            constructor(properties?: lq.ResAccountActivityData.IMineActivityData);
-
-            /** MineActivityData dig_point. */
-            public dig_point: lq.IPoint[];
-
-            /** MineActivityData map. */
-            public map: lq.IMineReward[];
-
-            /** MineActivityData id. */
-            public id: number;
-
-            /**
-             * Creates a new MineActivityData instance using the specified properties.
-             * @param [properties] Properties to set
-             * @returns MineActivityData instance
-             */
-            public static create(properties?: lq.ResAccountActivityData.IMineActivityData): lq.ResAccountActivityData.MineActivityData;
-
-            /**
-             * Encodes the specified MineActivityData message. Does not implicitly {@link lq.ResAccountActivityData.MineActivityData.verify|verify} messages.
-             * @param message MineActivityData message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            public static encode(message: lq.ResAccountActivityData.IMineActivityData, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Encodes the specified MineActivityData message, length delimited. Does not implicitly {@link lq.ResAccountActivityData.MineActivityData.verify|verify} messages.
-             * @param message MineActivityData message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            public static encodeDelimited(message: lq.ResAccountActivityData.IMineActivityData, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Decodes a MineActivityData message from the specified reader or buffer.
-             * @param reader Reader or buffer to decode from
-             * @param [length] Message length if known beforehand
-             * @returns MineActivityData
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResAccountActivityData.MineActivityData;
-
-            /**
-             * Decodes a MineActivityData message from the specified reader or buffer, length delimited.
-             * @param reader Reader or buffer to decode from
-             * @returns MineActivityData
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResAccountActivityData.MineActivityData;
-
-            /**
-             * Verifies a MineActivityData message.
-             * @param message Plain object to verify
-             * @returns `null` if valid, otherwise the reason why it is not
-             */
-            public static verify(message: { [k: string]: any }): (string|null);
-
-            /**
-             * Creates a MineActivityData message from a plain object. Also converts values to their respective internal types.
-             * @param object Plain object
-             * @returns MineActivityData
-             */
-            public static fromObject(object: { [k: string]: any }): lq.ResAccountActivityData.MineActivityData;
-
-            /**
-             * Creates a plain object from a MineActivityData message. Also converts values to other types if specified.
-             * @param message MineActivityData
-             * @param [options] Conversion options
-             * @returns Plain object
-             */
-            public static toObject(message: lq.ResAccountActivityData.MineActivityData, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-            /**
-             * Converts this MineActivityData to JSON.
-             * @returns JSON object
-             */
-            public toJSON(): { [k: string]: any };
-        }
     }
 
     /** Properties of a SNSBlog. */
@@ -57982,6 +66409,96 @@ export namespace lq {
         public toJSON(): { [k: string]: any };
     }
 
+    /** Properties of a ReqCompletePeriodActivityTaskBatch. */
+    interface IReqCompletePeriodActivityTaskBatch {
+
+        /** ReqCompletePeriodActivityTaskBatch task_list */
+        task_list?: (number[]|null);
+    }
+
+    /** Represents a ReqCompletePeriodActivityTaskBatch. */
+    class ReqCompletePeriodActivityTaskBatch implements IReqCompletePeriodActivityTaskBatch {
+
+        /**
+         * Constructs a new ReqCompletePeriodActivityTaskBatch.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqCompletePeriodActivityTaskBatch);
+
+        /** ReqCompletePeriodActivityTaskBatch task_list. */
+        public task_list: number[];
+
+        /**
+         * Creates a new ReqCompletePeriodActivityTaskBatch instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqCompletePeriodActivityTaskBatch instance
+         */
+        public static create(properties?: lq.IReqCompletePeriodActivityTaskBatch): lq.ReqCompletePeriodActivityTaskBatch;
+
+        /**
+         * Encodes the specified ReqCompletePeriodActivityTaskBatch message. Does not implicitly {@link lq.ReqCompletePeriodActivityTaskBatch.verify|verify} messages.
+         * @param message ReqCompletePeriodActivityTaskBatch message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqCompletePeriodActivityTaskBatch, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqCompletePeriodActivityTaskBatch message, length delimited. Does not implicitly {@link lq.ReqCompletePeriodActivityTaskBatch.verify|verify} messages.
+         * @param message ReqCompletePeriodActivityTaskBatch message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqCompletePeriodActivityTaskBatch, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqCompletePeriodActivityTaskBatch message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqCompletePeriodActivityTaskBatch
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqCompletePeriodActivityTaskBatch;
+
+        /**
+         * Decodes a ReqCompletePeriodActivityTaskBatch message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqCompletePeriodActivityTaskBatch
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqCompletePeriodActivityTaskBatch;
+
+        /**
+         * Verifies a ReqCompletePeriodActivityTaskBatch message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqCompletePeriodActivityTaskBatch message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqCompletePeriodActivityTaskBatch
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqCompletePeriodActivityTaskBatch;
+
+        /**
+         * Creates a plain object from a ReqCompletePeriodActivityTaskBatch message. Also converts values to other types if specified.
+         * @param message ReqCompletePeriodActivityTaskBatch
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqCompletePeriodActivityTaskBatch, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqCompletePeriodActivityTaskBatch to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
     /** Properties of a ReqReceiveActivityFlipTask. */
     interface IReqReceiveActivityFlipTask {
 
@@ -58163,6 +66680,198 @@ export namespace lq {
 
         /**
          * Converts this ResReceiveActivityFlipTask to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ReqCompleteSegmentTaskReward. */
+    interface IReqCompleteSegmentTaskReward {
+
+        /** ReqCompleteSegmentTaskReward task_id */
+        task_id?: (number|null);
+
+        /** ReqCompleteSegmentTaskReward count */
+        count?: (number|null);
+    }
+
+    /** Represents a ReqCompleteSegmentTaskReward. */
+    class ReqCompleteSegmentTaskReward implements IReqCompleteSegmentTaskReward {
+
+        /**
+         * Constructs a new ReqCompleteSegmentTaskReward.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqCompleteSegmentTaskReward);
+
+        /** ReqCompleteSegmentTaskReward task_id. */
+        public task_id: number;
+
+        /** ReqCompleteSegmentTaskReward count. */
+        public count: number;
+
+        /**
+         * Creates a new ReqCompleteSegmentTaskReward instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqCompleteSegmentTaskReward instance
+         */
+        public static create(properties?: lq.IReqCompleteSegmentTaskReward): lq.ReqCompleteSegmentTaskReward;
+
+        /**
+         * Encodes the specified ReqCompleteSegmentTaskReward message. Does not implicitly {@link lq.ReqCompleteSegmentTaskReward.verify|verify} messages.
+         * @param message ReqCompleteSegmentTaskReward message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqCompleteSegmentTaskReward, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqCompleteSegmentTaskReward message, length delimited. Does not implicitly {@link lq.ReqCompleteSegmentTaskReward.verify|verify} messages.
+         * @param message ReqCompleteSegmentTaskReward message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqCompleteSegmentTaskReward, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqCompleteSegmentTaskReward message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqCompleteSegmentTaskReward
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqCompleteSegmentTaskReward;
+
+        /**
+         * Decodes a ReqCompleteSegmentTaskReward message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqCompleteSegmentTaskReward
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqCompleteSegmentTaskReward;
+
+        /**
+         * Verifies a ReqCompleteSegmentTaskReward message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqCompleteSegmentTaskReward message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqCompleteSegmentTaskReward
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqCompleteSegmentTaskReward;
+
+        /**
+         * Creates a plain object from a ReqCompleteSegmentTaskReward message. Also converts values to other types if specified.
+         * @param message ReqCompleteSegmentTaskReward
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqCompleteSegmentTaskReward, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqCompleteSegmentTaskReward to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ResCompleteSegmentTaskReward. */
+    interface IResCompleteSegmentTaskReward {
+
+        /** ResCompleteSegmentTaskReward error */
+        error?: (lq.IError|null);
+
+        /** ResCompleteSegmentTaskReward rewards */
+        rewards?: (lq.IExecuteReward[]|null);
+    }
+
+    /** Represents a ResCompleteSegmentTaskReward. */
+    class ResCompleteSegmentTaskReward implements IResCompleteSegmentTaskReward {
+
+        /**
+         * Constructs a new ResCompleteSegmentTaskReward.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResCompleteSegmentTaskReward);
+
+        /** ResCompleteSegmentTaskReward error. */
+        public error?: (lq.IError|null);
+
+        /** ResCompleteSegmentTaskReward rewards. */
+        public rewards: lq.IExecuteReward[];
+
+        /**
+         * Creates a new ResCompleteSegmentTaskReward instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResCompleteSegmentTaskReward instance
+         */
+        public static create(properties?: lq.IResCompleteSegmentTaskReward): lq.ResCompleteSegmentTaskReward;
+
+        /**
+         * Encodes the specified ResCompleteSegmentTaskReward message. Does not implicitly {@link lq.ResCompleteSegmentTaskReward.verify|verify} messages.
+         * @param message ResCompleteSegmentTaskReward message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResCompleteSegmentTaskReward, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResCompleteSegmentTaskReward message, length delimited. Does not implicitly {@link lq.ResCompleteSegmentTaskReward.verify|verify} messages.
+         * @param message ResCompleteSegmentTaskReward message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResCompleteSegmentTaskReward, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResCompleteSegmentTaskReward message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResCompleteSegmentTaskReward
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResCompleteSegmentTaskReward;
+
+        /**
+         * Decodes a ResCompleteSegmentTaskReward message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResCompleteSegmentTaskReward
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResCompleteSegmentTaskReward;
+
+        /**
+         * Verifies a ResCompleteSegmentTaskReward message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResCompleteSegmentTaskReward message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResCompleteSegmentTaskReward
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResCompleteSegmentTaskReward;
+
+        /**
+         * Creates a plain object from a ResCompleteSegmentTaskReward message. Also converts values to other types if specified.
+         * @param message ResCompleteSegmentTaskReward
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResCompleteSegmentTaskReward, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResCompleteSegmentTaskReward to JSON.
          * @returns JSON object
          */
         public toJSON(): { [k: string]: any };
@@ -60272,7 +68981,7 @@ export namespace lq {
         error?: (lq.IError|null);
 
         /** ResActivityBuff buff_list */
-        buff_list?: (lq.ResActivityBuff.IActivityBuffData[]|null);
+        buff_list?: (lq.IActivityBuffData[]|null);
     }
 
     /** Represents a ResActivityBuff. */
@@ -60288,7 +68997,7 @@ export namespace lq {
         public error?: (lq.IError|null);
 
         /** ResActivityBuff buff_list. */
-        public buff_list: lq.ResActivityBuff.IActivityBuffData[];
+        public buff_list: lq.IActivityBuffData[];
 
         /**
          * Creates a new ResActivityBuff instance using the specified properties.
@@ -60359,105 +69068,6 @@ export namespace lq {
          * @returns JSON object
          */
         public toJSON(): { [k: string]: any };
-    }
-
-    namespace ResActivityBuff {
-
-        /** Properties of an ActivityBuffData. */
-        interface IActivityBuffData {
-
-            /** ActivityBuffData buff_id */
-            buff_id?: (number|null);
-
-            /** ActivityBuffData level */
-            level?: (number|null);
-        }
-
-        /** Represents an ActivityBuffData. */
-        class ActivityBuffData implements IActivityBuffData {
-
-            /**
-             * Constructs a new ActivityBuffData.
-             * @param [properties] Properties to set
-             */
-            constructor(properties?: lq.ResActivityBuff.IActivityBuffData);
-
-            /** ActivityBuffData buff_id. */
-            public buff_id: number;
-
-            /** ActivityBuffData level. */
-            public level: number;
-
-            /**
-             * Creates a new ActivityBuffData instance using the specified properties.
-             * @param [properties] Properties to set
-             * @returns ActivityBuffData instance
-             */
-            public static create(properties?: lq.ResActivityBuff.IActivityBuffData): lq.ResActivityBuff.ActivityBuffData;
-
-            /**
-             * Encodes the specified ActivityBuffData message. Does not implicitly {@link lq.ResActivityBuff.ActivityBuffData.verify|verify} messages.
-             * @param message ActivityBuffData message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            public static encode(message: lq.ResActivityBuff.IActivityBuffData, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Encodes the specified ActivityBuffData message, length delimited. Does not implicitly {@link lq.ResActivityBuff.ActivityBuffData.verify|verify} messages.
-             * @param message ActivityBuffData message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            public static encodeDelimited(message: lq.ResActivityBuff.IActivityBuffData, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Decodes an ActivityBuffData message from the specified reader or buffer.
-             * @param reader Reader or buffer to decode from
-             * @param [length] Message length if known beforehand
-             * @returns ActivityBuffData
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResActivityBuff.ActivityBuffData;
-
-            /**
-             * Decodes an ActivityBuffData message from the specified reader or buffer, length delimited.
-             * @param reader Reader or buffer to decode from
-             * @returns ActivityBuffData
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResActivityBuff.ActivityBuffData;
-
-            /**
-             * Verifies an ActivityBuffData message.
-             * @param message Plain object to verify
-             * @returns `null` if valid, otherwise the reason why it is not
-             */
-            public static verify(message: { [k: string]: any }): (string|null);
-
-            /**
-             * Creates an ActivityBuffData message from a plain object. Also converts values to their respective internal types.
-             * @param object Plain object
-             * @returns ActivityBuffData
-             */
-            public static fromObject(object: { [k: string]: any }): lq.ResActivityBuff.ActivityBuffData;
-
-            /**
-             * Creates a plain object from an ActivityBuffData message. Also converts values to other types if specified.
-             * @param message ActivityBuffData
-             * @param [options] Conversion options
-             * @returns Plain object
-             */
-            public static toObject(message: lq.ResActivityBuff.ActivityBuffData, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-            /**
-             * Converts this ActivityBuffData to JSON.
-             * @returns JSON object
-             */
-            public toJSON(): { [k: string]: any };
-        }
     }
 
     /** Properties of a ReqUpgradeActivityBuff. */
@@ -60548,6 +69158,693 @@ export namespace lq {
          * @returns JSON object
          */
         public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ReqUpgradeActivityLevel. */
+    interface IReqUpgradeActivityLevel {
+
+        /** ReqUpgradeActivityLevel activity_id */
+        activity_id?: (number|null);
+
+        /** ReqUpgradeActivityLevel group */
+        group?: (number|null);
+
+        /** ReqUpgradeActivityLevel count */
+        count?: (number|null);
+    }
+
+    /** Represents a ReqUpgradeActivityLevel. */
+    class ReqUpgradeActivityLevel implements IReqUpgradeActivityLevel {
+
+        /**
+         * Constructs a new ReqUpgradeActivityLevel.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqUpgradeActivityLevel);
+
+        /** ReqUpgradeActivityLevel activity_id. */
+        public activity_id: number;
+
+        /** ReqUpgradeActivityLevel group. */
+        public group: number;
+
+        /** ReqUpgradeActivityLevel count. */
+        public count: number;
+
+        /**
+         * Creates a new ReqUpgradeActivityLevel instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqUpgradeActivityLevel instance
+         */
+        public static create(properties?: lq.IReqUpgradeActivityLevel): lq.ReqUpgradeActivityLevel;
+
+        /**
+         * Encodes the specified ReqUpgradeActivityLevel message. Does not implicitly {@link lq.ReqUpgradeActivityLevel.verify|verify} messages.
+         * @param message ReqUpgradeActivityLevel message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqUpgradeActivityLevel, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqUpgradeActivityLevel message, length delimited. Does not implicitly {@link lq.ReqUpgradeActivityLevel.verify|verify} messages.
+         * @param message ReqUpgradeActivityLevel message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqUpgradeActivityLevel, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqUpgradeActivityLevel message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqUpgradeActivityLevel
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqUpgradeActivityLevel;
+
+        /**
+         * Decodes a ReqUpgradeActivityLevel message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqUpgradeActivityLevel
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqUpgradeActivityLevel;
+
+        /**
+         * Verifies a ReqUpgradeActivityLevel message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqUpgradeActivityLevel message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqUpgradeActivityLevel
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqUpgradeActivityLevel;
+
+        /**
+         * Creates a plain object from a ReqUpgradeActivityLevel message. Also converts values to other types if specified.
+         * @param message ReqUpgradeActivityLevel
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqUpgradeActivityLevel, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqUpgradeActivityLevel to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ResUpgradeActivityLevel. */
+    interface IResUpgradeActivityLevel {
+
+        /** ResUpgradeActivityLevel error */
+        error?: (lq.IError|null);
+
+        /** ResUpgradeActivityLevel rewards */
+        rewards?: (lq.IExecuteReward[]|null);
+    }
+
+    /** Represents a ResUpgradeActivityLevel. */
+    class ResUpgradeActivityLevel implements IResUpgradeActivityLevel {
+
+        /**
+         * Constructs a new ResUpgradeActivityLevel.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResUpgradeActivityLevel);
+
+        /** ResUpgradeActivityLevel error. */
+        public error?: (lq.IError|null);
+
+        /** ResUpgradeActivityLevel rewards. */
+        public rewards: lq.IExecuteReward[];
+
+        /**
+         * Creates a new ResUpgradeActivityLevel instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResUpgradeActivityLevel instance
+         */
+        public static create(properties?: lq.IResUpgradeActivityLevel): lq.ResUpgradeActivityLevel;
+
+        /**
+         * Encodes the specified ResUpgradeActivityLevel message. Does not implicitly {@link lq.ResUpgradeActivityLevel.verify|verify} messages.
+         * @param message ResUpgradeActivityLevel message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResUpgradeActivityLevel, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResUpgradeActivityLevel message, length delimited. Does not implicitly {@link lq.ResUpgradeActivityLevel.verify|verify} messages.
+         * @param message ResUpgradeActivityLevel message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResUpgradeActivityLevel, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResUpgradeActivityLevel message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResUpgradeActivityLevel
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResUpgradeActivityLevel;
+
+        /**
+         * Decodes a ResUpgradeActivityLevel message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResUpgradeActivityLevel
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResUpgradeActivityLevel;
+
+        /**
+         * Verifies a ResUpgradeActivityLevel message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResUpgradeActivityLevel message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResUpgradeActivityLevel
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResUpgradeActivityLevel;
+
+        /**
+         * Creates a plain object from a ResUpgradeActivityLevel message. Also converts values to other types if specified.
+         * @param message ResUpgradeActivityLevel
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResUpgradeActivityLevel, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResUpgradeActivityLevel to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ReqReceiveUpgradeActivityReward. */
+    interface IReqReceiveUpgradeActivityReward {
+
+        /** ReqReceiveUpgradeActivityReward activity_id */
+        activity_id?: (number|null);
+    }
+
+    /** Represents a ReqReceiveUpgradeActivityReward. */
+    class ReqReceiveUpgradeActivityReward implements IReqReceiveUpgradeActivityReward {
+
+        /**
+         * Constructs a new ReqReceiveUpgradeActivityReward.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqReceiveUpgradeActivityReward);
+
+        /** ReqReceiveUpgradeActivityReward activity_id. */
+        public activity_id: number;
+
+        /**
+         * Creates a new ReqReceiveUpgradeActivityReward instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqReceiveUpgradeActivityReward instance
+         */
+        public static create(properties?: lq.IReqReceiveUpgradeActivityReward): lq.ReqReceiveUpgradeActivityReward;
+
+        /**
+         * Encodes the specified ReqReceiveUpgradeActivityReward message. Does not implicitly {@link lq.ReqReceiveUpgradeActivityReward.verify|verify} messages.
+         * @param message ReqReceiveUpgradeActivityReward message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqReceiveUpgradeActivityReward, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqReceiveUpgradeActivityReward message, length delimited. Does not implicitly {@link lq.ReqReceiveUpgradeActivityReward.verify|verify} messages.
+         * @param message ReqReceiveUpgradeActivityReward message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqReceiveUpgradeActivityReward, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqReceiveUpgradeActivityReward message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqReceiveUpgradeActivityReward
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqReceiveUpgradeActivityReward;
+
+        /**
+         * Decodes a ReqReceiveUpgradeActivityReward message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqReceiveUpgradeActivityReward
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqReceiveUpgradeActivityReward;
+
+        /**
+         * Verifies a ReqReceiveUpgradeActivityReward message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqReceiveUpgradeActivityReward message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqReceiveUpgradeActivityReward
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqReceiveUpgradeActivityReward;
+
+        /**
+         * Creates a plain object from a ReqReceiveUpgradeActivityReward message. Also converts values to other types if specified.
+         * @param message ReqReceiveUpgradeActivityReward
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqReceiveUpgradeActivityReward, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqReceiveUpgradeActivityReward to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ResReceiveUpgradeActivityReward. */
+    interface IResReceiveUpgradeActivityReward {
+
+        /** ResReceiveUpgradeActivityReward error */
+        error?: (lq.IError|null);
+
+        /** ResReceiveUpgradeActivityReward rewards */
+        rewards?: (lq.IExecuteReward[]|null);
+    }
+
+    /** Represents a ResReceiveUpgradeActivityReward. */
+    class ResReceiveUpgradeActivityReward implements IResReceiveUpgradeActivityReward {
+
+        /**
+         * Constructs a new ResReceiveUpgradeActivityReward.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResReceiveUpgradeActivityReward);
+
+        /** ResReceiveUpgradeActivityReward error. */
+        public error?: (lq.IError|null);
+
+        /** ResReceiveUpgradeActivityReward rewards. */
+        public rewards: lq.IExecuteReward[];
+
+        /**
+         * Creates a new ResReceiveUpgradeActivityReward instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResReceiveUpgradeActivityReward instance
+         */
+        public static create(properties?: lq.IResReceiveUpgradeActivityReward): lq.ResReceiveUpgradeActivityReward;
+
+        /**
+         * Encodes the specified ResReceiveUpgradeActivityReward message. Does not implicitly {@link lq.ResReceiveUpgradeActivityReward.verify|verify} messages.
+         * @param message ResReceiveUpgradeActivityReward message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResReceiveUpgradeActivityReward, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResReceiveUpgradeActivityReward message, length delimited. Does not implicitly {@link lq.ResReceiveUpgradeActivityReward.verify|verify} messages.
+         * @param message ResReceiveUpgradeActivityReward message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResReceiveUpgradeActivityReward, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResReceiveUpgradeActivityReward message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResReceiveUpgradeActivityReward
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResReceiveUpgradeActivityReward;
+
+        /**
+         * Decodes a ResReceiveUpgradeActivityReward message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResReceiveUpgradeActivityReward
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResReceiveUpgradeActivityReward;
+
+        /**
+         * Verifies a ResReceiveUpgradeActivityReward message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResReceiveUpgradeActivityReward message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResReceiveUpgradeActivityReward
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResReceiveUpgradeActivityReward;
+
+        /**
+         * Creates a plain object from a ResReceiveUpgradeActivityReward message. Also converts values to other types if specified.
+         * @param message ResReceiveUpgradeActivityReward
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResReceiveUpgradeActivityReward, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResReceiveUpgradeActivityReward to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ReqReceiveAllActivityGift. */
+    interface IReqReceiveAllActivityGift {
+
+        /** ReqReceiveAllActivityGift activity_id */
+        activity_id?: (number|null);
+    }
+
+    /** Represents a ReqReceiveAllActivityGift. */
+    class ReqReceiveAllActivityGift implements IReqReceiveAllActivityGift {
+
+        /**
+         * Constructs a new ReqReceiveAllActivityGift.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqReceiveAllActivityGift);
+
+        /** ReqReceiveAllActivityGift activity_id. */
+        public activity_id: number;
+
+        /**
+         * Creates a new ReqReceiveAllActivityGift instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqReceiveAllActivityGift instance
+         */
+        public static create(properties?: lq.IReqReceiveAllActivityGift): lq.ReqReceiveAllActivityGift;
+
+        /**
+         * Encodes the specified ReqReceiveAllActivityGift message. Does not implicitly {@link lq.ReqReceiveAllActivityGift.verify|verify} messages.
+         * @param message ReqReceiveAllActivityGift message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqReceiveAllActivityGift, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqReceiveAllActivityGift message, length delimited. Does not implicitly {@link lq.ReqReceiveAllActivityGift.verify|verify} messages.
+         * @param message ReqReceiveAllActivityGift message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqReceiveAllActivityGift, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqReceiveAllActivityGift message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqReceiveAllActivityGift
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqReceiveAllActivityGift;
+
+        /**
+         * Decodes a ReqReceiveAllActivityGift message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqReceiveAllActivityGift
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqReceiveAllActivityGift;
+
+        /**
+         * Verifies a ReqReceiveAllActivityGift message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqReceiveAllActivityGift message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqReceiveAllActivityGift
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqReceiveAllActivityGift;
+
+        /**
+         * Creates a plain object from a ReqReceiveAllActivityGift message. Also converts values to other types if specified.
+         * @param message ReqReceiveAllActivityGift
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqReceiveAllActivityGift, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqReceiveAllActivityGift to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ResReceiveAllActivityGift. */
+    interface IResReceiveAllActivityGift {
+
+        /** ResReceiveAllActivityGift error */
+        error?: (lq.IError|null);
+
+        /** ResReceiveAllActivityGift rewards */
+        rewards?: (lq.IExecuteReward[]|null);
+
+        /** ResReceiveAllActivityGift receive_gift */
+        receive_gift?: (lq.ResReceiveAllActivityGift.IReceiveRewards[]|null);
+    }
+
+    /** Represents a ResReceiveAllActivityGift. */
+    class ResReceiveAllActivityGift implements IResReceiveAllActivityGift {
+
+        /**
+         * Constructs a new ResReceiveAllActivityGift.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResReceiveAllActivityGift);
+
+        /** ResReceiveAllActivityGift error. */
+        public error?: (lq.IError|null);
+
+        /** ResReceiveAllActivityGift rewards. */
+        public rewards: lq.IExecuteReward[];
+
+        /** ResReceiveAllActivityGift receive_gift. */
+        public receive_gift: lq.ResReceiveAllActivityGift.IReceiveRewards[];
+
+        /**
+         * Creates a new ResReceiveAllActivityGift instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResReceiveAllActivityGift instance
+         */
+        public static create(properties?: lq.IResReceiveAllActivityGift): lq.ResReceiveAllActivityGift;
+
+        /**
+         * Encodes the specified ResReceiveAllActivityGift message. Does not implicitly {@link lq.ResReceiveAllActivityGift.verify|verify} messages.
+         * @param message ResReceiveAllActivityGift message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResReceiveAllActivityGift, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResReceiveAllActivityGift message, length delimited. Does not implicitly {@link lq.ResReceiveAllActivityGift.verify|verify} messages.
+         * @param message ResReceiveAllActivityGift message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResReceiveAllActivityGift, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResReceiveAllActivityGift message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResReceiveAllActivityGift
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResReceiveAllActivityGift;
+
+        /**
+         * Decodes a ResReceiveAllActivityGift message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResReceiveAllActivityGift
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResReceiveAllActivityGift;
+
+        /**
+         * Verifies a ResReceiveAllActivityGift message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResReceiveAllActivityGift message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResReceiveAllActivityGift
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResReceiveAllActivityGift;
+
+        /**
+         * Creates a plain object from a ResReceiveAllActivityGift message. Also converts values to other types if specified.
+         * @param message ResReceiveAllActivityGift
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResReceiveAllActivityGift, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResReceiveAllActivityGift to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    namespace ResReceiveAllActivityGift {
+
+        /** Properties of a ReceiveRewards. */
+        interface IReceiveRewards {
+
+            /** ReceiveRewards id */
+            id?: (number|null);
+
+            /** ReceiveRewards from_account_id */
+            from_account_id?: (number|null);
+
+            /** ReceiveRewards item_id */
+            item_id?: (number|null);
+
+            /** ReceiveRewards count */
+            count?: (number|null);
+        }
+
+        /** Represents a ReceiveRewards. */
+        class ReceiveRewards implements IReceiveRewards {
+
+            /**
+             * Constructs a new ReceiveRewards.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.ResReceiveAllActivityGift.IReceiveRewards);
+
+            /** ReceiveRewards id. */
+            public id: number;
+
+            /** ReceiveRewards from_account_id. */
+            public from_account_id: number;
+
+            /** ReceiveRewards item_id. */
+            public item_id: number;
+
+            /** ReceiveRewards count. */
+            public count: number;
+
+            /**
+             * Creates a new ReceiveRewards instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns ReceiveRewards instance
+             */
+            public static create(properties?: lq.ResReceiveAllActivityGift.IReceiveRewards): lq.ResReceiveAllActivityGift.ReceiveRewards;
+
+            /**
+             * Encodes the specified ReceiveRewards message. Does not implicitly {@link lq.ResReceiveAllActivityGift.ReceiveRewards.verify|verify} messages.
+             * @param message ReceiveRewards message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.ResReceiveAllActivityGift.IReceiveRewards, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified ReceiveRewards message, length delimited. Does not implicitly {@link lq.ResReceiveAllActivityGift.ReceiveRewards.verify|verify} messages.
+             * @param message ReceiveRewards message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.ResReceiveAllActivityGift.IReceiveRewards, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a ReceiveRewards message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns ReceiveRewards
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResReceiveAllActivityGift.ReceiveRewards;
+
+            /**
+             * Decodes a ReceiveRewards message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns ReceiveRewards
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResReceiveAllActivityGift.ReceiveRewards;
+
+            /**
+             * Verifies a ReceiveRewards message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a ReceiveRewards message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns ReceiveRewards
+             */
+            public static fromObject(object: { [k: string]: any }): lq.ResReceiveAllActivityGift.ReceiveRewards;
+
+            /**
+             * Creates a plain object from a ReceiveRewards message. Also converts values to other types if specified.
+             * @param message ReceiveRewards
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.ResReceiveAllActivityGift.ReceiveRewards, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this ReceiveRewards to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
     }
 
     /** Properties of a ResUpgradeChallenge. */
@@ -64123,6 +73420,261 @@ export namespace lq {
         }
     }
 
+    /** Properties of a ResFetchRPGBattleHistoryV2. */
+    interface IResFetchRPGBattleHistoryV2 {
+
+        /** ResFetchRPGBattleHistoryV2 error */
+        error?: (lq.IError|null);
+
+        /** ResFetchRPGBattleHistoryV2 battle_result */
+        battle_result?: (lq.ResFetchRPGBattleHistoryV2.IBattleResultV2[]|null);
+
+        /** ResFetchRPGBattleHistoryV2 start_state */
+        start_state?: (lq.IRPGState|null);
+
+        /** ResFetchRPGBattleHistoryV2 current_state */
+        current_state?: (lq.IRPGState|null);
+
+        /** ResFetchRPGBattleHistoryV2 recent_battle_result */
+        recent_battle_result?: (lq.ResFetchRPGBattleHistoryV2.IBattleResultV2[]|null);
+    }
+
+    /** Represents a ResFetchRPGBattleHistoryV2. */
+    class ResFetchRPGBattleHistoryV2 implements IResFetchRPGBattleHistoryV2 {
+
+        /**
+         * Constructs a new ResFetchRPGBattleHistoryV2.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResFetchRPGBattleHistoryV2);
+
+        /** ResFetchRPGBattleHistoryV2 error. */
+        public error?: (lq.IError|null);
+
+        /** ResFetchRPGBattleHistoryV2 battle_result. */
+        public battle_result: lq.ResFetchRPGBattleHistoryV2.IBattleResultV2[];
+
+        /** ResFetchRPGBattleHistoryV2 start_state. */
+        public start_state?: (lq.IRPGState|null);
+
+        /** ResFetchRPGBattleHistoryV2 current_state. */
+        public current_state?: (lq.IRPGState|null);
+
+        /** ResFetchRPGBattleHistoryV2 recent_battle_result. */
+        public recent_battle_result: lq.ResFetchRPGBattleHistoryV2.IBattleResultV2[];
+
+        /**
+         * Creates a new ResFetchRPGBattleHistoryV2 instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResFetchRPGBattleHistoryV2 instance
+         */
+        public static create(properties?: lq.IResFetchRPGBattleHistoryV2): lq.ResFetchRPGBattleHistoryV2;
+
+        /**
+         * Encodes the specified ResFetchRPGBattleHistoryV2 message. Does not implicitly {@link lq.ResFetchRPGBattleHistoryV2.verify|verify} messages.
+         * @param message ResFetchRPGBattleHistoryV2 message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResFetchRPGBattleHistoryV2, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResFetchRPGBattleHistoryV2 message, length delimited. Does not implicitly {@link lq.ResFetchRPGBattleHistoryV2.verify|verify} messages.
+         * @param message ResFetchRPGBattleHistoryV2 message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResFetchRPGBattleHistoryV2, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResFetchRPGBattleHistoryV2 message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResFetchRPGBattleHistoryV2
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResFetchRPGBattleHistoryV2;
+
+        /**
+         * Decodes a ResFetchRPGBattleHistoryV2 message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResFetchRPGBattleHistoryV2
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResFetchRPGBattleHistoryV2;
+
+        /**
+         * Verifies a ResFetchRPGBattleHistoryV2 message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResFetchRPGBattleHistoryV2 message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResFetchRPGBattleHistoryV2
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResFetchRPGBattleHistoryV2;
+
+        /**
+         * Creates a plain object from a ResFetchRPGBattleHistoryV2 message. Also converts values to other types if specified.
+         * @param message ResFetchRPGBattleHistoryV2
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResFetchRPGBattleHistoryV2, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResFetchRPGBattleHistoryV2 to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    namespace ResFetchRPGBattleHistoryV2 {
+
+        /** Properties of a BattleResultV2. */
+        interface IBattleResultV2 {
+
+            /** BattleResultV2 uuid */
+            uuid?: (string|null);
+
+            /** BattleResultV2 chang */
+            chang?: (number|null);
+
+            /** BattleResultV2 ju */
+            ju?: (number|null);
+
+            /** BattleResultV2 ben */
+            ben?: (number|null);
+
+            /** BattleResultV2 damage */
+            damage?: (number|null);
+
+            /** BattleResultV2 monster_seq */
+            monster_seq?: (number|null);
+
+            /** BattleResultV2 killed */
+            killed?: (number|null);
+
+            /** BattleResultV2 buff */
+            buff?: (lq.IActivityBuffData[]|null);
+
+            /** BattleResultV2 points */
+            points?: (number|null);
+        }
+
+        /** Represents a BattleResultV2. */
+        class BattleResultV2 implements IBattleResultV2 {
+
+            /**
+             * Constructs a new BattleResultV2.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.ResFetchRPGBattleHistoryV2.IBattleResultV2);
+
+            /** BattleResultV2 uuid. */
+            public uuid: string;
+
+            /** BattleResultV2 chang. */
+            public chang: number;
+
+            /** BattleResultV2 ju. */
+            public ju: number;
+
+            /** BattleResultV2 ben. */
+            public ben: number;
+
+            /** BattleResultV2 damage. */
+            public damage: number;
+
+            /** BattleResultV2 monster_seq. */
+            public monster_seq: number;
+
+            /** BattleResultV2 killed. */
+            public killed: number;
+
+            /** BattleResultV2 buff. */
+            public buff: lq.IActivityBuffData[];
+
+            /** BattleResultV2 points. */
+            public points: number;
+
+            /**
+             * Creates a new BattleResultV2 instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns BattleResultV2 instance
+             */
+            public static create(properties?: lq.ResFetchRPGBattleHistoryV2.IBattleResultV2): lq.ResFetchRPGBattleHistoryV2.BattleResultV2;
+
+            /**
+             * Encodes the specified BattleResultV2 message. Does not implicitly {@link lq.ResFetchRPGBattleHistoryV2.BattleResultV2.verify|verify} messages.
+             * @param message BattleResultV2 message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.ResFetchRPGBattleHistoryV2.IBattleResultV2, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified BattleResultV2 message, length delimited. Does not implicitly {@link lq.ResFetchRPGBattleHistoryV2.BattleResultV2.verify|verify} messages.
+             * @param message BattleResultV2 message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.ResFetchRPGBattleHistoryV2.IBattleResultV2, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a BattleResultV2 message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns BattleResultV2
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResFetchRPGBattleHistoryV2.BattleResultV2;
+
+            /**
+             * Decodes a BattleResultV2 message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns BattleResultV2
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResFetchRPGBattleHistoryV2.BattleResultV2;
+
+            /**
+             * Verifies a BattleResultV2 message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a BattleResultV2 message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns BattleResultV2
+             */
+            public static fromObject(object: { [k: string]: any }): lq.ResFetchRPGBattleHistoryV2.BattleResultV2;
+
+            /**
+             * Creates a plain object from a BattleResultV2 message. Also converts values to other types if specified.
+             * @param message BattleResultV2
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.ResFetchRPGBattleHistoryV2.BattleResultV2, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this BattleResultV2 to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+    }
+
     /** Properties of a ReqBuyArenaTicket. */
     interface IReqBuyArenaTicket {
 
@@ -64678,6 +74230,102 @@ export namespace lq {
         public toJSON(): { [k: string]: any };
     }
 
+    /** Properties of a ReqReceiveRPGReward. */
+    interface IReqReceiveRPGReward {
+
+        /** ReqReceiveRPGReward activity_id */
+        activity_id?: (number|null);
+
+        /** ReqReceiveRPGReward monster_seq */
+        monster_seq?: (number|null);
+    }
+
+    /** Represents a ReqReceiveRPGReward. */
+    class ReqReceiveRPGReward implements IReqReceiveRPGReward {
+
+        /**
+         * Constructs a new ReqReceiveRPGReward.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqReceiveRPGReward);
+
+        /** ReqReceiveRPGReward activity_id. */
+        public activity_id: number;
+
+        /** ReqReceiveRPGReward monster_seq. */
+        public monster_seq: number;
+
+        /**
+         * Creates a new ReqReceiveRPGReward instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqReceiveRPGReward instance
+         */
+        public static create(properties?: lq.IReqReceiveRPGReward): lq.ReqReceiveRPGReward;
+
+        /**
+         * Encodes the specified ReqReceiveRPGReward message. Does not implicitly {@link lq.ReqReceiveRPGReward.verify|verify} messages.
+         * @param message ReqReceiveRPGReward message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqReceiveRPGReward, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqReceiveRPGReward message, length delimited. Does not implicitly {@link lq.ReqReceiveRPGReward.verify|verify} messages.
+         * @param message ReqReceiveRPGReward message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqReceiveRPGReward, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqReceiveRPGReward message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqReceiveRPGReward
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqReceiveRPGReward;
+
+        /**
+         * Decodes a ReqReceiveRPGReward message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqReceiveRPGReward
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqReceiveRPGReward;
+
+        /**
+         * Verifies a ReqReceiveRPGReward message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqReceiveRPGReward message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqReceiveRPGReward
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqReceiveRPGReward;
+
+        /**
+         * Creates a plain object from a ReqReceiveRPGReward message. Also converts values to other types if specified.
+         * @param message ReqReceiveRPGReward
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqReceiveRPGReward, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqReceiveRPGReward to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
     /** Properties of a ResReceiveRPGRewards. */
     interface IResReceiveRPGRewards {
 
@@ -64871,6 +74519,3702 @@ export namespace lq {
              */
             public toJSON(): { [k: string]: any };
         }
+    }
+
+    /** Properties of a ReqFetchOBToken. */
+    interface IReqFetchOBToken {
+
+        /** ReqFetchOBToken uuid */
+        uuid?: (string|null);
+    }
+
+    /** Represents a ReqFetchOBToken. */
+    class ReqFetchOBToken implements IReqFetchOBToken {
+
+        /**
+         * Constructs a new ReqFetchOBToken.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqFetchOBToken);
+
+        /** ReqFetchOBToken uuid. */
+        public uuid: string;
+
+        /**
+         * Creates a new ReqFetchOBToken instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqFetchOBToken instance
+         */
+        public static create(properties?: lq.IReqFetchOBToken): lq.ReqFetchOBToken;
+
+        /**
+         * Encodes the specified ReqFetchOBToken message. Does not implicitly {@link lq.ReqFetchOBToken.verify|verify} messages.
+         * @param message ReqFetchOBToken message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqFetchOBToken, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqFetchOBToken message, length delimited. Does not implicitly {@link lq.ReqFetchOBToken.verify|verify} messages.
+         * @param message ReqFetchOBToken message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqFetchOBToken, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqFetchOBToken message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqFetchOBToken
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqFetchOBToken;
+
+        /**
+         * Decodes a ReqFetchOBToken message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqFetchOBToken
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqFetchOBToken;
+
+        /**
+         * Verifies a ReqFetchOBToken message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqFetchOBToken message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqFetchOBToken
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqFetchOBToken;
+
+        /**
+         * Creates a plain object from a ReqFetchOBToken message. Also converts values to other types if specified.
+         * @param message ReqFetchOBToken
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqFetchOBToken, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqFetchOBToken to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ResFetchOBToken. */
+    interface IResFetchOBToken {
+
+        /** ResFetchOBToken error */
+        error?: (lq.IError|null);
+
+        /** ResFetchOBToken token */
+        token?: (string|null);
+
+        /** ResFetchOBToken create_time */
+        create_time?: (number|null);
+
+        /** ResFetchOBToken delay */
+        delay?: (number|null);
+
+        /** ResFetchOBToken start_time */
+        start_time?: (number|null);
+    }
+
+    /** Represents a ResFetchOBToken. */
+    class ResFetchOBToken implements IResFetchOBToken {
+
+        /**
+         * Constructs a new ResFetchOBToken.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResFetchOBToken);
+
+        /** ResFetchOBToken error. */
+        public error?: (lq.IError|null);
+
+        /** ResFetchOBToken token. */
+        public token: string;
+
+        /** ResFetchOBToken create_time. */
+        public create_time: number;
+
+        /** ResFetchOBToken delay. */
+        public delay: number;
+
+        /** ResFetchOBToken start_time. */
+        public start_time: number;
+
+        /**
+         * Creates a new ResFetchOBToken instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResFetchOBToken instance
+         */
+        public static create(properties?: lq.IResFetchOBToken): lq.ResFetchOBToken;
+
+        /**
+         * Encodes the specified ResFetchOBToken message. Does not implicitly {@link lq.ResFetchOBToken.verify|verify} messages.
+         * @param message ResFetchOBToken message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResFetchOBToken, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResFetchOBToken message, length delimited. Does not implicitly {@link lq.ResFetchOBToken.verify|verify} messages.
+         * @param message ResFetchOBToken message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResFetchOBToken, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResFetchOBToken message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResFetchOBToken
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResFetchOBToken;
+
+        /**
+         * Decodes a ResFetchOBToken message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResFetchOBToken
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResFetchOBToken;
+
+        /**
+         * Verifies a ResFetchOBToken message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResFetchOBToken message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResFetchOBToken
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResFetchOBToken;
+
+        /**
+         * Creates a plain object from a ResFetchOBToken message. Also converts values to other types if specified.
+         * @param message ResFetchOBToken
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResFetchOBToken, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResFetchOBToken to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ReqReceiveCharacterRewards. */
+    interface IReqReceiveCharacterRewards {
+
+        /** ReqReceiveCharacterRewards character_id */
+        character_id?: (number|null);
+
+        /** ReqReceiveCharacterRewards level */
+        level?: (number|null);
+    }
+
+    /** Represents a ReqReceiveCharacterRewards. */
+    class ReqReceiveCharacterRewards implements IReqReceiveCharacterRewards {
+
+        /**
+         * Constructs a new ReqReceiveCharacterRewards.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqReceiveCharacterRewards);
+
+        /** ReqReceiveCharacterRewards character_id. */
+        public character_id: number;
+
+        /** ReqReceiveCharacterRewards level. */
+        public level: number;
+
+        /**
+         * Creates a new ReqReceiveCharacterRewards instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqReceiveCharacterRewards instance
+         */
+        public static create(properties?: lq.IReqReceiveCharacterRewards): lq.ReqReceiveCharacterRewards;
+
+        /**
+         * Encodes the specified ReqReceiveCharacterRewards message. Does not implicitly {@link lq.ReqReceiveCharacterRewards.verify|verify} messages.
+         * @param message ReqReceiveCharacterRewards message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqReceiveCharacterRewards, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqReceiveCharacterRewards message, length delimited. Does not implicitly {@link lq.ReqReceiveCharacterRewards.verify|verify} messages.
+         * @param message ReqReceiveCharacterRewards message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqReceiveCharacterRewards, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqReceiveCharacterRewards message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqReceiveCharacterRewards
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqReceiveCharacterRewards;
+
+        /**
+         * Decodes a ReqReceiveCharacterRewards message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqReceiveCharacterRewards
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqReceiveCharacterRewards;
+
+        /**
+         * Verifies a ReqReceiveCharacterRewards message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqReceiveCharacterRewards message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqReceiveCharacterRewards
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqReceiveCharacterRewards;
+
+        /**
+         * Creates a plain object from a ReqReceiveCharacterRewards message. Also converts values to other types if specified.
+         * @param message ReqReceiveCharacterRewards
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqReceiveCharacterRewards, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqReceiveCharacterRewards to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ResReceiveCharacterRewards. */
+    interface IResReceiveCharacterRewards {
+
+        /** ResReceiveCharacterRewards error */
+        error?: (lq.IError|null);
+
+        /** ResReceiveCharacterRewards items */
+        items?: (lq.ResReceiveCharacterRewards.IRewardItem[]|null);
+    }
+
+    /** Represents a ResReceiveCharacterRewards. */
+    class ResReceiveCharacterRewards implements IResReceiveCharacterRewards {
+
+        /**
+         * Constructs a new ResReceiveCharacterRewards.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResReceiveCharacterRewards);
+
+        /** ResReceiveCharacterRewards error. */
+        public error?: (lq.IError|null);
+
+        /** ResReceiveCharacterRewards items. */
+        public items: lq.ResReceiveCharacterRewards.IRewardItem[];
+
+        /**
+         * Creates a new ResReceiveCharacterRewards instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResReceiveCharacterRewards instance
+         */
+        public static create(properties?: lq.IResReceiveCharacterRewards): lq.ResReceiveCharacterRewards;
+
+        /**
+         * Encodes the specified ResReceiveCharacterRewards message. Does not implicitly {@link lq.ResReceiveCharacterRewards.verify|verify} messages.
+         * @param message ResReceiveCharacterRewards message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResReceiveCharacterRewards, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResReceiveCharacterRewards message, length delimited. Does not implicitly {@link lq.ResReceiveCharacterRewards.verify|verify} messages.
+         * @param message ResReceiveCharacterRewards message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResReceiveCharacterRewards, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResReceiveCharacterRewards message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResReceiveCharacterRewards
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResReceiveCharacterRewards;
+
+        /**
+         * Decodes a ResReceiveCharacterRewards message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResReceiveCharacterRewards
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResReceiveCharacterRewards;
+
+        /**
+         * Verifies a ResReceiveCharacterRewards message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResReceiveCharacterRewards message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResReceiveCharacterRewards
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResReceiveCharacterRewards;
+
+        /**
+         * Creates a plain object from a ResReceiveCharacterRewards message. Also converts values to other types if specified.
+         * @param message ResReceiveCharacterRewards
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResReceiveCharacterRewards, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResReceiveCharacterRewards to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    namespace ResReceiveCharacterRewards {
+
+        /** Properties of a RewardItem. */
+        interface IRewardItem {
+
+            /** RewardItem id */
+            id?: (number|null);
+
+            /** RewardItem count */
+            count?: (number|null);
+        }
+
+        /** Represents a RewardItem. */
+        class RewardItem implements IRewardItem {
+
+            /**
+             * Constructs a new RewardItem.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.ResReceiveCharacterRewards.IRewardItem);
+
+            /** RewardItem id. */
+            public id: number;
+
+            /** RewardItem count. */
+            public count: number;
+
+            /**
+             * Creates a new RewardItem instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns RewardItem instance
+             */
+            public static create(properties?: lq.ResReceiveCharacterRewards.IRewardItem): lq.ResReceiveCharacterRewards.RewardItem;
+
+            /**
+             * Encodes the specified RewardItem message. Does not implicitly {@link lq.ResReceiveCharacterRewards.RewardItem.verify|verify} messages.
+             * @param message RewardItem message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.ResReceiveCharacterRewards.IRewardItem, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified RewardItem message, length delimited. Does not implicitly {@link lq.ResReceiveCharacterRewards.RewardItem.verify|verify} messages.
+             * @param message RewardItem message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.ResReceiveCharacterRewards.IRewardItem, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a RewardItem message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns RewardItem
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResReceiveCharacterRewards.RewardItem;
+
+            /**
+             * Decodes a RewardItem message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns RewardItem
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResReceiveCharacterRewards.RewardItem;
+
+            /**
+             * Verifies a RewardItem message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a RewardItem message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns RewardItem
+             */
+            public static fromObject(object: { [k: string]: any }): lq.ResReceiveCharacterRewards.RewardItem;
+
+            /**
+             * Creates a plain object from a RewardItem message. Also converts values to other types if specified.
+             * @param message RewardItem
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.ResReceiveCharacterRewards.RewardItem, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this RewardItem to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+    }
+
+    /** Properties of a ReqFeedActivityFeed. */
+    interface IReqFeedActivityFeed {
+
+        /** ReqFeedActivityFeed activity_id */
+        activity_id?: (number|null);
+
+        /** ReqFeedActivityFeed count */
+        count?: (number|null);
+    }
+
+    /** Represents a ReqFeedActivityFeed. */
+    class ReqFeedActivityFeed implements IReqFeedActivityFeed {
+
+        /**
+         * Constructs a new ReqFeedActivityFeed.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqFeedActivityFeed);
+
+        /** ReqFeedActivityFeed activity_id. */
+        public activity_id: number;
+
+        /** ReqFeedActivityFeed count. */
+        public count: number;
+
+        /**
+         * Creates a new ReqFeedActivityFeed instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqFeedActivityFeed instance
+         */
+        public static create(properties?: lq.IReqFeedActivityFeed): lq.ReqFeedActivityFeed;
+
+        /**
+         * Encodes the specified ReqFeedActivityFeed message. Does not implicitly {@link lq.ReqFeedActivityFeed.verify|verify} messages.
+         * @param message ReqFeedActivityFeed message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqFeedActivityFeed, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqFeedActivityFeed message, length delimited. Does not implicitly {@link lq.ReqFeedActivityFeed.verify|verify} messages.
+         * @param message ReqFeedActivityFeed message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqFeedActivityFeed, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqFeedActivityFeed message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqFeedActivityFeed
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqFeedActivityFeed;
+
+        /**
+         * Decodes a ReqFeedActivityFeed message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqFeedActivityFeed
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqFeedActivityFeed;
+
+        /**
+         * Verifies a ReqFeedActivityFeed message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqFeedActivityFeed message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqFeedActivityFeed
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqFeedActivityFeed;
+
+        /**
+         * Creates a plain object from a ReqFeedActivityFeed message. Also converts values to other types if specified.
+         * @param message ReqFeedActivityFeed
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqFeedActivityFeed, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqFeedActivityFeed to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ResFeedActivityFeed. */
+    interface IResFeedActivityFeed {
+
+        /** ResFeedActivityFeed error */
+        error?: (lq.IError|null);
+
+        /** ResFeedActivityFeed items */
+        items?: (lq.ResFeedActivityFeed.IRewardItem[]|null);
+
+        /** ResFeedActivityFeed feed_count */
+        feed_count?: (number|null);
+    }
+
+    /** Represents a ResFeedActivityFeed. */
+    class ResFeedActivityFeed implements IResFeedActivityFeed {
+
+        /**
+         * Constructs a new ResFeedActivityFeed.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResFeedActivityFeed);
+
+        /** ResFeedActivityFeed error. */
+        public error?: (lq.IError|null);
+
+        /** ResFeedActivityFeed items. */
+        public items: lq.ResFeedActivityFeed.IRewardItem[];
+
+        /** ResFeedActivityFeed feed_count. */
+        public feed_count: number;
+
+        /**
+         * Creates a new ResFeedActivityFeed instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResFeedActivityFeed instance
+         */
+        public static create(properties?: lq.IResFeedActivityFeed): lq.ResFeedActivityFeed;
+
+        /**
+         * Encodes the specified ResFeedActivityFeed message. Does not implicitly {@link lq.ResFeedActivityFeed.verify|verify} messages.
+         * @param message ResFeedActivityFeed message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResFeedActivityFeed, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResFeedActivityFeed message, length delimited. Does not implicitly {@link lq.ResFeedActivityFeed.verify|verify} messages.
+         * @param message ResFeedActivityFeed message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResFeedActivityFeed, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResFeedActivityFeed message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResFeedActivityFeed
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResFeedActivityFeed;
+
+        /**
+         * Decodes a ResFeedActivityFeed message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResFeedActivityFeed
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResFeedActivityFeed;
+
+        /**
+         * Verifies a ResFeedActivityFeed message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResFeedActivityFeed message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResFeedActivityFeed
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResFeedActivityFeed;
+
+        /**
+         * Creates a plain object from a ResFeedActivityFeed message. Also converts values to other types if specified.
+         * @param message ResFeedActivityFeed
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResFeedActivityFeed, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResFeedActivityFeed to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    namespace ResFeedActivityFeed {
+
+        /** Properties of a RewardItem. */
+        interface IRewardItem {
+
+            /** RewardItem id */
+            id?: (number|null);
+
+            /** RewardItem count */
+            count?: (number|null);
+        }
+
+        /** Represents a RewardItem. */
+        class RewardItem implements IRewardItem {
+
+            /**
+             * Constructs a new RewardItem.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.ResFeedActivityFeed.IRewardItem);
+
+            /** RewardItem id. */
+            public id: number;
+
+            /** RewardItem count. */
+            public count: number;
+
+            /**
+             * Creates a new RewardItem instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns RewardItem instance
+             */
+            public static create(properties?: lq.ResFeedActivityFeed.IRewardItem): lq.ResFeedActivityFeed.RewardItem;
+
+            /**
+             * Encodes the specified RewardItem message. Does not implicitly {@link lq.ResFeedActivityFeed.RewardItem.verify|verify} messages.
+             * @param message RewardItem message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.ResFeedActivityFeed.IRewardItem, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified RewardItem message, length delimited. Does not implicitly {@link lq.ResFeedActivityFeed.RewardItem.verify|verify} messages.
+             * @param message RewardItem message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.ResFeedActivityFeed.IRewardItem, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a RewardItem message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns RewardItem
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResFeedActivityFeed.RewardItem;
+
+            /**
+             * Decodes a RewardItem message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns RewardItem
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResFeedActivityFeed.RewardItem;
+
+            /**
+             * Verifies a RewardItem message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a RewardItem message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns RewardItem
+             */
+            public static fromObject(object: { [k: string]: any }): lq.ResFeedActivityFeed.RewardItem;
+
+            /**
+             * Creates a plain object from a RewardItem message. Also converts values to other types if specified.
+             * @param message RewardItem
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.ResFeedActivityFeed.RewardItem, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this RewardItem to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+    }
+
+    /** Properties of a ReqSendActivityGiftToFriend. */
+    interface IReqSendActivityGiftToFriend {
+
+        /** ReqSendActivityGiftToFriend activity_id */
+        activity_id?: (number|null);
+
+        /** ReqSendActivityGiftToFriend item_id */
+        item_id?: (number|null);
+
+        /** ReqSendActivityGiftToFriend target_id */
+        target_id?: (number|null);
+    }
+
+    /** Represents a ReqSendActivityGiftToFriend. */
+    class ReqSendActivityGiftToFriend implements IReqSendActivityGiftToFriend {
+
+        /**
+         * Constructs a new ReqSendActivityGiftToFriend.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqSendActivityGiftToFriend);
+
+        /** ReqSendActivityGiftToFriend activity_id. */
+        public activity_id: number;
+
+        /** ReqSendActivityGiftToFriend item_id. */
+        public item_id: number;
+
+        /** ReqSendActivityGiftToFriend target_id. */
+        public target_id: number;
+
+        /**
+         * Creates a new ReqSendActivityGiftToFriend instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqSendActivityGiftToFriend instance
+         */
+        public static create(properties?: lq.IReqSendActivityGiftToFriend): lq.ReqSendActivityGiftToFriend;
+
+        /**
+         * Encodes the specified ReqSendActivityGiftToFriend message. Does not implicitly {@link lq.ReqSendActivityGiftToFriend.verify|verify} messages.
+         * @param message ReqSendActivityGiftToFriend message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqSendActivityGiftToFriend, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqSendActivityGiftToFriend message, length delimited. Does not implicitly {@link lq.ReqSendActivityGiftToFriend.verify|verify} messages.
+         * @param message ReqSendActivityGiftToFriend message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqSendActivityGiftToFriend, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqSendActivityGiftToFriend message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqSendActivityGiftToFriend
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqSendActivityGiftToFriend;
+
+        /**
+         * Decodes a ReqSendActivityGiftToFriend message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqSendActivityGiftToFriend
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqSendActivityGiftToFriend;
+
+        /**
+         * Verifies a ReqSendActivityGiftToFriend message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqSendActivityGiftToFriend message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqSendActivityGiftToFriend
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqSendActivityGiftToFriend;
+
+        /**
+         * Creates a plain object from a ReqSendActivityGiftToFriend message. Also converts values to other types if specified.
+         * @param message ReqSendActivityGiftToFriend
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqSendActivityGiftToFriend, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqSendActivityGiftToFriend to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ResSendActivityGiftToFriend. */
+    interface IResSendActivityGiftToFriend {
+
+        /** ResSendActivityGiftToFriend error */
+        error?: (lq.IError|null);
+
+        /** ResSendActivityGiftToFriend send_gift_count */
+        send_gift_count?: (number|null);
+    }
+
+    /** Represents a ResSendActivityGiftToFriend. */
+    class ResSendActivityGiftToFriend implements IResSendActivityGiftToFriend {
+
+        /**
+         * Constructs a new ResSendActivityGiftToFriend.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResSendActivityGiftToFriend);
+
+        /** ResSendActivityGiftToFriend error. */
+        public error?: (lq.IError|null);
+
+        /** ResSendActivityGiftToFriend send_gift_count. */
+        public send_gift_count: number;
+
+        /**
+         * Creates a new ResSendActivityGiftToFriend instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResSendActivityGiftToFriend instance
+         */
+        public static create(properties?: lq.IResSendActivityGiftToFriend): lq.ResSendActivityGiftToFriend;
+
+        /**
+         * Encodes the specified ResSendActivityGiftToFriend message. Does not implicitly {@link lq.ResSendActivityGiftToFriend.verify|verify} messages.
+         * @param message ResSendActivityGiftToFriend message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResSendActivityGiftToFriend, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResSendActivityGiftToFriend message, length delimited. Does not implicitly {@link lq.ResSendActivityGiftToFriend.verify|verify} messages.
+         * @param message ResSendActivityGiftToFriend message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResSendActivityGiftToFriend, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResSendActivityGiftToFriend message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResSendActivityGiftToFriend
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResSendActivityGiftToFriend;
+
+        /**
+         * Decodes a ResSendActivityGiftToFriend message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResSendActivityGiftToFriend
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResSendActivityGiftToFriend;
+
+        /**
+         * Verifies a ResSendActivityGiftToFriend message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResSendActivityGiftToFriend message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResSendActivityGiftToFriend
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResSendActivityGiftToFriend;
+
+        /**
+         * Creates a plain object from a ResSendActivityGiftToFriend message. Also converts values to other types if specified.
+         * @param message ResSendActivityGiftToFriend
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResSendActivityGiftToFriend, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResSendActivityGiftToFriend to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ReqReceiveActivityGift. */
+    interface IReqReceiveActivityGift {
+
+        /** ReqReceiveActivityGift activity_id */
+        activity_id?: (number|null);
+
+        /** ReqReceiveActivityGift id */
+        id?: (number|null);
+    }
+
+    /** Represents a ReqReceiveActivityGift. */
+    class ReqReceiveActivityGift implements IReqReceiveActivityGift {
+
+        /**
+         * Constructs a new ReqReceiveActivityGift.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqReceiveActivityGift);
+
+        /** ReqReceiveActivityGift activity_id. */
+        public activity_id: number;
+
+        /** ReqReceiveActivityGift id. */
+        public id: number;
+
+        /**
+         * Creates a new ReqReceiveActivityGift instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqReceiveActivityGift instance
+         */
+        public static create(properties?: lq.IReqReceiveActivityGift): lq.ReqReceiveActivityGift;
+
+        /**
+         * Encodes the specified ReqReceiveActivityGift message. Does not implicitly {@link lq.ReqReceiveActivityGift.verify|verify} messages.
+         * @param message ReqReceiveActivityGift message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqReceiveActivityGift, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqReceiveActivityGift message, length delimited. Does not implicitly {@link lq.ReqReceiveActivityGift.verify|verify} messages.
+         * @param message ReqReceiveActivityGift message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqReceiveActivityGift, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqReceiveActivityGift message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqReceiveActivityGift
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqReceiveActivityGift;
+
+        /**
+         * Decodes a ReqReceiveActivityGift message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqReceiveActivityGift
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqReceiveActivityGift;
+
+        /**
+         * Verifies a ReqReceiveActivityGift message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqReceiveActivityGift message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqReceiveActivityGift
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqReceiveActivityGift;
+
+        /**
+         * Creates a plain object from a ReqReceiveActivityGift message. Also converts values to other types if specified.
+         * @param message ReqReceiveActivityGift
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqReceiveActivityGift, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqReceiveActivityGift to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ReqFetchFriendGiftActivityData. */
+    interface IReqFetchFriendGiftActivityData {
+
+        /** ReqFetchFriendGiftActivityData activity_id */
+        activity_id?: (number|null);
+
+        /** ReqFetchFriendGiftActivityData account_list */
+        account_list?: (number[]|null);
+    }
+
+    /** Represents a ReqFetchFriendGiftActivityData. */
+    class ReqFetchFriendGiftActivityData implements IReqFetchFriendGiftActivityData {
+
+        /**
+         * Constructs a new ReqFetchFriendGiftActivityData.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqFetchFriendGiftActivityData);
+
+        /** ReqFetchFriendGiftActivityData activity_id. */
+        public activity_id: number;
+
+        /** ReqFetchFriendGiftActivityData account_list. */
+        public account_list: number[];
+
+        /**
+         * Creates a new ReqFetchFriendGiftActivityData instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqFetchFriendGiftActivityData instance
+         */
+        public static create(properties?: lq.IReqFetchFriendGiftActivityData): lq.ReqFetchFriendGiftActivityData;
+
+        /**
+         * Encodes the specified ReqFetchFriendGiftActivityData message. Does not implicitly {@link lq.ReqFetchFriendGiftActivityData.verify|verify} messages.
+         * @param message ReqFetchFriendGiftActivityData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqFetchFriendGiftActivityData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqFetchFriendGiftActivityData message, length delimited. Does not implicitly {@link lq.ReqFetchFriendGiftActivityData.verify|verify} messages.
+         * @param message ReqFetchFriendGiftActivityData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqFetchFriendGiftActivityData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqFetchFriendGiftActivityData message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqFetchFriendGiftActivityData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqFetchFriendGiftActivityData;
+
+        /**
+         * Decodes a ReqFetchFriendGiftActivityData message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqFetchFriendGiftActivityData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqFetchFriendGiftActivityData;
+
+        /**
+         * Verifies a ReqFetchFriendGiftActivityData message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqFetchFriendGiftActivityData message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqFetchFriendGiftActivityData
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqFetchFriendGiftActivityData;
+
+        /**
+         * Creates a plain object from a ReqFetchFriendGiftActivityData message. Also converts values to other types if specified.
+         * @param message ReqFetchFriendGiftActivityData
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqFetchFriendGiftActivityData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqFetchFriendGiftActivityData to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ResFetchFriendGiftActivityData. */
+    interface IResFetchFriendGiftActivityData {
+
+        /** ResFetchFriendGiftActivityData error */
+        error?: (lq.IError|null);
+
+        /** ResFetchFriendGiftActivityData list */
+        list?: (lq.ResFetchFriendGiftActivityData.IFriendData[]|null);
+    }
+
+    /** Represents a ResFetchFriendGiftActivityData. */
+    class ResFetchFriendGiftActivityData implements IResFetchFriendGiftActivityData {
+
+        /**
+         * Constructs a new ResFetchFriendGiftActivityData.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResFetchFriendGiftActivityData);
+
+        /** ResFetchFriendGiftActivityData error. */
+        public error?: (lq.IError|null);
+
+        /** ResFetchFriendGiftActivityData list. */
+        public list: lq.ResFetchFriendGiftActivityData.IFriendData[];
+
+        /**
+         * Creates a new ResFetchFriendGiftActivityData instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResFetchFriendGiftActivityData instance
+         */
+        public static create(properties?: lq.IResFetchFriendGiftActivityData): lq.ResFetchFriendGiftActivityData;
+
+        /**
+         * Encodes the specified ResFetchFriendGiftActivityData message. Does not implicitly {@link lq.ResFetchFriendGiftActivityData.verify|verify} messages.
+         * @param message ResFetchFriendGiftActivityData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResFetchFriendGiftActivityData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResFetchFriendGiftActivityData message, length delimited. Does not implicitly {@link lq.ResFetchFriendGiftActivityData.verify|verify} messages.
+         * @param message ResFetchFriendGiftActivityData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResFetchFriendGiftActivityData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResFetchFriendGiftActivityData message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResFetchFriendGiftActivityData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResFetchFriendGiftActivityData;
+
+        /**
+         * Decodes a ResFetchFriendGiftActivityData message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResFetchFriendGiftActivityData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResFetchFriendGiftActivityData;
+
+        /**
+         * Verifies a ResFetchFriendGiftActivityData message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResFetchFriendGiftActivityData message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResFetchFriendGiftActivityData
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResFetchFriendGiftActivityData;
+
+        /**
+         * Creates a plain object from a ResFetchFriendGiftActivityData message. Also converts values to other types if specified.
+         * @param message ResFetchFriendGiftActivityData
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResFetchFriendGiftActivityData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResFetchFriendGiftActivityData to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    namespace ResFetchFriendGiftActivityData {
+
+        /** Properties of an ItemCountData. */
+        interface IItemCountData {
+
+            /** ItemCountData item */
+            item?: (number|null);
+
+            /** ItemCountData count */
+            count?: (number|null);
+        }
+
+        /** Represents an ItemCountData. */
+        class ItemCountData implements IItemCountData {
+
+            /**
+             * Constructs a new ItemCountData.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.ResFetchFriendGiftActivityData.IItemCountData);
+
+            /** ItemCountData item. */
+            public item: number;
+
+            /** ItemCountData count. */
+            public count: number;
+
+            /**
+             * Creates a new ItemCountData instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns ItemCountData instance
+             */
+            public static create(properties?: lq.ResFetchFriendGiftActivityData.IItemCountData): lq.ResFetchFriendGiftActivityData.ItemCountData;
+
+            /**
+             * Encodes the specified ItemCountData message. Does not implicitly {@link lq.ResFetchFriendGiftActivityData.ItemCountData.verify|verify} messages.
+             * @param message ItemCountData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.ResFetchFriendGiftActivityData.IItemCountData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified ItemCountData message, length delimited. Does not implicitly {@link lq.ResFetchFriendGiftActivityData.ItemCountData.verify|verify} messages.
+             * @param message ItemCountData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.ResFetchFriendGiftActivityData.IItemCountData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes an ItemCountData message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns ItemCountData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResFetchFriendGiftActivityData.ItemCountData;
+
+            /**
+             * Decodes an ItemCountData message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns ItemCountData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResFetchFriendGiftActivityData.ItemCountData;
+
+            /**
+             * Verifies an ItemCountData message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates an ItemCountData message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns ItemCountData
+             */
+            public static fromObject(object: { [k: string]: any }): lq.ResFetchFriendGiftActivityData.ItemCountData;
+
+            /**
+             * Creates a plain object from an ItemCountData message. Also converts values to other types if specified.
+             * @param message ItemCountData
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.ResFetchFriendGiftActivityData.ItemCountData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this ItemCountData to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+
+        /** Properties of a FriendData. */
+        interface IFriendData {
+
+            /** FriendData account_id */
+            account_id?: (number|null);
+
+            /** FriendData items */
+            items?: (lq.ResFetchFriendGiftActivityData.IItemCountData[]|null);
+
+            /** FriendData receive_count */
+            receive_count?: (number|null);
+        }
+
+        /** Represents a FriendData. */
+        class FriendData implements IFriendData {
+
+            /**
+             * Constructs a new FriendData.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.ResFetchFriendGiftActivityData.IFriendData);
+
+            /** FriendData account_id. */
+            public account_id: number;
+
+            /** FriendData items. */
+            public items: lq.ResFetchFriendGiftActivityData.IItemCountData[];
+
+            /** FriendData receive_count. */
+            public receive_count: number;
+
+            /**
+             * Creates a new FriendData instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns FriendData instance
+             */
+            public static create(properties?: lq.ResFetchFriendGiftActivityData.IFriendData): lq.ResFetchFriendGiftActivityData.FriendData;
+
+            /**
+             * Encodes the specified FriendData message. Does not implicitly {@link lq.ResFetchFriendGiftActivityData.FriendData.verify|verify} messages.
+             * @param message FriendData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.ResFetchFriendGiftActivityData.IFriendData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified FriendData message, length delimited. Does not implicitly {@link lq.ResFetchFriendGiftActivityData.FriendData.verify|verify} messages.
+             * @param message FriendData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.ResFetchFriendGiftActivityData.IFriendData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a FriendData message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns FriendData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResFetchFriendGiftActivityData.FriendData;
+
+            /**
+             * Decodes a FriendData message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns FriendData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResFetchFriendGiftActivityData.FriendData;
+
+            /**
+             * Verifies a FriendData message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a FriendData message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns FriendData
+             */
+            public static fromObject(object: { [k: string]: any }): lq.ResFetchFriendGiftActivityData.FriendData;
+
+            /**
+             * Creates a plain object from a FriendData message. Also converts values to other types if specified.
+             * @param message FriendData
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.ResFetchFriendGiftActivityData.FriendData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this FriendData to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+    }
+
+    /** Properties of a ReqOpenPreChestItem. */
+    interface IReqOpenPreChestItem {
+
+        /** ReqOpenPreChestItem item_id */
+        item_id?: (number|null);
+
+        /** ReqOpenPreChestItem pool_id */
+        pool_id?: (number|null);
+    }
+
+    /** Represents a ReqOpenPreChestItem. */
+    class ReqOpenPreChestItem implements IReqOpenPreChestItem {
+
+        /**
+         * Constructs a new ReqOpenPreChestItem.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqOpenPreChestItem);
+
+        /** ReqOpenPreChestItem item_id. */
+        public item_id: number;
+
+        /** ReqOpenPreChestItem pool_id. */
+        public pool_id: number;
+
+        /**
+         * Creates a new ReqOpenPreChestItem instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqOpenPreChestItem instance
+         */
+        public static create(properties?: lq.IReqOpenPreChestItem): lq.ReqOpenPreChestItem;
+
+        /**
+         * Encodes the specified ReqOpenPreChestItem message. Does not implicitly {@link lq.ReqOpenPreChestItem.verify|verify} messages.
+         * @param message ReqOpenPreChestItem message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqOpenPreChestItem, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqOpenPreChestItem message, length delimited. Does not implicitly {@link lq.ReqOpenPreChestItem.verify|verify} messages.
+         * @param message ReqOpenPreChestItem message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqOpenPreChestItem, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqOpenPreChestItem message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqOpenPreChestItem
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqOpenPreChestItem;
+
+        /**
+         * Decodes a ReqOpenPreChestItem message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqOpenPreChestItem
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqOpenPreChestItem;
+
+        /**
+         * Verifies a ReqOpenPreChestItem message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqOpenPreChestItem message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqOpenPreChestItem
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqOpenPreChestItem;
+
+        /**
+         * Creates a plain object from a ReqOpenPreChestItem message. Also converts values to other types if specified.
+         * @param message ReqOpenPreChestItem
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqOpenPreChestItem, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqOpenPreChestItem to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ResOpenPreChestItem. */
+    interface IResOpenPreChestItem {
+
+        /** ResOpenPreChestItem error */
+        error?: (lq.IError|null);
+
+        /** ResOpenPreChestItem results */
+        results?: (lq.IOpenResult[]|null);
+    }
+
+    /** Represents a ResOpenPreChestItem. */
+    class ResOpenPreChestItem implements IResOpenPreChestItem {
+
+        /**
+         * Constructs a new ResOpenPreChestItem.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResOpenPreChestItem);
+
+        /** ResOpenPreChestItem error. */
+        public error?: (lq.IError|null);
+
+        /** ResOpenPreChestItem results. */
+        public results: lq.IOpenResult[];
+
+        /**
+         * Creates a new ResOpenPreChestItem instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResOpenPreChestItem instance
+         */
+        public static create(properties?: lq.IResOpenPreChestItem): lq.ResOpenPreChestItem;
+
+        /**
+         * Encodes the specified ResOpenPreChestItem message. Does not implicitly {@link lq.ResOpenPreChestItem.verify|verify} messages.
+         * @param message ResOpenPreChestItem message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResOpenPreChestItem, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResOpenPreChestItem message, length delimited. Does not implicitly {@link lq.ResOpenPreChestItem.verify|verify} messages.
+         * @param message ResOpenPreChestItem message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResOpenPreChestItem, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResOpenPreChestItem message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResOpenPreChestItem
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResOpenPreChestItem;
+
+        /**
+         * Decodes a ResOpenPreChestItem message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResOpenPreChestItem
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResOpenPreChestItem;
+
+        /**
+         * Verifies a ResOpenPreChestItem message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResOpenPreChestItem message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResOpenPreChestItem
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResOpenPreChestItem;
+
+        /**
+         * Creates a plain object from a ResOpenPreChestItem message. Also converts values to other types if specified.
+         * @param message ResOpenPreChestItem
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResOpenPreChestItem, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResOpenPreChestItem to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ReqFetchVoteActivity. */
+    interface IReqFetchVoteActivity {
+
+        /** ReqFetchVoteActivity activity_id */
+        activity_id?: (number|null);
+    }
+
+    /** Represents a ReqFetchVoteActivity. */
+    class ReqFetchVoteActivity implements IReqFetchVoteActivity {
+
+        /**
+         * Constructs a new ReqFetchVoteActivity.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqFetchVoteActivity);
+
+        /** ReqFetchVoteActivity activity_id. */
+        public activity_id: number;
+
+        /**
+         * Creates a new ReqFetchVoteActivity instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqFetchVoteActivity instance
+         */
+        public static create(properties?: lq.IReqFetchVoteActivity): lq.ReqFetchVoteActivity;
+
+        /**
+         * Encodes the specified ReqFetchVoteActivity message. Does not implicitly {@link lq.ReqFetchVoteActivity.verify|verify} messages.
+         * @param message ReqFetchVoteActivity message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqFetchVoteActivity, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqFetchVoteActivity message, length delimited. Does not implicitly {@link lq.ReqFetchVoteActivity.verify|verify} messages.
+         * @param message ReqFetchVoteActivity message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqFetchVoteActivity, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqFetchVoteActivity message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqFetchVoteActivity
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqFetchVoteActivity;
+
+        /**
+         * Decodes a ReqFetchVoteActivity message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqFetchVoteActivity
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqFetchVoteActivity;
+
+        /**
+         * Verifies a ReqFetchVoteActivity message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqFetchVoteActivity message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqFetchVoteActivity
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqFetchVoteActivity;
+
+        /**
+         * Creates a plain object from a ReqFetchVoteActivity message. Also converts values to other types if specified.
+         * @param message ReqFetchVoteActivity
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqFetchVoteActivity, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqFetchVoteActivity to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ResFetchVoteActivity. */
+    interface IResFetchVoteActivity {
+
+        /** ResFetchVoteActivity error */
+        error?: (lq.IError|null);
+
+        /** ResFetchVoteActivity vote_rank */
+        vote_rank?: (number[]|null);
+
+        /** ResFetchVoteActivity update_time */
+        update_time?: (number|null);
+    }
+
+    /** Represents a ResFetchVoteActivity. */
+    class ResFetchVoteActivity implements IResFetchVoteActivity {
+
+        /**
+         * Constructs a new ResFetchVoteActivity.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResFetchVoteActivity);
+
+        /** ResFetchVoteActivity error. */
+        public error?: (lq.IError|null);
+
+        /** ResFetchVoteActivity vote_rank. */
+        public vote_rank: number[];
+
+        /** ResFetchVoteActivity update_time. */
+        public update_time: number;
+
+        /**
+         * Creates a new ResFetchVoteActivity instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResFetchVoteActivity instance
+         */
+        public static create(properties?: lq.IResFetchVoteActivity): lq.ResFetchVoteActivity;
+
+        /**
+         * Encodes the specified ResFetchVoteActivity message. Does not implicitly {@link lq.ResFetchVoteActivity.verify|verify} messages.
+         * @param message ResFetchVoteActivity message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResFetchVoteActivity, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResFetchVoteActivity message, length delimited. Does not implicitly {@link lq.ResFetchVoteActivity.verify|verify} messages.
+         * @param message ResFetchVoteActivity message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResFetchVoteActivity, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResFetchVoteActivity message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResFetchVoteActivity
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResFetchVoteActivity;
+
+        /**
+         * Decodes a ResFetchVoteActivity message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResFetchVoteActivity
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResFetchVoteActivity;
+
+        /**
+         * Verifies a ResFetchVoteActivity message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResFetchVoteActivity message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResFetchVoteActivity
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResFetchVoteActivity;
+
+        /**
+         * Creates a plain object from a ResFetchVoteActivity message. Also converts values to other types if specified.
+         * @param message ResFetchVoteActivity
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResFetchVoteActivity, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResFetchVoteActivity to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ReqVoteActivity. */
+    interface IReqVoteActivity {
+
+        /** ReqVoteActivity vote */
+        vote?: (number|null);
+
+        /** ReqVoteActivity activity_id */
+        activity_id?: (number|null);
+    }
+
+    /** Represents a ReqVoteActivity. */
+    class ReqVoteActivity implements IReqVoteActivity {
+
+        /**
+         * Constructs a new ReqVoteActivity.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqVoteActivity);
+
+        /** ReqVoteActivity vote. */
+        public vote: number;
+
+        /** ReqVoteActivity activity_id. */
+        public activity_id: number;
+
+        /**
+         * Creates a new ReqVoteActivity instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqVoteActivity instance
+         */
+        public static create(properties?: lq.IReqVoteActivity): lq.ReqVoteActivity;
+
+        /**
+         * Encodes the specified ReqVoteActivity message. Does not implicitly {@link lq.ReqVoteActivity.verify|verify} messages.
+         * @param message ReqVoteActivity message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqVoteActivity, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqVoteActivity message, length delimited. Does not implicitly {@link lq.ReqVoteActivity.verify|verify} messages.
+         * @param message ReqVoteActivity message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqVoteActivity, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqVoteActivity message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqVoteActivity
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqVoteActivity;
+
+        /**
+         * Decodes a ReqVoteActivity message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqVoteActivity
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqVoteActivity;
+
+        /**
+         * Verifies a ReqVoteActivity message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqVoteActivity message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqVoteActivity
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqVoteActivity;
+
+        /**
+         * Creates a plain object from a ReqVoteActivity message. Also converts values to other types if specified.
+         * @param message ReqVoteActivity
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqVoteActivity, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqVoteActivity to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ResVoteActivity. */
+    interface IResVoteActivity {
+
+        /** ResVoteActivity error */
+        error?: (lq.IError|null);
+
+        /** ResVoteActivity vote_records */
+        vote_records?: (lq.IVoteData[]|null);
+    }
+
+    /** Represents a ResVoteActivity. */
+    class ResVoteActivity implements IResVoteActivity {
+
+        /**
+         * Constructs a new ResVoteActivity.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResVoteActivity);
+
+        /** ResVoteActivity error. */
+        public error?: (lq.IError|null);
+
+        /** ResVoteActivity vote_records. */
+        public vote_records: lq.IVoteData[];
+
+        /**
+         * Creates a new ResVoteActivity instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResVoteActivity instance
+         */
+        public static create(properties?: lq.IResVoteActivity): lq.ResVoteActivity;
+
+        /**
+         * Encodes the specified ResVoteActivity message. Does not implicitly {@link lq.ResVoteActivity.verify|verify} messages.
+         * @param message ResVoteActivity message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResVoteActivity, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResVoteActivity message, length delimited. Does not implicitly {@link lq.ResVoteActivity.verify|verify} messages.
+         * @param message ResVoteActivity message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResVoteActivity, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResVoteActivity message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResVoteActivity
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResVoteActivity;
+
+        /**
+         * Decodes a ResVoteActivity message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResVoteActivity
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResVoteActivity;
+
+        /**
+         * Verifies a ResVoteActivity message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResVoteActivity message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResVoteActivity
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResVoteActivity;
+
+        /**
+         * Creates a plain object from a ResVoteActivity message. Also converts values to other types if specified.
+         * @param message ResVoteActivity
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResVoteActivity, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResVoteActivity to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ReqUnlockActivitySpot. */
+    interface IReqUnlockActivitySpot {
+
+        /** ReqUnlockActivitySpot unique_id */
+        unique_id?: (number|null);
+
+        /** ReqUnlockActivitySpot ending_id */
+        ending_id?: (number|null);
+    }
+
+    /** Represents a ReqUnlockActivitySpot. */
+    class ReqUnlockActivitySpot implements IReqUnlockActivitySpot {
+
+        /**
+         * Constructs a new ReqUnlockActivitySpot.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqUnlockActivitySpot);
+
+        /** ReqUnlockActivitySpot unique_id. */
+        public unique_id: number;
+
+        /** ReqUnlockActivitySpot ending_id. */
+        public ending_id: number;
+
+        /**
+         * Creates a new ReqUnlockActivitySpot instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqUnlockActivitySpot instance
+         */
+        public static create(properties?: lq.IReqUnlockActivitySpot): lq.ReqUnlockActivitySpot;
+
+        /**
+         * Encodes the specified ReqUnlockActivitySpot message. Does not implicitly {@link lq.ReqUnlockActivitySpot.verify|verify} messages.
+         * @param message ReqUnlockActivitySpot message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqUnlockActivitySpot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqUnlockActivitySpot message, length delimited. Does not implicitly {@link lq.ReqUnlockActivitySpot.verify|verify} messages.
+         * @param message ReqUnlockActivitySpot message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqUnlockActivitySpot, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqUnlockActivitySpot message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqUnlockActivitySpot
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqUnlockActivitySpot;
+
+        /**
+         * Decodes a ReqUnlockActivitySpot message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqUnlockActivitySpot
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqUnlockActivitySpot;
+
+        /**
+         * Verifies a ReqUnlockActivitySpot message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqUnlockActivitySpot message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqUnlockActivitySpot
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqUnlockActivitySpot;
+
+        /**
+         * Creates a plain object from a ReqUnlockActivitySpot message. Also converts values to other types if specified.
+         * @param message ReqUnlockActivitySpot
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqUnlockActivitySpot, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqUnlockActivitySpot to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ReqReceiveActivitySpotReward. */
+    interface IReqReceiveActivitySpotReward {
+
+        /** ReqReceiveActivitySpotReward unique_id */
+        unique_id?: (number|null);
+    }
+
+    /** Represents a ReqReceiveActivitySpotReward. */
+    class ReqReceiveActivitySpotReward implements IReqReceiveActivitySpotReward {
+
+        /**
+         * Constructs a new ReqReceiveActivitySpotReward.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqReceiveActivitySpotReward);
+
+        /** ReqReceiveActivitySpotReward unique_id. */
+        public unique_id: number;
+
+        /**
+         * Creates a new ReqReceiveActivitySpotReward instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqReceiveActivitySpotReward instance
+         */
+        public static create(properties?: lq.IReqReceiveActivitySpotReward): lq.ReqReceiveActivitySpotReward;
+
+        /**
+         * Encodes the specified ReqReceiveActivitySpotReward message. Does not implicitly {@link lq.ReqReceiveActivitySpotReward.verify|verify} messages.
+         * @param message ReqReceiveActivitySpotReward message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqReceiveActivitySpotReward, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqReceiveActivitySpotReward message, length delimited. Does not implicitly {@link lq.ReqReceiveActivitySpotReward.verify|verify} messages.
+         * @param message ReqReceiveActivitySpotReward message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqReceiveActivitySpotReward, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqReceiveActivitySpotReward message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqReceiveActivitySpotReward
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqReceiveActivitySpotReward;
+
+        /**
+         * Decodes a ReqReceiveActivitySpotReward message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqReceiveActivitySpotReward
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqReceiveActivitySpotReward;
+
+        /**
+         * Verifies a ReqReceiveActivitySpotReward message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqReceiveActivitySpotReward message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqReceiveActivitySpotReward
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqReceiveActivitySpotReward;
+
+        /**
+         * Creates a plain object from a ReqReceiveActivitySpotReward message. Also converts values to other types if specified.
+         * @param message ReqReceiveActivitySpotReward
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqReceiveActivitySpotReward, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqReceiveActivitySpotReward to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ResReceiveActivitySpotReward. */
+    interface IResReceiveActivitySpotReward {
+
+        /** ResReceiveActivitySpotReward error */
+        error?: (lq.IError|null);
+
+        /** ResReceiveActivitySpotReward items */
+        items?: (lq.ResReceiveActivitySpotReward.IRewardItem[]|null);
+    }
+
+    /** Represents a ResReceiveActivitySpotReward. */
+    class ResReceiveActivitySpotReward implements IResReceiveActivitySpotReward {
+
+        /**
+         * Constructs a new ResReceiveActivitySpotReward.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResReceiveActivitySpotReward);
+
+        /** ResReceiveActivitySpotReward error. */
+        public error?: (lq.IError|null);
+
+        /** ResReceiveActivitySpotReward items. */
+        public items: lq.ResReceiveActivitySpotReward.IRewardItem[];
+
+        /**
+         * Creates a new ResReceiveActivitySpotReward instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResReceiveActivitySpotReward instance
+         */
+        public static create(properties?: lq.IResReceiveActivitySpotReward): lq.ResReceiveActivitySpotReward;
+
+        /**
+         * Encodes the specified ResReceiveActivitySpotReward message. Does not implicitly {@link lq.ResReceiveActivitySpotReward.verify|verify} messages.
+         * @param message ResReceiveActivitySpotReward message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResReceiveActivitySpotReward, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResReceiveActivitySpotReward message, length delimited. Does not implicitly {@link lq.ResReceiveActivitySpotReward.verify|verify} messages.
+         * @param message ResReceiveActivitySpotReward message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResReceiveActivitySpotReward, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResReceiveActivitySpotReward message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResReceiveActivitySpotReward
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResReceiveActivitySpotReward;
+
+        /**
+         * Decodes a ResReceiveActivitySpotReward message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResReceiveActivitySpotReward
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResReceiveActivitySpotReward;
+
+        /**
+         * Verifies a ResReceiveActivitySpotReward message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResReceiveActivitySpotReward message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResReceiveActivitySpotReward
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResReceiveActivitySpotReward;
+
+        /**
+         * Creates a plain object from a ResReceiveActivitySpotReward message. Also converts values to other types if specified.
+         * @param message ResReceiveActivitySpotReward
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResReceiveActivitySpotReward, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResReceiveActivitySpotReward to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    namespace ResReceiveActivitySpotReward {
+
+        /** Properties of a RewardItem. */
+        interface IRewardItem {
+
+            /** RewardItem id */
+            id?: (number|null);
+
+            /** RewardItem count */
+            count?: (number|null);
+        }
+
+        /** Represents a RewardItem. */
+        class RewardItem implements IRewardItem {
+
+            /**
+             * Constructs a new RewardItem.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.ResReceiveActivitySpotReward.IRewardItem);
+
+            /** RewardItem id. */
+            public id: number;
+
+            /** RewardItem count. */
+            public count: number;
+
+            /**
+             * Creates a new RewardItem instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns RewardItem instance
+             */
+            public static create(properties?: lq.ResReceiveActivitySpotReward.IRewardItem): lq.ResReceiveActivitySpotReward.RewardItem;
+
+            /**
+             * Encodes the specified RewardItem message. Does not implicitly {@link lq.ResReceiveActivitySpotReward.RewardItem.verify|verify} messages.
+             * @param message RewardItem message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.ResReceiveActivitySpotReward.IRewardItem, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified RewardItem message, length delimited. Does not implicitly {@link lq.ResReceiveActivitySpotReward.RewardItem.verify|verify} messages.
+             * @param message RewardItem message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.ResReceiveActivitySpotReward.IRewardItem, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a RewardItem message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns RewardItem
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResReceiveActivitySpotReward.RewardItem;
+
+            /**
+             * Decodes a RewardItem message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns RewardItem
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResReceiveActivitySpotReward.RewardItem;
+
+            /**
+             * Verifies a RewardItem message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a RewardItem message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns RewardItem
+             */
+            public static fromObject(object: { [k: string]: any }): lq.ResReceiveActivitySpotReward.RewardItem;
+
+            /**
+             * Creates a plain object from a RewardItem message. Also converts values to other types if specified.
+             * @param message RewardItem
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.ResReceiveActivitySpotReward.RewardItem, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this RewardItem to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+    }
+
+    /** Properties of a ReqLogReport. */
+    interface IReqLogReport {
+
+        /** ReqLogReport success */
+        success?: (number|null);
+
+        /** ReqLogReport failed */
+        failed?: (number|null);
+    }
+
+    /** Represents a ReqLogReport. */
+    class ReqLogReport implements IReqLogReport {
+
+        /**
+         * Constructs a new ReqLogReport.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqLogReport);
+
+        /** ReqLogReport success. */
+        public success: number;
+
+        /** ReqLogReport failed. */
+        public failed: number;
+
+        /**
+         * Creates a new ReqLogReport instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqLogReport instance
+         */
+        public static create(properties?: lq.IReqLogReport): lq.ReqLogReport;
+
+        /**
+         * Encodes the specified ReqLogReport message. Does not implicitly {@link lq.ReqLogReport.verify|verify} messages.
+         * @param message ReqLogReport message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqLogReport, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqLogReport message, length delimited. Does not implicitly {@link lq.ReqLogReport.verify|verify} messages.
+         * @param message ReqLogReport message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqLogReport, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqLogReport message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqLogReport
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqLogReport;
+
+        /**
+         * Decodes a ReqLogReport message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqLogReport
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqLogReport;
+
+        /**
+         * Verifies a ReqLogReport message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqLogReport message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqLogReport
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqLogReport;
+
+        /**
+         * Creates a plain object from a ReqLogReport message. Also converts values to other types if specified.
+         * @param message ReqLogReport
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqLogReport, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqLogReport to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ReqBindOauth2. */
+    interface IReqBindOauth2 {
+
+        /** ReqBindOauth2 type */
+        type?: (number|null);
+
+        /** ReqBindOauth2 token */
+        token?: (string|null);
+    }
+
+    /** Represents a ReqBindOauth2. */
+    class ReqBindOauth2 implements IReqBindOauth2 {
+
+        /**
+         * Constructs a new ReqBindOauth2.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqBindOauth2);
+
+        /** ReqBindOauth2 type. */
+        public type: number;
+
+        /** ReqBindOauth2 token. */
+        public token: string;
+
+        /**
+         * Creates a new ReqBindOauth2 instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqBindOauth2 instance
+         */
+        public static create(properties?: lq.IReqBindOauth2): lq.ReqBindOauth2;
+
+        /**
+         * Encodes the specified ReqBindOauth2 message. Does not implicitly {@link lq.ReqBindOauth2.verify|verify} messages.
+         * @param message ReqBindOauth2 message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqBindOauth2, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqBindOauth2 message, length delimited. Does not implicitly {@link lq.ReqBindOauth2.verify|verify} messages.
+         * @param message ReqBindOauth2 message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqBindOauth2, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqBindOauth2 message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqBindOauth2
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqBindOauth2;
+
+        /**
+         * Decodes a ReqBindOauth2 message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqBindOauth2
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqBindOauth2;
+
+        /**
+         * Verifies a ReqBindOauth2 message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqBindOauth2 message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqBindOauth2
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqBindOauth2;
+
+        /**
+         * Creates a plain object from a ReqBindOauth2 message. Also converts values to other types if specified.
+         * @param message ReqBindOauth2
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqBindOauth2, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqBindOauth2 to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ReqFetchOauth2. */
+    interface IReqFetchOauth2 {
+
+        /** ReqFetchOauth2 type */
+        type?: (number|null);
+    }
+
+    /** Represents a ReqFetchOauth2. */
+    class ReqFetchOauth2 implements IReqFetchOauth2 {
+
+        /**
+         * Constructs a new ReqFetchOauth2.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqFetchOauth2);
+
+        /** ReqFetchOauth2 type. */
+        public type: number;
+
+        /**
+         * Creates a new ReqFetchOauth2 instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqFetchOauth2 instance
+         */
+        public static create(properties?: lq.IReqFetchOauth2): lq.ReqFetchOauth2;
+
+        /**
+         * Encodes the specified ReqFetchOauth2 message. Does not implicitly {@link lq.ReqFetchOauth2.verify|verify} messages.
+         * @param message ReqFetchOauth2 message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqFetchOauth2, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqFetchOauth2 message, length delimited. Does not implicitly {@link lq.ReqFetchOauth2.verify|verify} messages.
+         * @param message ReqFetchOauth2 message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqFetchOauth2, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqFetchOauth2 message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqFetchOauth2
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqFetchOauth2;
+
+        /**
+         * Decodes a ReqFetchOauth2 message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqFetchOauth2
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqFetchOauth2;
+
+        /**
+         * Verifies a ReqFetchOauth2 message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqFetchOauth2 message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqFetchOauth2
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqFetchOauth2;
+
+        /**
+         * Creates a plain object from a ReqFetchOauth2 message. Also converts values to other types if specified.
+         * @param message ReqFetchOauth2
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqFetchOauth2, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqFetchOauth2 to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ResFetchOauth2. */
+    interface IResFetchOauth2 {
+
+        /** ResFetchOauth2 error */
+        error?: (lq.IError|null);
+
+        /** ResFetchOauth2 openid */
+        openid?: (string|null);
+    }
+
+    /** Represents a ResFetchOauth2. */
+    class ResFetchOauth2 implements IResFetchOauth2 {
+
+        /**
+         * Constructs a new ResFetchOauth2.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResFetchOauth2);
+
+        /** ResFetchOauth2 error. */
+        public error?: (lq.IError|null);
+
+        /** ResFetchOauth2 openid. */
+        public openid: string;
+
+        /**
+         * Creates a new ResFetchOauth2 instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResFetchOauth2 instance
+         */
+        public static create(properties?: lq.IResFetchOauth2): lq.ResFetchOauth2;
+
+        /**
+         * Encodes the specified ResFetchOauth2 message. Does not implicitly {@link lq.ResFetchOauth2.verify|verify} messages.
+         * @param message ResFetchOauth2 message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResFetchOauth2, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResFetchOauth2 message, length delimited. Does not implicitly {@link lq.ResFetchOauth2.verify|verify} messages.
+         * @param message ResFetchOauth2 message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResFetchOauth2, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResFetchOauth2 message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResFetchOauth2
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResFetchOauth2;
+
+        /**
+         * Decodes a ResFetchOauth2 message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResFetchOauth2
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResFetchOauth2;
+
+        /**
+         * Verifies a ResFetchOauth2 message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResFetchOauth2 message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResFetchOauth2
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResFetchOauth2;
+
+        /**
+         * Creates a plain object from a ResFetchOauth2 message. Also converts values to other types if specified.
+         * @param message ResFetchOauth2
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResFetchOauth2, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResFetchOauth2 to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ResDeleteAccount. */
+    interface IResDeleteAccount {
+
+        /** ResDeleteAccount error */
+        error?: (lq.IError|null);
+
+        /** ResDeleteAccount delete_time */
+        delete_time?: (number|null);
+    }
+
+    /** Represents a ResDeleteAccount. */
+    class ResDeleteAccount implements IResDeleteAccount {
+
+        /**
+         * Constructs a new ResDeleteAccount.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResDeleteAccount);
+
+        /** ResDeleteAccount error. */
+        public error?: (lq.IError|null);
+
+        /** ResDeleteAccount delete_time. */
+        public delete_time: number;
+
+        /**
+         * Creates a new ResDeleteAccount instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResDeleteAccount instance
+         */
+        public static create(properties?: lq.IResDeleteAccount): lq.ResDeleteAccount;
+
+        /**
+         * Encodes the specified ResDeleteAccount message. Does not implicitly {@link lq.ResDeleteAccount.verify|verify} messages.
+         * @param message ResDeleteAccount message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResDeleteAccount, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResDeleteAccount message, length delimited. Does not implicitly {@link lq.ResDeleteAccount.verify|verify} messages.
+         * @param message ResDeleteAccount message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResDeleteAccount, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResDeleteAccount message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResDeleteAccount
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResDeleteAccount;
+
+        /**
+         * Decodes a ResDeleteAccount message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResDeleteAccount
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResDeleteAccount;
+
+        /**
+         * Verifies a ResDeleteAccount message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResDeleteAccount message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResDeleteAccount
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResDeleteAccount;
+
+        /**
+         * Creates a plain object from a ResDeleteAccount message. Also converts values to other types if specified.
+         * @param message ResDeleteAccount
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResDeleteAccount, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResDeleteAccount to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ReqSetLoadingImage. */
+    interface IReqSetLoadingImage {
+
+        /** ReqSetLoadingImage images */
+        images?: (number[]|null);
+    }
+
+    /** Represents a ReqSetLoadingImage. */
+    class ReqSetLoadingImage implements IReqSetLoadingImage {
+
+        /**
+         * Constructs a new ReqSetLoadingImage.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqSetLoadingImage);
+
+        /** ReqSetLoadingImage images. */
+        public images: number[];
+
+        /**
+         * Creates a new ReqSetLoadingImage instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqSetLoadingImage instance
+         */
+        public static create(properties?: lq.IReqSetLoadingImage): lq.ReqSetLoadingImage;
+
+        /**
+         * Encodes the specified ReqSetLoadingImage message. Does not implicitly {@link lq.ReqSetLoadingImage.verify|verify} messages.
+         * @param message ReqSetLoadingImage message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqSetLoadingImage, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqSetLoadingImage message, length delimited. Does not implicitly {@link lq.ReqSetLoadingImage.verify|verify} messages.
+         * @param message ReqSetLoadingImage message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqSetLoadingImage, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqSetLoadingImage message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqSetLoadingImage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqSetLoadingImage;
+
+        /**
+         * Decodes a ReqSetLoadingImage message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqSetLoadingImage
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqSetLoadingImage;
+
+        /**
+         * Verifies a ReqSetLoadingImage message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqSetLoadingImage message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqSetLoadingImage
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqSetLoadingImage;
+
+        /**
+         * Creates a plain object from a ReqSetLoadingImage message. Also converts values to other types if specified.
+         * @param message ReqSetLoadingImage
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqSetLoadingImage, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqSetLoadingImage to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ResFetchShopInterval. */
+    interface IResFetchShopInterval {
+
+        /** ResFetchShopInterval error */
+        error?: (lq.IError|null);
+
+        /** ResFetchShopInterval result */
+        result?: (lq.ResFetchShopInterval.IShopInterval[]|null);
+    }
+
+    /** Represents a ResFetchShopInterval. */
+    class ResFetchShopInterval implements IResFetchShopInterval {
+
+        /**
+         * Constructs a new ResFetchShopInterval.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResFetchShopInterval);
+
+        /** ResFetchShopInterval error. */
+        public error?: (lq.IError|null);
+
+        /** ResFetchShopInterval result. */
+        public result: lq.ResFetchShopInterval.IShopInterval[];
+
+        /**
+         * Creates a new ResFetchShopInterval instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResFetchShopInterval instance
+         */
+        public static create(properties?: lq.IResFetchShopInterval): lq.ResFetchShopInterval;
+
+        /**
+         * Encodes the specified ResFetchShopInterval message. Does not implicitly {@link lq.ResFetchShopInterval.verify|verify} messages.
+         * @param message ResFetchShopInterval message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResFetchShopInterval, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResFetchShopInterval message, length delimited. Does not implicitly {@link lq.ResFetchShopInterval.verify|verify} messages.
+         * @param message ResFetchShopInterval message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResFetchShopInterval, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResFetchShopInterval message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResFetchShopInterval
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResFetchShopInterval;
+
+        /**
+         * Decodes a ResFetchShopInterval message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResFetchShopInterval
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResFetchShopInterval;
+
+        /**
+         * Verifies a ResFetchShopInterval message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResFetchShopInterval message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResFetchShopInterval
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResFetchShopInterval;
+
+        /**
+         * Creates a plain object from a ResFetchShopInterval message. Also converts values to other types if specified.
+         * @param message ResFetchShopInterval
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResFetchShopInterval, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResFetchShopInterval to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    namespace ResFetchShopInterval {
+
+        /** Properties of a ShopInterval. */
+        interface IShopInterval {
+
+            /** ShopInterval group_id */
+            group_id?: (number|null);
+
+            /** ShopInterval interval */
+            interval?: (number|null);
+        }
+
+        /** Represents a ShopInterval. */
+        class ShopInterval implements IShopInterval {
+
+            /**
+             * Constructs a new ShopInterval.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.ResFetchShopInterval.IShopInterval);
+
+            /** ShopInterval group_id. */
+            public group_id: number;
+
+            /** ShopInterval interval. */
+            public interval: number;
+
+            /**
+             * Creates a new ShopInterval instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns ShopInterval instance
+             */
+            public static create(properties?: lq.ResFetchShopInterval.IShopInterval): lq.ResFetchShopInterval.ShopInterval;
+
+            /**
+             * Encodes the specified ShopInterval message. Does not implicitly {@link lq.ResFetchShopInterval.ShopInterval.verify|verify} messages.
+             * @param message ShopInterval message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.ResFetchShopInterval.IShopInterval, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified ShopInterval message, length delimited. Does not implicitly {@link lq.ResFetchShopInterval.ShopInterval.verify|verify} messages.
+             * @param message ShopInterval message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.ResFetchShopInterval.IShopInterval, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a ShopInterval message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns ShopInterval
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResFetchShopInterval.ShopInterval;
+
+            /**
+             * Decodes a ShopInterval message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns ShopInterval
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResFetchShopInterval.ShopInterval;
+
+            /**
+             * Verifies a ShopInterval message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a ShopInterval message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns ShopInterval
+             */
+            public static fromObject(object: { [k: string]: any }): lq.ResFetchShopInterval.ShopInterval;
+
+            /**
+             * Creates a plain object from a ShopInterval message. Also converts values to other types if specified.
+             * @param message ShopInterval
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.ResFetchShopInterval.ShopInterval, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this ShopInterval to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+    }
+
+    /** Properties of a ResFetchActivityInterval. */
+    interface IResFetchActivityInterval {
+
+        /** ResFetchActivityInterval error */
+        error?: (lq.IError|null);
+
+        /** ResFetchActivityInterval result */
+        result?: (lq.ResFetchActivityInterval.IActivityInterval[]|null);
+    }
+
+    /** Represents a ResFetchActivityInterval. */
+    class ResFetchActivityInterval implements IResFetchActivityInterval {
+
+        /**
+         * Constructs a new ResFetchActivityInterval.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResFetchActivityInterval);
+
+        /** ResFetchActivityInterval error. */
+        public error?: (lq.IError|null);
+
+        /** ResFetchActivityInterval result. */
+        public result: lq.ResFetchActivityInterval.IActivityInterval[];
+
+        /**
+         * Creates a new ResFetchActivityInterval instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResFetchActivityInterval instance
+         */
+        public static create(properties?: lq.IResFetchActivityInterval): lq.ResFetchActivityInterval;
+
+        /**
+         * Encodes the specified ResFetchActivityInterval message. Does not implicitly {@link lq.ResFetchActivityInterval.verify|verify} messages.
+         * @param message ResFetchActivityInterval message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResFetchActivityInterval, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResFetchActivityInterval message, length delimited. Does not implicitly {@link lq.ResFetchActivityInterval.verify|verify} messages.
+         * @param message ResFetchActivityInterval message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResFetchActivityInterval, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResFetchActivityInterval message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResFetchActivityInterval
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResFetchActivityInterval;
+
+        /**
+         * Decodes a ResFetchActivityInterval message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResFetchActivityInterval
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResFetchActivityInterval;
+
+        /**
+         * Verifies a ResFetchActivityInterval message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResFetchActivityInterval message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResFetchActivityInterval
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResFetchActivityInterval;
+
+        /**
+         * Creates a plain object from a ResFetchActivityInterval message. Also converts values to other types if specified.
+         * @param message ResFetchActivityInterval
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResFetchActivityInterval, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResFetchActivityInterval to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    namespace ResFetchActivityInterval {
+
+        /** Properties of an ActivityInterval. */
+        interface IActivityInterval {
+
+            /** ActivityInterval activity_id */
+            activity_id?: (number|null);
+
+            /** ActivityInterval interval */
+            interval?: (number|null);
+        }
+
+        /** Represents an ActivityInterval. */
+        class ActivityInterval implements IActivityInterval {
+
+            /**
+             * Constructs a new ActivityInterval.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: lq.ResFetchActivityInterval.IActivityInterval);
+
+            /** ActivityInterval activity_id. */
+            public activity_id: number;
+
+            /** ActivityInterval interval. */
+            public interval: number;
+
+            /**
+             * Creates a new ActivityInterval instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns ActivityInterval instance
+             */
+            public static create(properties?: lq.ResFetchActivityInterval.IActivityInterval): lq.ResFetchActivityInterval.ActivityInterval;
+
+            /**
+             * Encodes the specified ActivityInterval message. Does not implicitly {@link lq.ResFetchActivityInterval.ActivityInterval.verify|verify} messages.
+             * @param message ActivityInterval message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: lq.ResFetchActivityInterval.IActivityInterval, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified ActivityInterval message, length delimited. Does not implicitly {@link lq.ResFetchActivityInterval.ActivityInterval.verify|verify} messages.
+             * @param message ActivityInterval message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: lq.ResFetchActivityInterval.IActivityInterval, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes an ActivityInterval message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns ActivityInterval
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResFetchActivityInterval.ActivityInterval;
+
+            /**
+             * Decodes an ActivityInterval message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns ActivityInterval
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResFetchActivityInterval.ActivityInterval;
+
+            /**
+             * Verifies an ActivityInterval message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates an ActivityInterval message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns ActivityInterval
+             */
+            public static fromObject(object: { [k: string]: any }): lq.ResFetchActivityInterval.ActivityInterval;
+
+            /**
+             * Creates a plain object from an ActivityInterval message. Also converts values to other types if specified.
+             * @param message ActivityInterval
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: lq.ResFetchActivityInterval.ActivityInterval, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this ActivityInterval to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+    }
+
+    /** Properties of a ResFetchrecentFriend. */
+    interface IResFetchrecentFriend {
+
+        /** ResFetchrecentFriend error */
+        error?: (lq.IError|null);
+
+        /** ResFetchrecentFriend account_list */
+        account_list?: (number[]|null);
+    }
+
+    /** Represents a ResFetchrecentFriend. */
+    class ResFetchrecentFriend implements IResFetchrecentFriend {
+
+        /**
+         * Constructs a new ResFetchrecentFriend.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResFetchrecentFriend);
+
+        /** ResFetchrecentFriend error. */
+        public error?: (lq.IError|null);
+
+        /** ResFetchrecentFriend account_list. */
+        public account_list: number[];
+
+        /**
+         * Creates a new ResFetchrecentFriend instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResFetchrecentFriend instance
+         */
+        public static create(properties?: lq.IResFetchrecentFriend): lq.ResFetchrecentFriend;
+
+        /**
+         * Encodes the specified ResFetchrecentFriend message. Does not implicitly {@link lq.ResFetchrecentFriend.verify|verify} messages.
+         * @param message ResFetchrecentFriend message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResFetchrecentFriend, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResFetchrecentFriend message, length delimited. Does not implicitly {@link lq.ResFetchrecentFriend.verify|verify} messages.
+         * @param message ResFetchrecentFriend message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResFetchrecentFriend, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResFetchrecentFriend message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResFetchrecentFriend
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResFetchrecentFriend;
+
+        /**
+         * Decodes a ResFetchrecentFriend message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResFetchrecentFriend
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResFetchrecentFriend;
+
+        /**
+         * Verifies a ResFetchrecentFriend message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResFetchrecentFriend message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResFetchrecentFriend
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResFetchrecentFriend;
+
+        /**
+         * Creates a plain object from a ResFetchrecentFriend message. Also converts values to other types if specified.
+         * @param message ResFetchrecentFriend
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResFetchrecentFriend, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResFetchrecentFriend to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ReqOpenGacha. */
+    interface IReqOpenGacha {
+
+        /** ReqOpenGacha activity_id */
+        activity_id?: (number|null);
+
+        /** ReqOpenGacha count */
+        count?: (number|null);
+    }
+
+    /** Represents a ReqOpenGacha. */
+    class ReqOpenGacha implements IReqOpenGacha {
+
+        /**
+         * Constructs a new ReqOpenGacha.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IReqOpenGacha);
+
+        /** ReqOpenGacha activity_id. */
+        public activity_id: number;
+
+        /** ReqOpenGacha count. */
+        public count: number;
+
+        /**
+         * Creates a new ReqOpenGacha instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ReqOpenGacha instance
+         */
+        public static create(properties?: lq.IReqOpenGacha): lq.ReqOpenGacha;
+
+        /**
+         * Encodes the specified ReqOpenGacha message. Does not implicitly {@link lq.ReqOpenGacha.verify|verify} messages.
+         * @param message ReqOpenGacha message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IReqOpenGacha, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ReqOpenGacha message, length delimited. Does not implicitly {@link lq.ReqOpenGacha.verify|verify} messages.
+         * @param message ReqOpenGacha message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IReqOpenGacha, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ReqOpenGacha message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ReqOpenGacha
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ReqOpenGacha;
+
+        /**
+         * Decodes a ReqOpenGacha message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ReqOpenGacha
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ReqOpenGacha;
+
+        /**
+         * Verifies a ReqOpenGacha message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ReqOpenGacha message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ReqOpenGacha
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ReqOpenGacha;
+
+        /**
+         * Creates a plain object from a ReqOpenGacha message. Also converts values to other types if specified.
+         * @param message ReqOpenGacha
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ReqOpenGacha, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ReqOpenGacha to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a ResOpenGacha. */
+    interface IResOpenGacha {
+
+        /** ResOpenGacha error */
+        error?: (lq.IError|null);
+
+        /** ResOpenGacha result_list */
+        result_list?: (number[]|null);
+
+        /** ResOpenGacha reward_items */
+        reward_items?: (lq.IExecuteReward[]|null);
+
+        /** ResOpenGacha sp_reward_items */
+        sp_reward_items?: (lq.IExecuteReward[]|null);
+
+        /** ResOpenGacha remain_count */
+        remain_count?: (number|null);
+    }
+
+    /** Represents a ResOpenGacha. */
+    class ResOpenGacha implements IResOpenGacha {
+
+        /**
+         * Constructs a new ResOpenGacha.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IResOpenGacha);
+
+        /** ResOpenGacha error. */
+        public error?: (lq.IError|null);
+
+        /** ResOpenGacha result_list. */
+        public result_list: number[];
+
+        /** ResOpenGacha reward_items. */
+        public reward_items: lq.IExecuteReward[];
+
+        /** ResOpenGacha sp_reward_items. */
+        public sp_reward_items: lq.IExecuteReward[];
+
+        /** ResOpenGacha remain_count. */
+        public remain_count: number;
+
+        /**
+         * Creates a new ResOpenGacha instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResOpenGacha instance
+         */
+        public static create(properties?: lq.IResOpenGacha): lq.ResOpenGacha;
+
+        /**
+         * Encodes the specified ResOpenGacha message. Does not implicitly {@link lq.ResOpenGacha.verify|verify} messages.
+         * @param message ResOpenGacha message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IResOpenGacha, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResOpenGacha message, length delimited. Does not implicitly {@link lq.ResOpenGacha.verify|verify} messages.
+         * @param message ResOpenGacha message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IResOpenGacha, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResOpenGacha message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResOpenGacha
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ResOpenGacha;
+
+        /**
+         * Decodes a ResOpenGacha message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResOpenGacha
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ResOpenGacha;
+
+        /**
+         * Verifies a ResOpenGacha message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResOpenGacha message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResOpenGacha
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ResOpenGacha;
+
+        /**
+         * Creates a plain object from a ResOpenGacha message. Also converts values to other types if specified.
+         * @param message ResOpenGacha
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ResOpenGacha, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResOpenGacha to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
     }
 
     /** Properties of an ActionMJStart. */
@@ -65281,6 +78625,186 @@ export namespace lq {
         public toJSON(): { [k: string]: any };
     }
 
+    /** Properties of an ActionNewCard. */
+    interface IActionNewCard {
+
+        /** ActionNewCard field_spell */
+        field_spell?: (number|null);
+    }
+
+    /** Represents an ActionNewCard. */
+    class ActionNewCard implements IActionNewCard {
+
+        /**
+         * Constructs a new ActionNewCard.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IActionNewCard);
+
+        /** ActionNewCard field_spell. */
+        public field_spell: number;
+
+        /**
+         * Creates a new ActionNewCard instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ActionNewCard instance
+         */
+        public static create(properties?: lq.IActionNewCard): lq.ActionNewCard;
+
+        /**
+         * Encodes the specified ActionNewCard message. Does not implicitly {@link lq.ActionNewCard.verify|verify} messages.
+         * @param message ActionNewCard message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IActionNewCard, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ActionNewCard message, length delimited. Does not implicitly {@link lq.ActionNewCard.verify|verify} messages.
+         * @param message ActionNewCard message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IActionNewCard, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an ActionNewCard message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ActionNewCard
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ActionNewCard;
+
+        /**
+         * Decodes an ActionNewCard message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ActionNewCard
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ActionNewCard;
+
+        /**
+         * Verifies an ActionNewCard message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an ActionNewCard message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ActionNewCard
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ActionNewCard;
+
+        /**
+         * Creates a plain object from an ActionNewCard message. Also converts values to other types if specified.
+         * @param message ActionNewCard
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ActionNewCard, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ActionNewCard to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a RecordNewCard. */
+    interface IRecordNewCard {
+
+        /** RecordNewCard field_spell */
+        field_spell?: (number|null);
+    }
+
+    /** Represents a RecordNewCard. */
+    class RecordNewCard implements IRecordNewCard {
+
+        /**
+         * Constructs a new RecordNewCard.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IRecordNewCard);
+
+        /** RecordNewCard field_spell. */
+        public field_spell: number;
+
+        /**
+         * Creates a new RecordNewCard instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns RecordNewCard instance
+         */
+        public static create(properties?: lq.IRecordNewCard): lq.RecordNewCard;
+
+        /**
+         * Encodes the specified RecordNewCard message. Does not implicitly {@link lq.RecordNewCard.verify|verify} messages.
+         * @param message RecordNewCard message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IRecordNewCard, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified RecordNewCard message, length delimited. Does not implicitly {@link lq.RecordNewCard.verify|verify} messages.
+         * @param message RecordNewCard message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IRecordNewCard, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a RecordNewCard message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns RecordNewCard
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.RecordNewCard;
+
+        /**
+         * Decodes a RecordNewCard message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns RecordNewCard
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.RecordNewCard;
+
+        /**
+         * Verifies a RecordNewCard message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a RecordNewCard message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns RecordNewCard
+         */
+        public static fromObject(object: { [k: string]: any }): lq.RecordNewCard;
+
+        /**
+         * Creates a plain object from a RecordNewCard message. Also converts values to other types if specified.
+         * @param message RecordNewCard
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.RecordNewCard, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this RecordNewCard to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
     /** Properties of an ActionNewRound. */
     interface IActionNewRound {
 
@@ -65335,8 +78859,11 @@ export namespace lq {
         /** ActionNewRound ju_count */
         ju_count?: (number|null);
 
-        /** ActionNewRound new_tile */
-        new_tile?: (string|null);
+        /** ActionNewRound field_spell */
+        field_spell?: (number|null);
+
+        /** ActionNewRound sha256 */
+        sha256?: (string|null);
     }
 
     /** Represents an ActionNewRound. */
@@ -65399,8 +78926,11 @@ export namespace lq {
         /** ActionNewRound ju_count. */
         public ju_count: number;
 
-        /** ActionNewRound new_tile. */
-        public new_tile: string;
+        /** ActionNewRound field_spell. */
+        public field_spell: number;
+
+        /** ActionNewRound sha256. */
+        public sha256: string;
 
         /**
          * Creates a new ActionNewRound instance using the specified properties.
@@ -65536,8 +79066,11 @@ export namespace lq {
         /** RecordNewRound ju_count */
         ju_count?: (number|null);
 
-        /** RecordNewRound new_tile */
-        new_tile?: (string|null);
+        /** RecordNewRound field_spell */
+        field_spell?: (number|null);
+
+        /** RecordNewRound sha256 */
+        sha256?: (string|null);
     }
 
     /** Represents a RecordNewRound. */
@@ -65609,8 +79142,11 @@ export namespace lq {
         /** RecordNewRound ju_count. */
         public ju_count: number;
 
-        /** RecordNewRound new_tile. */
-        public new_tile: string;
+        /** RecordNewRound field_spell. */
+        public field_spell: number;
+
+        /** RecordNewRound sha256. */
+        public sha256: string;
 
         /**
          * Creates a new RecordNewRound instance using the specified properties.
@@ -67530,6 +81066,18 @@ export namespace lq {
 
         /** HuleInfo dadian */
         dadian?: (number|null);
+
+        /** HuleInfo baopai */
+        baopai?: (number|null);
+
+        /** HuleInfo baopai_seats */
+        baopai_seats?: (number[]|null);
+
+        /** HuleInfo lines */
+        lines?: (string[]|null);
+
+        /** HuleInfo tianming_bonus */
+        tianming_bonus?: (number|null);
     }
 
     /** Represents a HuleInfo. */
@@ -67600,6 +81148,18 @@ export namespace lq {
 
         /** HuleInfo dadian. */
         public dadian: number;
+
+        /** HuleInfo baopai. */
+        public baopai: number;
+
+        /** HuleInfo baopai_seats. */
+        public baopai_seats: number[];
+
+        /** HuleInfo lines. */
+        public lines: string[];
+
+        /** HuleInfo tianming_bonus. */
+        public tianming_bonus: number;
 
         /**
          * Creates a new HuleInfo instance using the specified properties.
@@ -69906,6 +83466,9 @@ export namespace lq {
 
         /** ActionDealTile muyu */
         muyu?: (lq.IMuyuInfo|null);
+
+        /** ActionDealTile tile_index */
+        tile_index?: (number|null);
     }
 
     /** Represents an ActionDealTile. */
@@ -69946,6 +83509,9 @@ export namespace lq {
 
         /** ActionDealTile muyu. */
         public muyu?: (lq.IMuyuInfo|null);
+
+        /** ActionDealTile tile_index. */
+        public tile_index: number;
 
         /**
          * Creates a new ActionDealTile instance using the specified properties.
@@ -70047,6 +83613,9 @@ export namespace lq {
 
         /** RecordDealTile muyu */
         muyu?: (lq.IMuyuInfo|null);
+
+        /** RecordDealTile tile_index */
+        tile_index?: (number|null);
     }
 
     /** Represents a RecordDealTile. */
@@ -70084,6 +83653,9 @@ export namespace lq {
 
         /** RecordDealTile muyu. */
         public muyu?: (lq.IMuyuInfo|null);
+
+        /** RecordDealTile tile_index. */
+        public tile_index: number;
 
         /**
          * Creates a new RecordDealTile instance using the specified properties.
@@ -70156,6 +83728,222 @@ export namespace lq {
         public toJSON(): { [k: string]: any };
     }
 
+    /** Properties of an ActionFillAwaitingTiles. */
+    interface IActionFillAwaitingTiles {
+
+        /** ActionFillAwaitingTiles awaiting_tiles */
+        awaiting_tiles?: (string[]|null);
+
+        /** ActionFillAwaitingTiles left_tile_count */
+        left_tile_count?: (number|null);
+
+        /** ActionFillAwaitingTiles operation */
+        operation?: (lq.IOptionalOperationList|null);
+
+        /** ActionFillAwaitingTiles liqi */
+        liqi?: (lq.ILiQiSuccess|null);
+    }
+
+    /** Represents an ActionFillAwaitingTiles. */
+    class ActionFillAwaitingTiles implements IActionFillAwaitingTiles {
+
+        /**
+         * Constructs a new ActionFillAwaitingTiles.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IActionFillAwaitingTiles);
+
+        /** ActionFillAwaitingTiles awaiting_tiles. */
+        public awaiting_tiles: string[];
+
+        /** ActionFillAwaitingTiles left_tile_count. */
+        public left_tile_count: number;
+
+        /** ActionFillAwaitingTiles operation. */
+        public operation?: (lq.IOptionalOperationList|null);
+
+        /** ActionFillAwaitingTiles liqi. */
+        public liqi?: (lq.ILiQiSuccess|null);
+
+        /**
+         * Creates a new ActionFillAwaitingTiles instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ActionFillAwaitingTiles instance
+         */
+        public static create(properties?: lq.IActionFillAwaitingTiles): lq.ActionFillAwaitingTiles;
+
+        /**
+         * Encodes the specified ActionFillAwaitingTiles message. Does not implicitly {@link lq.ActionFillAwaitingTiles.verify|verify} messages.
+         * @param message ActionFillAwaitingTiles message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IActionFillAwaitingTiles, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ActionFillAwaitingTiles message, length delimited. Does not implicitly {@link lq.ActionFillAwaitingTiles.verify|verify} messages.
+         * @param message ActionFillAwaitingTiles message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IActionFillAwaitingTiles, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an ActionFillAwaitingTiles message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ActionFillAwaitingTiles
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.ActionFillAwaitingTiles;
+
+        /**
+         * Decodes an ActionFillAwaitingTiles message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ActionFillAwaitingTiles
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.ActionFillAwaitingTiles;
+
+        /**
+         * Verifies an ActionFillAwaitingTiles message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an ActionFillAwaitingTiles message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ActionFillAwaitingTiles
+         */
+        public static fromObject(object: { [k: string]: any }): lq.ActionFillAwaitingTiles;
+
+        /**
+         * Creates a plain object from an ActionFillAwaitingTiles message. Also converts values to other types if specified.
+         * @param message ActionFillAwaitingTiles
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.ActionFillAwaitingTiles, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ActionFillAwaitingTiles to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    /** Properties of a RecordFillAwaitingTiles. */
+    interface IRecordFillAwaitingTiles {
+
+        /** RecordFillAwaitingTiles awaiting_tiles */
+        awaiting_tiles?: (string[]|null);
+
+        /** RecordFillAwaitingTiles left_tile_count */
+        left_tile_count?: (number|null);
+
+        /** RecordFillAwaitingTiles operation */
+        operation?: (lq.IOptionalOperationList|null);
+
+        /** RecordFillAwaitingTiles liqi */
+        liqi?: (lq.ILiQiSuccess|null);
+    }
+
+    /** Represents a RecordFillAwaitingTiles. */
+    class RecordFillAwaitingTiles implements IRecordFillAwaitingTiles {
+
+        /**
+         * Constructs a new RecordFillAwaitingTiles.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: lq.IRecordFillAwaitingTiles);
+
+        /** RecordFillAwaitingTiles awaiting_tiles. */
+        public awaiting_tiles: string[];
+
+        /** RecordFillAwaitingTiles left_tile_count. */
+        public left_tile_count: number;
+
+        /** RecordFillAwaitingTiles operation. */
+        public operation?: (lq.IOptionalOperationList|null);
+
+        /** RecordFillAwaitingTiles liqi. */
+        public liqi?: (lq.ILiQiSuccess|null);
+
+        /**
+         * Creates a new RecordFillAwaitingTiles instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns RecordFillAwaitingTiles instance
+         */
+        public static create(properties?: lq.IRecordFillAwaitingTiles): lq.RecordFillAwaitingTiles;
+
+        /**
+         * Encodes the specified RecordFillAwaitingTiles message. Does not implicitly {@link lq.RecordFillAwaitingTiles.verify|verify} messages.
+         * @param message RecordFillAwaitingTiles message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: lq.IRecordFillAwaitingTiles, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified RecordFillAwaitingTiles message, length delimited. Does not implicitly {@link lq.RecordFillAwaitingTiles.verify|verify} messages.
+         * @param message RecordFillAwaitingTiles message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: lq.IRecordFillAwaitingTiles, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a RecordFillAwaitingTiles message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns RecordFillAwaitingTiles
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): lq.RecordFillAwaitingTiles;
+
+        /**
+         * Decodes a RecordFillAwaitingTiles message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns RecordFillAwaitingTiles
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): lq.RecordFillAwaitingTiles;
+
+        /**
+         * Verifies a RecordFillAwaitingTiles message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a RecordFillAwaitingTiles message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns RecordFillAwaitingTiles
+         */
+        public static fromObject(object: { [k: string]: any }): lq.RecordFillAwaitingTiles;
+
+        /**
+         * Creates a plain object from a RecordFillAwaitingTiles message. Also converts values to other types if specified.
+         * @param message RecordFillAwaitingTiles
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: lq.RecordFillAwaitingTiles, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this RecordFillAwaitingTiles to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
     /** Properties of an ActionChiPengGang. */
     interface IActionChiPengGang {
 
@@ -70188,6 +83976,12 @@ export namespace lq {
 
         /** ActionChiPengGang muyu */
         muyu?: (lq.IMuyuInfo|null);
+
+        /** ActionChiPengGang scores */
+        scores?: (number[]|null);
+
+        /** ActionChiPengGang liqibang */
+        liqibang?: (number|null);
     }
 
     /** Represents an ActionChiPengGang. */
@@ -70228,6 +84022,12 @@ export namespace lq {
 
         /** ActionChiPengGang muyu. */
         public muyu?: (lq.IMuyuInfo|null);
+
+        /** ActionChiPengGang scores. */
+        public scores: number[];
+
+        /** ActionChiPengGang liqibang. */
+        public liqibang: number;
 
         /**
          * Creates a new ActionChiPengGang instance using the specified properties.
@@ -70329,6 +84129,12 @@ export namespace lq {
 
         /** RecordChiPengGang muyu */
         muyu?: (lq.IMuyuInfo|null);
+
+        /** RecordChiPengGang scores */
+        scores?: (number[]|null);
+
+        /** RecordChiPengGang liqibang */
+        liqibang?: (number|null);
     }
 
     /** Represents a RecordChiPengGang. */
@@ -70366,6 +84172,12 @@ export namespace lq {
 
         /** RecordChiPengGang muyu. */
         public muyu?: (lq.IMuyuInfo|null);
+
+        /** RecordChiPengGang scores. */
+        public scores: number[];
+
+        /** RecordChiPengGang liqibang. */
+        public liqibang: number;
 
         /**
          * Creates a new RecordChiPengGang instance using the specified properties.
