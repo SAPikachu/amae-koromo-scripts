@@ -268,11 +268,14 @@ const cookieStore = new CookieFileStore(
     crypto
       .createHash("sha256")
       .update(ACCESS_TOKEN || URL_BASE)
-      .digest("hex")
-  )
+      .digest("hex"),
+  ),
 );
 const cookiejar = rp.jar(cookieStore);
 async function getRes(path, bustCache) {
+  if (/liqi\.json$/.test(path)) {
+    return JSON.parse(fs.readFileSync(p.join(__dirname, "liqi.json"), { encoding: "utf8" }));
+  }
   let url = /^https?:/i.test(path) ? path : `${URL_BASE}${path}`;
   const cacheHash = crypto.createHash("sha256").update(url).digest("hex");
   if (bustCache) {
@@ -306,7 +309,7 @@ async function getRes(path, bustCache) {
         return cachedData;
       }
       return Promise.reject(e);
-    }
+    },
   );
   const result = cachedData ? cachedData : await promise;
   if (result === undefined) {
@@ -326,10 +329,16 @@ async function fetchLatestDataDefinition() {
   };
 }
 
+function getWasmVersionInfo() {
+  const region = process.env.LOGIN_REGION || "cn";
+  return JSON.parse(fs.readFileSync(p.join(__dirname, "assets", region, `versions.json`), { encoding: "utf8" }));
+}
+
 async function createMajsoulConnection(accessToken = ACCESS_TOKEN, preferredServer = PREFERRED_SERVER) {
   let serverListUrl = process.env.SERVER_LIST_URL;
   const wsScheme = process.env.WS_SCHEME || "wss";
   const versionInfo = await getRes("version.json", true);
+  const wasmVersionInfo = process.env.LOGIN_CLIENT === "wasm" ? getWasmVersionInfo() : {};
   const resInfo = await getRes(`resversion${versionInfo.version}.json`);
   const pbVersion = resInfo.res["res/proto/liqi.json"].prefix;
   const pbDef = await getRes(`${pbVersion}/res/proto/liqi.json`);
@@ -407,7 +416,7 @@ async function createMajsoulConnection(accessToken = ACCESS_TOKEN, preferredServ
   let server = serverList.servers[serverIndex];
   const routeInfo = await getRes(
     `https://${server}/api/clientgate/routes?platform=Web&version=${versionInfo.version}`,
-    true
+    true,
   ).catch(() => ({}));
   if (routeInfo.data?.maintenance?.length) {
     console.error("Maintenance in progress");
@@ -423,28 +432,11 @@ async function createMajsoulConnection(accessToken = ACCESS_TOKEN, preferredServ
       await new Promise((resolve) => setTimeout(resolve, 100));
       shouldRetry = false;
       console.error(`Authenticating (${versionInfo.version})`);
-      conn.clientVersionString = "web-" + versionInfo.version.replace(/\.[a-z]+$/i, "");
-      if (type === 7) {
-        const [code, uid] = accessToken.split("-");
-        const resp = await conn.rpcCall(".lq.Lobby.oauth2Auth", {
-          type,
-          code,
-          uid,
-          client_version_string: conn.clientVersionString,
-        });
-        accessToken = resp.access_token;
-      }
-      // console.error(accessToken);
-      let resp = await conn.rpcCall(".lq.Lobby.oauth2Check", { type, access_token: accessToken });
-      // console.error(resp);
-      if (!resp.has_account) {
-        await new Promise((res) => setTimeout(res, 2000));
-        resp = await conn.rpcCall(".lq.Lobby.oauth2Check", { type, access_token: accessToken });
-      }
-      assert(resp.has_account);
-      resp = await conn.rpcCall(".lq.Lobby.oauth2Login", {
+      conn.clientVersionString =
+        wasmVersionInfo.client_version_string || "web-" + versionInfo.version.replace(/\.[a-z]+$/i, "");
+      let loginInfo = {
         type,
-        access_token: accessToken,
+        access_token: "",
         reconnect: false,
         device: {
           platform: "pc",
@@ -454,19 +446,79 @@ async function createMajsoulConnection(accessToken = ACCESS_TOKEN, preferredServ
           is_browser: true,
           software: "Chrome",
           sale_platform: "web",
+          screen_width: 2133,
+          screen_height: 1103,
+          user_agent:
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+          screen_type: 1,
         },
-        random_key: uuidv4(),
-        client_version: { resource: versionInfo.version },
-        currency_platforms: [],
+        random_key: "7a3ee387-d3b9-4ba2-8735-e26fecbfb538",
+        currency_platforms: [1, 2, 5, 6, 8, 10, 11],
         client_version_string: conn.clientVersionString,
-      });
-      // console.error(resp);
-      if (!resp.account_id) {
-        console.error("Token invalidated:", accessToken);
-        await new Promise((res) => setTimeout(res, 1000));
-        throw new Error("Token invalidated");
+        tag: process.env.LOGIN_REGION || "cn",
+      };
+      if (process.env.LOGIN_CLIENT === "wasm") {
+        Object.assign(loginInfo, {
+          client_version: {
+            resource: wasmVersionInfo.resource_version,
+            package: wasmVersionInfo.package_version,
+          },
+          client_version_string: wasmVersionInfo.client_version_string,
+        });
+        let resp = await conn.rpcCall(".lq.Route.requestConnection", {
+          type: 1,
+          route_id: server.replace(/\..*$/g, ""),
+          timestamp: Math.floor(Date.now() / 1000),
+          platform: "Web",
+        });
+        // console.error(server.replace(/\..*$/g, ""), resp);
+        // resp = await conn.rpcCall(".lq.Lobby.prepareLogin", { type, access_token: accessToken });
+        // console.error(resp);
       }
-      assert(resp.account_id);
+      if (accessToken.includes("@")) {
+        const [email, password] = accessToken.split("/");
+        const req = Object.assign({}, loginInfo, {
+          account: email,
+          password: crypto.createHmac("sha256", "lailai").update(password).digest("hex"),
+        });
+        delete req.access_token;
+        delete req.type;
+        const resp = await conn.rpcCall(".lq.Lobby.login", req);
+        // console.error(req, resp);
+        // await new Promise((res) => setTimeout(res, 10000));
+        // throw new Error("Test");
+        assert(resp.account_id);
+      } else {
+        if (type === 7) {
+          const [code, uid] = accessToken.split("-");
+          const resp = await conn.rpcCall(".lq.Lobby.oauth2Auth", {
+            type,
+            code,
+            uid,
+            client_version_string: loginInfo.client_version_string,
+          });
+          accessToken = resp.access_token;
+        }
+        // console.error(loginInfo);
+        // console.error(accessToken);
+        let resp = await conn.rpcCall(".lq.Lobby.oauth2Check", { type, access_token: accessToken });
+        // console.error(resp);
+        if (!resp.has_account) {
+          await new Promise((res) => setTimeout(res, 2000));
+          resp = await conn.rpcCall(".lq.Lobby.oauth2Check", { type, access_token: accessToken });
+        }
+        assert(resp.has_account);
+        loginInfo.access_token = accessToken;
+        resp = await conn.rpcCall(".lq.Lobby.oauth2Login", loginInfo);
+        // console.error(loginInfo);
+        // console.error(resp);
+        if (!resp.account_id) {
+          console.error("Token invalidated:", accessToken, "code:", resp.error_code || resp);
+          await new Promise((res) => setTimeout(res, 1000));
+          throw new Error("Token invalidated");
+        }
+        assert(resp.account_id);
+      }
       console.error("Connection ready");
     });
     await conn.waitForReady();
