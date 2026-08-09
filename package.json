@@ -44,7 +44,7 @@
     "pouchdb": "^7.2.1",
     "proper-lockfile": "^4.1.2",
     "protobufjs": "^6.8.8",
-    "redis": "^3.0.2",
+    "redis": "^3.1.1",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
     "stream-json": "^1.7.5",
